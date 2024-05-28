@@ -1,7 +1,7 @@
-# Личный проект «{{projectTitle}}»
+# Личный проект «Шесть городов»
 
-* Студент: [{{userName}}]({{userProfile}}).
-* Наставник: `Неизвестно`.
+* Студент: [Maria](https://github.com/lipa88-mk).
+* Наставник: `Grigorii Zheliabin`.
 
 ---
 
