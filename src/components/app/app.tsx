@@ -4,7 +4,8 @@ import { FavoritesScreen } from '../../pages/favorites-screen/favorites-screen';
 import { LoginScreen } from '../../pages/login-screen/login-screen';
 import { PropertyScreen } from '../../pages/property-screen/property-screen';
 import { PageNotFound } from '../../pages/page-not-found/page-not-found';
-import { AppRoutes } from '../../const';
+import { AppRoutes, AuthorizationStatus } from '../../const';
+import PrivateRoute from '../../components/private-route/private-route';
 
 type AppProps = {
   offersCount: number;
@@ -17,7 +18,7 @@ const App = ({ offersCount, locationsList }: AppProps): JSX.Element => (
       <Route path={AppRoutes.root} element={<MainScreen offersCount={offersCount} locationsList={locationsList} />} />
       <Route path={AppRoutes.login} element={<LoginScreen />}>
       </Route>
-      <Route path={AppRoutes.favorites} element={<FavoritesScreen />} />
+      <Route path={AppRoutes.favorites} element={<PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth} ><FavoritesScreen /></PrivateRoute>} />
       <Route path={AppRoutes.offer} element={<PropertyScreen />} >
         <Route path={':id'} element={<PropertyScreen />} />
       </Route>
