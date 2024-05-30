@@ -1,13 +1,14 @@
 import { Authorization } from '../../components/authorization/authorization';
 import { Card } from '../../components/card/card';
 import { Logo } from '../../components/logo/logo';
+import { FC } from 'react';
 
 export type MainScreenProps = {
   offersCount: number;
   locationsList: string[];
 };
 
-const MainScreen = ({ offersCount, locationsList }: MainScreenProps): JSX.Element => (
+const MainScreen: FC<MainScreenProps> = ({ offersCount, locationsList }) => (
   <div className="page page--gray page--main">
     <header className="header">
       <div className="container">

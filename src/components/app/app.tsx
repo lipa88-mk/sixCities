@@ -6,13 +6,14 @@ import { PropertyScreen } from '../../pages/property-screen/property-screen';
 import { PageNotFound } from '../../pages/page-not-found/page-not-found';
 import { AppRoutes, AuthorizationStatus } from '../../const';
 import PrivateRoute from '../../components/private-route/private-route';
+import { FC } from 'react';
 
 type AppProps = {
   offersCount: number;
   locationsList: string[];
 };
 
-const App = ({ offersCount, locationsList }: AppProps): JSX.Element => (
+const App: FC<AppProps> = ({ offersCount, locationsList }) => (
   <BrowserRouter>
     <Routes>
       <Route path={AppRoutes.root} element={<MainScreen offersCount={offersCount} locationsList={locationsList} />} />

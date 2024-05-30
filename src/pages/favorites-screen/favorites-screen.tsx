@@ -1,7 +1,8 @@
 import { Authorization } from '../../components/authorization/authorization';
 import { Logo } from '../../components/logo/logo';
+import { FC } from 'react';
 
-const FavoritesScreen = () => (
+const FavoritesScreen: FC = () => (
   <div className="page">
     <header className="header">
       <div className="container">

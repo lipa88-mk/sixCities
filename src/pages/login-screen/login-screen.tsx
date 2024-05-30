@@ -1,6 +1,7 @@
 import { Logo } from '../../components/logo/logo';
+import { FC } from 'react';
 
-const LoginScreen = (): JSX.Element => (
+const LoginScreen: FC = () => (
   <div className="page page--gray page--login">
     <header className="header">
       <div className="container">

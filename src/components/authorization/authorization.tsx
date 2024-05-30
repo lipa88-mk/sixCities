@@ -1,13 +1,12 @@
 import { Link } from 'react-router-dom';
 import { AppRoutes } from '../../const';
+import { FC } from 'react';
 
 type AuthorizationProps = {
   isLogged?: boolean;
 };
 
-const Authorization = ({
-  isLogged = false,
-}: AuthorizationProps): JSX.Element => (
+const Authorization: FC<AuthorizationProps> = ({ isLogged = false }) => (
   <ul className="header__nav-list">
     {isLogged ? (
       <>

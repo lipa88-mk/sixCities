@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
+import { FC } from 'react';
 
-const Logo = (): JSX.Element => (
+const Logo: FC = () => (
   <NavLink to={'/'} className="header__logo-link header__logo-link--active">
     <img
       className="header__logo"

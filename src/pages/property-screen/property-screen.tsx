@@ -1,8 +1,9 @@
 import { useParams } from 'react-router-dom';
 import { Authorization } from '../../components/authorization/authorization';
 import { Logo } from '../../components/logo/logo';
+import { FC } from 'react';
 
-const PropertyScreen = (): JSX.Element => {
+const PropertyScreen: FC = () => {
   const params = useParams();
   // eslint-disable-next-line no-console
   console.log(params);
