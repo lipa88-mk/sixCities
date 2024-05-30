@@ -3,19 +3,28 @@ import { MainScreen } from '../../pages/main-screen/main-screen';
 import { FavoritesScreen } from '../../pages/favorites-screen/favorites-screen';
 import { LoginScreen } from '../../pages/login-screen/login-screen';
 import { PropertyScreen } from '../../pages/property-screen/property-screen';
+import { Page404 } from '../../pages/page404/page404';
 
 type AppProps = {
   offersCount: number;
+  locationsList: string[];
 };
 
-const App = ({ offersCount }: AppProps): JSX.Element => (
+export const Paths = {
+  login: '/login',
+  favorites: '/favorites',
+  offer: '/offer',
+};
+
+const App = ({ offersCount, locationsList }: AppProps): JSX.Element => (
   <BrowserRouter>
     <Routes>
-      <Route index element={<MainScreen offersCount={offersCount} />} />
-      <Route path="/login" element={<LoginScreen />}>
-        <Route path="/favorites" element={<FavoritesScreen />} />
+      <Route path="/" element={<MainScreen offersCount={offersCount} locationsList={locationsList} />} />
+      <Route path={Paths.login} element={<LoginScreen />}>
       </Route>
-      <Route path="/offer/:id" element={<PropertyScreen />} />
+      <Route path={Paths.favorites} element={<FavoritesScreen />} />
+      <Route path={Paths.offer} element={<PropertyScreen />} />
+      <Route path={'*'} element={<Page404 />} />
     </Routes>
   </BrowserRouter>
 );
