@@ -7,11 +7,12 @@ const root = ReactDOM.createRoot(
 );
 
 const Settings = {
-  OFFERS: 5
+  OFFERS: 5,
+  LOCATIONS_LIST: ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'],
 };
 
 root.render(
   <React.StrictMode>
-    <App offersCount={Settings.OFFERS} />
+    <App offersCount={Settings.OFFERS} locationsList={Settings.LOCATIONS_LIST} />
   </React.StrictMode>,
 );
