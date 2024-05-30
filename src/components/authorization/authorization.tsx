@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Paths } from '../app/app';
+import { AppRoutes } from '../../const';
 
 type AuthorizationProps = {
   isLogged?: boolean;
@@ -28,7 +28,7 @@ const Authorization = ({
     ) : (
       <li className="header__nav-item user">
         <Link
-          to={Paths.login}
+          to={AppRoutes.login}
           className="header__nav-link header__nav-link--profile"
         >
           <div className="header__avatar-wrapper user__avatar-wrapper"></div>
