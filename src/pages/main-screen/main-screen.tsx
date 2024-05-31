@@ -92,12 +92,7 @@ const MainScreen: FC<MainScreenProps> = ({ locations, offers }) => {
               </form>
 
               <div className="cities__places-list places__list tabs__content">
-                {Array.from(
-                  { length: currentLocation?.offers || 0 },
-                  (index: number) => (
-                    <Card key={index} />
-                  )
-                )}
+                {offers.map((offer) => <Card key={offer.id} offer={offer} />)}
               </div>
             </section>
             <div className="cities__right-section">

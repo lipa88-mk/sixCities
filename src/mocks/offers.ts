@@ -6,7 +6,7 @@ export const offers: Offer[] = [
     description: 'Wood and stone place',
     type: 'Private room',
     price: 80,
-    rating: 4,
+    rating: 3,
     isPremium: false
   },
   {
