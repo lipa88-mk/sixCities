@@ -3,7 +3,7 @@ import { Card } from '../../components/card/card';
 import { Logo } from '../../components/logo/logo';
 import { FC } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
-import { Offers } from '../../types/offers';
+import { Offer } from '../../types/offers';
 
 export type LocationItemProps = {
   city: string;
@@ -11,7 +11,7 @@ export type LocationItemProps = {
 };
 
 export type MainScreenProps = {
-  offers: Offers[];
+  offers: Offer[];
   locations: LocationItemProps[];
 };
 

@@ -8,10 +8,10 @@ import { AppRoutes, AuthorizationStatus } from '../../const';
 import PrivateRoute from '../../components/private-route/private-route';
 import { FC } from 'react';
 import type {LocationItemProps} from '../../pages/main-screen/main-screen';
-import { Offers } from '../../types/offers';
+import { Offer } from '../../types/offers';
 
 type AppProps = {
-  offers: Offers[];
+  offers: Offer[];
   locations: LocationItemProps[];
 };
 
