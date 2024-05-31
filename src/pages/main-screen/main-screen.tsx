@@ -1,9 +1,10 @@
-import { Authorization } from '../../components/authorization/authorization';
-import { Card } from '../../components/card/card';
-import { Logo } from '../../components/logo/logo';
 import { FC } from 'react';
+import { Authorization } from '../../components/authorization/authorization';
+import { Logo } from '../../components/logo/logo';
 import { NavLink, useParams } from 'react-router-dom';
 import { Offer } from '../../types/offers';
+import CardsList from '../../components/cards-list/cards-list';
+// ? разница с {} или без них
 
 export type LocationItemProps = {
   city: string;
@@ -91,9 +92,7 @@ const MainScreen: FC<MainScreenProps> = ({ locations, offers }) => {
                 </ul>
               </form>
 
-              <div className="cities__places-list places__list tabs__content">
-                {offers.map((offer) => <Card key={offer.id} offer={offer} />)}
-              </div>
+              <CardsList offers={offers} />
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>
