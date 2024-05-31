@@ -8,18 +8,18 @@ import { AppRoutes, AuthorizationStatus } from '../../const';
 import PrivateRoute from '../../components/private-route/private-route';
 import { FC } from 'react';
 import type {LocationItemProps} from '../../pages/main-screen/main-screen';
+import { Offers } from '../../types/offers';
 
 type AppProps = {
-  offersCount?: number;
-  locationsList?: string[];
+  offers: Offers[];
   locations: LocationItemProps[];
 };
 
-const App: FC<AppProps> = ({ offersCount, locationsList, locations }) => (
+const App: FC<AppProps> = ({ locations, offers }) => (
   <BrowserRouter>
     <Routes>
-      <Route path={AppRoutes.root} element={<MainScreen locations={locations} />} >
-        <Route path={':city'} element={<MainScreen locations={locations} />} />
+      <Route path={AppRoutes.root} element={<MainScreen locations={locations} offers={offers} />} >
+        <Route path={':city'} element={<MainScreen locations={locations} offers={offers} />} />
       </Route>
 
       <Route path={AppRoutes.login} element={<LoginScreen />} />

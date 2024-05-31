@@ -3,26 +3,24 @@ import { Card } from '../../components/card/card';
 import { Logo } from '../../components/logo/logo';
 import { FC } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
+import { Offers } from '../../types/offers';
 
 export type LocationItemProps = {
   city: string;
   offers: number;
-}
+};
 
 export type MainScreenProps = {
-  // offersCount: number;
-  // locationsList: string[];
+  offers: Offers[];
   locations: LocationItemProps[];
 };
 
-const MainScreen: FC<MainScreenProps> = ({ locations }) => {
+const MainScreen: FC<MainScreenProps> = ({ locations, offers }) => {
   const params = useParams();
-
-  const currentLocation = locations.find((el) => el.city.toLowerCase() === params.city);
+  const currentLocation = locations.find(
+    (el) => el.city.toLowerCase() === params.city
+  );
   const locationsList = locations.map((el) => el.city);
-
-  // eslint-disable-next-line no-console
-  console.log(currentLocation);
 
   return (
     <div className="page page--gray page--main">
@@ -48,12 +46,14 @@ const MainScreen: FC<MainScreenProps> = ({ locations }) => {
                 <li className="locations__item" key={location}>
                   <NavLink
                     to={location.toLowerCase()}
-                    className={'locations__item-link tabs__item'}
+                    className={
+                      'locations__item-link tabs__item tabs__item--active'
+                    }
                   >
-                    {/* tabs__item--active */}
                     <span>{location}</span>
                   </NavLink>
-                </li>))}
+                </li>
+              ))}
             </ul>
           </section>
         </div>
@@ -62,12 +62,12 @@ const MainScreen: FC<MainScreenProps> = ({ locations }) => {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">
-                {currentLocation?.offers} places to stay in {currentLocation?.city}
+                {offers.length} places to stay in {currentLocation?.city}
               </b>
               <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
+                <span className="places__sorting-caption">Sort by&nbsp;</span>
                 <span className="places__sorting-type" tabIndex={0}>
-                Popular
+                  Popular
                   <svg className="places__sorting-arrow" width="7" height="4">
                     <use xlinkHref="#icon-arrow-select"></use>
                   </svg>
@@ -77,23 +77,27 @@ const MainScreen: FC<MainScreenProps> = ({ locations }) => {
                     className="places__option places__option--active"
                     tabIndex={0}
                   >
-                  Popular
+                    Popular
                   </li>
                   <li className="places__option" tabIndex={0}>
-                  Price: low to high
+                    Price: low to high
                   </li>
                   <li className="places__option" tabIndex={0}>
-                  Price: high to low
+                    Price: high to low
                   </li>
                   <li className="places__option" tabIndex={0}>
-                  Top rated first
+                    Top rated first
                   </li>
                 </ul>
               </form>
+
               <div className="cities__places-list places__list tabs__content">
-                {Array.from({ length: currentLocation?.offers || 0 }, (index: number) => (
-                  <Card key={index} />
-                ))}
+                {Array.from(
+                  { length: currentLocation?.offers || 0 },
+                  (index: number) => (
+                    <Card key={index} />
+                  )
+                )}
               </div>
             </section>
             <div className="cities__right-section">
@@ -103,6 +107,7 @@ const MainScreen: FC<MainScreenProps> = ({ locations }) => {
         </div>
       </main>
     </div>
-  );};
+  );
+};
 
 export { MainScreen };
