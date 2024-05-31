@@ -1,12 +1,13 @@
-export type OfferType = 'Private room' | 'Apartment';
-export type Rating = 0 | 1 | 2| 3 | 4 | 5;
+export type OfferType = 'apartment' | 'room' | 'house' | 'hotel';
 
 export type Offer = {
   id: number;
-  description: string;
+  title: string;
   type: OfferType;
   price: number;
-  rating: Rating;
+  rating: number;
   isPremium: boolean;
+  isFavorite: boolean;
+  previewImage: string;
 }
 

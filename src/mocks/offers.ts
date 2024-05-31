@@ -3,34 +3,42 @@ import type {Offer} from '../types/offers';
 export const offers: Offer[] = [
   {
     id: 1000,
-    description: 'Wood and stone place',
-    type: 'Private room',
+    title: 'Wood and stone place',
+    type: 'room',
     price: 80,
-    rating: 3,
-    isPremium: false
+    rating: 3.5,
+    isPremium: false,
+    isFavorite: true,
+    previewImage: 'img/apartment-01.jpg',
   },
   {
     id: 1001,
-    description: 'Beautiful & luxurious apartment at great location',
-    type: 'Apartment',
+    title: 'Beautiful & luxurious apartment at great location',
+    type: 'apartment',
     price: 120,
     rating: 5,
-    isPremium: true
+    isPremium: true,
+    isFavorite: false,
+    previewImage: 'img/apartment-03.jpg',
   },
   {
     id: 1002,
-    description: 'Canal View Prinsengracht',
-    type: 'Apartment',
+    title: 'Canal View Prinsengracht',
+    type: 'apartment',
     price: 132,
     rating: 4,
-    isPremium: false
+    isPremium: false,
+    isFavorite: true,
+    previewImage: 'img/apartment-01.jpg',
   },
   {
     id: 1003,
-    description: 'Nice, cozy, warm big bed apartment',
-    type: 'Apartment',
+    title: 'Nice, cozy, warm big bed apartment',
+    type: 'apartment',
     price: 180,
     rating: 5,
-    isPremium: true
+    isPremium: true,
+    isFavorite: false,
+    previewImage: 'img/apartment-02.jpg',
   },
 ];
