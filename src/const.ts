@@ -12,7 +12,6 @@ export enum AuthorizationStatus {
 }
 
 export const Settings = {
-  OFFERS: 5,
   LOCATIONS_LIST: [
     'Paris',
     'Cologne',

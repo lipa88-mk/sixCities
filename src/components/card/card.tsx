@@ -32,9 +32,17 @@ const Card: FC<CardProps> = ({
     onMouseMove(id);
   };
 
+  const cardImgSizes = {
+    cities: { width: '260', height: '200' },
+    favorites: { width: '150', height: '110' },
+  };
+
   return (
     <article
-      className="cities__place-card place-card"
+      className={[
+        'place-card',
+        place === 'cities' ? 'cities__place-card' : 'favorites__card',
+      ].join(' ')}
       onMouseMove={handleMouseMove}
       onMouseLeave={onMouseLeave}
     >
@@ -43,13 +51,13 @@ const Card: FC<CardProps> = ({
           <span>Premium</span>
         </div>
       )}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={`${place}__image-wrapper place-card__image-wrapper`}>
         <Link to={`${AppRoutes.offer}/${id}`}>
           <img
             className="place-card__image"
             src={previewImage.toString()}
-            width="260"
-            height="200"
+            width={cardImgSizes[place].width}
+            height={cardImgSizes[place].height}
             alt="Place"
           />
         </Link>

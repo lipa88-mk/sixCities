@@ -1,4 +1,6 @@
-export type OfferType = 'apartment' | 'room' | 'house' | 'hotel';
+type OfferType = 'apartment' | 'room' | 'house' | 'hotel';
+
+export type City = 'Paris' | 'Cologne' | 'Brussels' | 'Amsterdam' | 'Hamburg' | 'Dusseldorf';
 
 export type Offer = {
   id: number;
@@ -9,5 +11,6 @@ export type Offer = {
   isPremium: boolean;
   isFavorite: boolean;
   previewImage: string;
+  city: City;
 }
 

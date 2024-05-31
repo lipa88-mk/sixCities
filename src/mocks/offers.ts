@@ -10,6 +10,7 @@ export const offers: Offer[] = [
     isPremium: false,
     isFavorite: true,
     previewImage: 'img/apartment-01.jpg',
+    city: 'Amsterdam',
   },
   {
     id: 1001,
@@ -18,8 +19,9 @@ export const offers: Offer[] = [
     price: 120,
     rating: 5,
     isPremium: true,
-    isFavorite: false,
+    isFavorite: true,
     previewImage: 'img/apartment-03.jpg',
+    city: 'Brussels',
   },
   {
     id: 1002,
@@ -30,6 +32,7 @@ export const offers: Offer[] = [
     isPremium: false,
     isFavorite: true,
     previewImage: 'img/apartment-01.jpg',
+    city: 'Amsterdam',
   },
   {
     id: 1003,
@@ -38,7 +41,8 @@ export const offers: Offer[] = [
     price: 180,
     rating: 5,
     isPremium: true,
-    isFavorite: false,
+    isFavorite: true,
     previewImage: 'img/apartment-02.jpg',
+    city: 'Paris'
   },
 ];

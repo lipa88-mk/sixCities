@@ -7,7 +7,7 @@ import { PageNotFound } from '../../pages/page-not-found/page-not-found';
 import { AppRoutes, AuthorizationStatus } from '../../const';
 import PrivateRoute from '../../components/private-route/private-route';
 import { FC } from 'react';
-import type {LocationItemProps} from '../../pages/main-screen/main-screen';
+import type { LocationItemProps } from '../../pages/main-screen/main-screen';
 import { Offer } from '../../types/offers';
 
 type AppProps = {
@@ -18,15 +18,28 @@ type AppProps = {
 const App: FC<AppProps> = ({ locations, offers }) => (
   <BrowserRouter>
     <Routes>
-      <Route path={AppRoutes.root} element={<MainScreen locations={locations} offers={offers} />} >
-        <Route path={':city'} element={<MainScreen locations={locations} offers={offers} />} />
+      <Route
+        path={AppRoutes.root}
+        element={<MainScreen locations={locations} offers={offers} />}
+      >
+        <Route
+          path={':city'}
+          element={<MainScreen locations={locations} offers={offers} />}
+        />
       </Route>
 
       <Route path={AppRoutes.login} element={<LoginScreen />} />
 
-      <Route path={AppRoutes.favorites} element={<PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth} ><FavoritesScreen /></PrivateRoute>} />
+      <Route
+        path={AppRoutes.favorites}
+        element={
+          <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+            <FavoritesScreen offers={offers} />
+          </PrivateRoute>
+        }
+      />
 
-      <Route path={AppRoutes.offer} >
+      <Route path={AppRoutes.offer}>
         <Route path={':id'} element={<PropertyScreen offers={offers} />} />
       </Route>
 
