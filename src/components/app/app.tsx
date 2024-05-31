@@ -26,8 +26,8 @@ const App: FC<AppProps> = ({ locations, offers }) => (
 
       <Route path={AppRoutes.favorites} element={<PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth} ><FavoritesScreen /></PrivateRoute>} />
 
-      <Route path={AppRoutes.offer} element={<PropertyScreen />} >
-        <Route path={':id'} element={<PropertyScreen />} />
+      <Route path={AppRoutes.offer} >
+        <Route path={':id'} element={<PropertyScreen offers={offers} />} />
       </Route>
 
       <Route path={'*'} element={<PageNotFound />} />
