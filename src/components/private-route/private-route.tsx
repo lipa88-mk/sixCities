@@ -8,8 +8,7 @@ type PrivateRouteProps = {
 }
 
 const PrivateRoute: FC<PrivateRouteProps> = ({authorizationStatus, children}) =>
-  authorizationStatus === AuthorizationStatus.Auth
-    ? children
-    : <Navigate to={AppRoutes.login} />;
+{ if (authorizationStatus === AuthorizationStatus.Auth) {return children;}
+  return <Navigate to={AppRoutes.login} />;};
 
 export default PrivateRoute;
