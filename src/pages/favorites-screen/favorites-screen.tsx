@@ -1,8 +1,8 @@
-import { Authorization } from '../../components/authorization/authorization';
-import { Logo } from '../../components/logo/logo';
+import Authorization from '../../components/authorization/authorization';
+import Logo from '../../components/logo/logo';
 import { FC } from 'react';
 import { City, Offer } from '../../types/offers';
-import { Card } from '../../components/card/card';
+import Card from '../../components/card/card';
 
 type FavoritesScreenProps = {
   offers: Offer[];
@@ -81,4 +81,4 @@ const FavoritesScreen: FC<FavoritesScreenProps> = ({ offers }) => {
   );
 };
 
-export { FavoritesScreen };
+export default FavoritesScreen;

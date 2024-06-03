@@ -1,4 +1,4 @@
-import { Logo } from '../../components/logo/logo';
+import Logo from '../../components/logo/logo';
 import { FC } from 'react';
 
 const LoginScreen: FC = () => (
@@ -41,4 +41,4 @@ const LoginScreen: FC = () => (
   </div>
 );
 
-export {LoginScreen};
+export default LoginScreen;

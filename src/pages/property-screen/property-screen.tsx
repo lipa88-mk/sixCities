@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
-import { Authorization } from '../../components/authorization/authorization';
-import { Logo } from '../../components/logo/logo';
+import Authorization from '../../components/authorization/authorization';
+import Logo from '../../components/logo/logo';
 import { FC } from 'react';
 import { Offer } from '../../types/offers';
 import ReviewsForm from '../../components/reviews-form/reviews-form';
@@ -374,4 +374,4 @@ const PropertyScreen: FC<PropertyScreenProps> = ({ offers }) => {
   );
 };
 
-export { PropertyScreen };
+export default PropertyScreen;

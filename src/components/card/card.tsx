@@ -98,4 +98,4 @@ const Card: FC<CardProps> = ({
   );
 };
 
-export { Card };
+export default Card;

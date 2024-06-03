@@ -1,10 +1,9 @@
 import { FC } from 'react';
-import { Authorization } from '../../components/authorization/authorization';
-import { Logo } from '../../components/logo/logo';
+import Authorization from '../../components/authorization/authorization';
+import Logo from '../../components/logo/logo';
 import { NavLink, useParams } from 'react-router-dom';
 import { Offer } from '../../types/offers';
 import CardsList from '../../components/cards-list/cards-list';
-// ToDo: fix exports to export default
 
 export type LocationItemProps = {
   city: string;
@@ -104,4 +103,4 @@ const MainScreen: FC<MainScreenProps> = ({ locations, offers }) => {
   );
 };
 
-export { MainScreen };
+export default MainScreen;

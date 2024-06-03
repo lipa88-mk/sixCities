@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { Card } from '../card/card';
+import Card from '../card/card';
 import type { Offer } from '../../types/offers';
 
 type CardsListProps = {
