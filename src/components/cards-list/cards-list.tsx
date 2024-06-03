@@ -33,4 +33,3 @@ const CardsList: FC<CardsListProps> = ({ offers }) => {
 };
 
 export default CardsList;
-// ? разница между default и без него, в {} или без них

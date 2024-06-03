@@ -39,9 +39,9 @@ export const offers: Offer[] = [
     title: 'Nice, cozy, warm big bed apartment',
     type: 'apartment',
     price: 180,
-    rating: 5,
+    rating: 2,
     isPremium: true,
-    isFavorite: true,
+    isFavorite: false,
     previewImage: 'img/apartment-02.jpg',
     city: 'Paris'
   },
