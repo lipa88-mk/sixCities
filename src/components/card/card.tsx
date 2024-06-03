@@ -1,4 +1,6 @@
-const Card = (): JSX.Element => (
+import { FC } from 'react';
+
+const Card: FC = () => (
   <article className="cities__place-card place-card">
     <div className="place-card__mark">
       <span>Premium</span>
