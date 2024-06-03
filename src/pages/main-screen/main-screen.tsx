@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import Authorization from '../../components/authorization/authorization';
 import Logo from '../../components/logo/logo';
 import { NavLink, useParams } from 'react-router-dom';
@@ -21,6 +21,8 @@ const MainScreen: FC<MainScreenProps> = ({ locations, offers }) => {
     (el) => el.city.toLowerCase() === params.city
   );
   const locationsList = locations.map((el) => el.city);
+
+  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
 
   return (
     <div className="page page--gray page--main">
@@ -66,13 +68,13 @@ const MainScreen: FC<MainScreenProps> = ({ locations, offers }) => {
               </b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by&nbsp;</span>
-                <span className="places__sorting-type" tabIndex={0}>
+                <span className="places__sorting-type" tabIndex={0} onClick={() => setIsFilterOpen(!isFilterOpen)}>
                   Popular
                   <svg className="places__sorting-arrow" width="7" height="4">
                     <use xlinkHref="#icon-arrow-select"></use>
                   </svg>
                 </span>
-                <ul className="places__options places__options--custom places__options--opened">
+                <ul className={['places__options places__options--custom ', isFilterOpen ? 'places__options--opened' : ''].join(' ')}>
                   <li
                     className="places__option places__option--active"
                     tabIndex={0}
