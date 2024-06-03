@@ -10,8 +10,6 @@ export type LocationItemProps = {
 }
 
 export type MainScreenProps = {
-  // offersCount: number;
-  // locationsList: string[];
   locations: LocationItemProps[];
 };
 
@@ -20,9 +18,6 @@ const MainScreen: FC<MainScreenProps> = ({ locations }) => {
 
   const currentLocation = locations.find((el) => el.city.toLowerCase() === params.city);
   const locationsList = locations.map((el) => el.city);
-
-  // eslint-disable-next-line no-console
-  console.log(currentLocation);
 
   return (
     <div className="page page--gray page--main">

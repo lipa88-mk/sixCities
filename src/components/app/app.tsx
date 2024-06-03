@@ -10,12 +10,10 @@ import { FC } from 'react';
 import type {LocationItemProps} from '../../pages/main-screen/main-screen';
 
 type AppProps = {
-  offersCount?: number;
-  locationsList?: string[];
   locations: LocationItemProps[];
 };
 
-const App: FC<AppProps> = ({ offersCount, locationsList, locations }) => (
+const App: FC<AppProps> = ({ locations }) => (
   <BrowserRouter>
     <Routes>
       <Route path={AppRoutes.root} element={<MainScreen locations={locations} />} >
