@@ -12,6 +12,7 @@ export enum AuthorizationStatus {
 }
 
 export const Settings = {
+  STAR_RATING_MAX: 5,
   LOCATIONS_LIST: [
     'Paris',
     'Cologne',
