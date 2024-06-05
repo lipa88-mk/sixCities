@@ -9,4 +9,4 @@ const PageNotFound: FC = () => (
   </main>
 );
 
-export {PageNotFound};
+export default PageNotFound;

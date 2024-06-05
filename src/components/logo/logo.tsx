@@ -13,4 +13,4 @@ const Logo: FC = () => (
   </NavLink>
 );
 
-export {Logo};
+export default Logo;

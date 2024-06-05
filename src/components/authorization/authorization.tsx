@@ -38,4 +38,4 @@ const Authorization: FC<AuthorizationProps> = ({ isLogged = false }) => (
   </ul>
 );
 
-export { Authorization };
+export default Authorization;
