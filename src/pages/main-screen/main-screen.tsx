@@ -4,6 +4,7 @@ import Logo from '../../components/logo/logo';
 import { NavLink, useParams } from 'react-router-dom';
 import { Offer } from '../../types/offers';
 import CardsList from '../../components/cards-list/cards-list';
+import Map from '../../components/map/Map';
 
 export type LocationItemProps = {
   city: string;
@@ -96,7 +97,9 @@ const MainScreen: FC<MainScreenProps> = ({ locations, offers }) => {
               <CardsList offers={offers} />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <section className="cities__map map">
+                <Map ></Map>
+              </section>
             </div>
           </div>
         </div>
