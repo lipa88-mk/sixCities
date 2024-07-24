@@ -1,6 +1,8 @@
+import { cities } from '../const';
+
 type OfferType = 'apartment' | 'room' | 'house' | 'hotel';
 
-export type City = 'Paris' | 'Cologne' | 'Brussels' | 'Amsterdam' | 'Hamburg' | 'Dusseldorf';
+export type CityName = typeof cities[number];
 
 export type Offer = {
   id: number;
@@ -11,6 +13,18 @@ export type Offer = {
   isPremium: boolean;
   isFavorite: boolean;
   previewImage: string;
-  city: City;
+  city: CityName;
+  location: Location;
 }
 
+
+export type Location = {
+  latitude: number;
+  longitude: number;
+  zoom: number;
+}
+
+export type CityPlacement = {
+  name: CityName;
+  location: Location;
+}
