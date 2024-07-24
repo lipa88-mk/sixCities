@@ -1,7 +1,7 @@
 import Authorization from '../../components/authorization/authorization';
 import Logo from '../../components/logo/logo';
 import { FC } from 'react';
-import { City, Offer } from '../../types/offers';
+import { City, Offer } from '../../types/types';
 import Card from '../../components/card/card';
 
 type FavoritesScreenProps = {

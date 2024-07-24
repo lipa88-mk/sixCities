@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import type { Offer } from '../../types/offers';
+import type { Offer } from '../../types/types';
 import { Link } from 'react-router-dom';
 import { AppRoutes } from '../../const';
 

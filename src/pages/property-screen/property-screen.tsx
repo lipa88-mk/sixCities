@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import Authorization from '../../components/authorization/authorization';
 import Logo from '../../components/logo/logo';
 import { FC } from 'react';
-import { Offer } from '../../types/offers';
+import { Offer } from '../../types/types';
 import ReviewsForm from '../../components/reviews-form/reviews-form';
 
 type PropertyScreenProps = {

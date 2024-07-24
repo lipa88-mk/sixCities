@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import Authorization from '../../components/authorization/authorization';
 import Logo from '../../components/logo/logo';
 import { NavLink, useParams } from 'react-router-dom';
-import { Offer } from '../../types/offers';
+import { Offer } from '../../types/types';
 import CardsList from '../../components/cards-list/cards-list';
 import Map from '../../components/map/Map';
 

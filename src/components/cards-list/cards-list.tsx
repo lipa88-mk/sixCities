@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 import Card from '../card/card';
-import type { Offer } from '../../types/offers';
+import type { Offer } from '../../types/types';
 
 type CardsListProps = {
   offers: Offer[];
