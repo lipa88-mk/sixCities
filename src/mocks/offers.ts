@@ -1,4 +1,4 @@
-import type {Offer} from '../types/offers';
+import type {Offer} from '../types/types';
 
 export const offers: Offer[] = [
   {
@@ -11,6 +11,11 @@ export const offers: Offer[] = [
     isFavorite: true,
     previewImage: 'img/apartment-01.jpg',
     city: 'Amsterdam',
+    location: {
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
+      zoom: 1
+    },
   },
   {
     id: 1001,
@@ -21,7 +26,12 @@ export const offers: Offer[] = [
     isPremium: true,
     isFavorite: true,
     previewImage: 'img/apartment-03.jpg',
-    city: 'Brussels',
+    city: 'Paris',
+    location: {
+      latitude: 52.369553943508,
+      longitude: 4.85309666406198,
+      zoom: 1
+    },
   },
   {
     id: 1002,
@@ -32,7 +42,12 @@ export const offers: Offer[] = [
     isPremium: false,
     isFavorite: true,
     previewImage: 'img/apartment-01.jpg',
-    city: 'Amsterdam',
+    city: 'Paris',
+    location: {
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198,
+      zoom: 1
+    },
   },
   {
     id: 1003,
@@ -43,6 +58,11 @@ export const offers: Offer[] = [
     isPremium: true,
     isFavorite: false,
     previewImage: 'img/apartment-02.jpg',
-    city: 'Paris'
+    city: 'Amsterdam',
+    location: {
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
+      zoom: 1
+    },
   },
 ];

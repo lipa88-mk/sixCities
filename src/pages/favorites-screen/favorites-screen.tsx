@@ -1,7 +1,7 @@
 import Authorization from '../../components/authorization/authorization';
 import Logo from '../../components/logo/logo';
 import { FC } from 'react';
-import { City, Offer } from '../../types/offers';
+import { CityName, Offer } from '../../types/types';
 import Card from '../../components/card/card';
 
 type FavoritesScreenProps = {
@@ -12,7 +12,7 @@ const FavoritesScreen: FC<FavoritesScreenProps> = ({ offers }) => {
   const groupedOffersByCity = offers.reduce<{ [key: string]: Offer[] }>(
     (acc, curr) => {
       if (curr.isFavorite) {
-        const city: City = curr.city;
+        const city: CityName = curr.city;
 
         if (!(city in acc)) {
           acc[city] = [];

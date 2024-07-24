@@ -1,27 +1,19 @@
 import { FC, useState } from 'react';
 import Authorization from '../../components/authorization/authorization';
 import Logo from '../../components/logo/logo';
-import { NavLink, useParams } from 'react-router-dom';
-import { Offer } from '../../types/offers';
+import { NavLink } from 'react-router-dom';
+import { Offer } from '../../types/types';
 import CardsList from '../../components/cards-list/cards-list';
-
-export type LocationItemProps = {
-  city: string;
-  offers: number;
-};
+import Map from '../../components/map/Map';
+import type {CityPlacement} from '../../types/types';
+import { cities } from '../../const';
 
 export type MainScreenProps = {
   offers: Offer[];
-  locations: LocationItemProps[];
+  city: CityPlacement;
 };
 
-const MainScreen: FC<MainScreenProps> = ({ locations, offers }) => {
-  const params = useParams();
-  const currentLocation = locations.find(
-    (el) => el.city.toLowerCase() === params.city
-  );
-  const locationsList = locations.map((el) => el.city);
-
+const MainScreen: FC<MainScreenProps> = ({ offers, city }) => {
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
 
   return (
@@ -44,7 +36,7 @@ const MainScreen: FC<MainScreenProps> = ({ locations, offers }) => {
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
-              {locationsList.map((location) => (
+              {cities.map((location) => (
                 <li className="locations__item" key={location}>
                   <NavLink
                     to={location.toLowerCase()}
@@ -64,7 +56,7 @@ const MainScreen: FC<MainScreenProps> = ({ locations, offers }) => {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">
-                {offers.length} places to stay in {currentLocation?.city}
+                {offers.length} places to stay in {city.name}
               </b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by&nbsp;</span>
@@ -96,7 +88,7 @@ const MainScreen: FC<MainScreenProps> = ({ locations, offers }) => {
               <CardsList offers={offers} />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map locations={offers.map((offer) => offer.location)} city={city}></Map>
             </div>
           </div>
         </div>

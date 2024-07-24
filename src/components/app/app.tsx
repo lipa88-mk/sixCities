@@ -7,27 +7,20 @@ import PageNotFound from '../../pages/page-not-found/page-not-found';
 import { AppRoutes, AuthorizationStatus } from '../../const';
 import PrivateRoute from '../../components/private-route/private-route';
 import { FC } from 'react';
-import type { LocationItemProps } from '../../pages/main-screen/main-screen';
-import { Offer } from '../../types/offers';
+import type { Offer, CityPlacement } from '../../types/types';
 
 type AppProps = {
   offers: Offer[];
-  locations: LocationItemProps[];
+  city: CityPlacement;
 };
 
-const App: FC<AppProps> = ({ locations, offers }) => (
+const App: FC<AppProps> = ({ offers, city }) => (
   <BrowserRouter>
     <Routes>
       <Route
-        path={AppRoutes.root}
-        element={<MainScreen locations={locations} offers={offers} />}
-      >
-        <Route
-          path={':city'}
-          element={<MainScreen locations={locations} offers={offers} />}
-        />
-      </Route>
-
+        index
+        element={<MainScreen offers={offers} city={city} />}
+      />
       <Route path={AppRoutes.login} element={<LoginScreen />} />
 
       <Route
