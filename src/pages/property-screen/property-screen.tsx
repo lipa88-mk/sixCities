@@ -11,12 +11,11 @@ type PropertyScreenProps = {
 
 const PropertyScreen: FC<PropertyScreenProps> = ({ offers }) => {
   const params = useParams();
-  const currentOffer: Offer | undefined = offers.find(
+  const currentOffer: Offer = offers.find(
     (offer) => offer.id.toString() === params.id
-  );
+  ) || offers[0];
 
-  const { title, type, price, rating, isPremium, isFavorite } =
-    currentOffer!; // ???
+  const { title, type, price, rating, isPremium, isFavorite } = currentOffer;
   const ratingStyle = `${rating * 20}%`;
 
   return (
