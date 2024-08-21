@@ -2,6 +2,7 @@ import { FC } from 'react';
 import type { Offer } from '../../types/types';
 import { Link } from 'react-router-dom';
 import { AppRoutes } from '../../const';
+import {getRatingWidth} from '../../utils/utils';
 
 export type CardProps = {
   offer: Offer;
@@ -27,7 +28,7 @@ const Card: FC<CardProps> = ({
     previewImage,
   } = offer;
 
-  const ratingStyle = `${Math.round(rating) * 20}%`;
+  // const ratingStyle = `${Math.round(rating) * 20}%`;
   const handleMouseMove = () => {
     onMouseMove(id);
   };
@@ -85,7 +86,7 @@ const Card: FC<CardProps> = ({
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: ratingStyle }}></span>
+            <span style={{ width: getRatingWidth(rating) }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

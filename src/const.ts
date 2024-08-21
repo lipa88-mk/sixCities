@@ -28,12 +28,6 @@ export const Settings = {
     'Hamburg',
     'Dusseldorf',
   ],
-  // locations: [
-  //   { city: 'Paris', offers: 1 },
-  //   { city: 'Cologne', offers: 2 },
-  //   { city: 'Brussels', offers: 5 },
-  //   { city: 'Amsterdam', offers: 3 },
-  //   { city: 'Hamburg', offers: 0 },
-  //   { city: 'Dusseldorf', offers: 4 },
-  // ],
 };
+
+export const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as const;
