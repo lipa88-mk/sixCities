@@ -28,3 +28,20 @@ export type CityPlacement = {
   name: CityName;
   location: Location;
 }
+
+// comments
+
+export type Comment = {
+  id: number;
+  date: string;
+  comment: string;
+  rating: number;
+  user: User;
+}
+
+export type User= {
+  id: number;
+  name: string;
+  avatarURL: string;
+  isPro: boolean;
+}

@@ -11,6 +11,7 @@ import 'leaflet/dist/leaflet.css';
 type MapProps = {
   city: CityPlacement;
   locations: Location[];
+  place?: 'cities' | 'property';
 };
 
 const defaultCustomIcon = new Icon({
@@ -19,7 +20,7 @@ const defaultCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-const Map = ({ city, locations }: MapProps): JSX.Element => {
+const Map = ({ city, locations, place = 'cities' }: MapProps): JSX.Element => {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
@@ -38,7 +39,7 @@ const Map = ({ city, locations }: MapProps): JSX.Element => {
     }
   }, [map, locations]);
 
-  return <section className="cities__map map" id='mymap' ref={mapRef} />;
+  return <section className={`${place}__map map`} id='mymap' ref={mapRef} />;
 };
 
 export default Map;
