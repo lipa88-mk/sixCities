@@ -8,7 +8,7 @@ export type CardProps = {
   offer: Offer;
   onMouseMove?: (id: number) => void;
   onMouseLeave?: () => void;
-  place?: 'cities' | 'favorites';
+  place?: 'cities' | 'favorites' | 'near-places';
 };
 
 const Card: FC<CardProps> = ({
@@ -28,13 +28,13 @@ const Card: FC<CardProps> = ({
     previewImage,
   } = offer;
 
-  // const ratingStyle = `${Math.round(rating) * 20}%`;
   const handleMouseMove = () => {
     onMouseMove(id);
   };
 
   const cardImgSizes = {
     cities: { width: '260', height: '200' },
+    'near-places': { width: '260', height: '200' },
     favorites: { width: '150', height: '110' },
   };
 
@@ -42,7 +42,7 @@ const Card: FC<CardProps> = ({
     <article
       className={[
         'place-card',
-        place === 'cities' ? 'cities__place-card' : 'favorites__card',
+        place === 'cities' ? 'cities__place-card' : `${place}__card`,
       ].join(' ')}
       onMouseMove={handleMouseMove}
       onMouseLeave={onMouseLeave}
