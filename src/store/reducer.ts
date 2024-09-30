@@ -11,10 +11,12 @@ type State = {
     offers: Offer[];
 }
 
+const initialCity = cities[0];
+
 const initialState: State = {
   city: {
-    name: cities[0],
-    location: CityCenter[cities[0]]
+    name: initialCity,
+    location: CityCenter[initialCity]
   },
   offers: []
 };

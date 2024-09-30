@@ -1,12 +1,12 @@
 import { FC, useState } from 'react';
 import Authorization from '../../components/authorization/authorization';
 import Logo from '../../components/logo/logo';
-import { NavLink } from 'react-router-dom';
 import { Offer } from '../../types/types';
 import CardsList from '../../components/cards-list/cards-list';
 import Map from '../../components/map/Map';
-import type {CityPlacement} from '../../types/types';
-import { cities } from '../../const';
+import type { CityPlacement } from '../../types/types';
+import { CitiesList } from '../../components/cities-list/cities-list';
+import { useAppSelector } from '../../hooks';
 
 export type MainScreenProps = {
   offers: Offer[];
@@ -15,6 +15,8 @@ export type MainScreenProps = {
 
 const MainScreen: FC<MainScreenProps> = ({ offers, city }) => {
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+  // const dispatch = useAppDispatch();
+  const activeCity = useAppSelector((state) => state.city);
 
   return (
     <div className="page page--gray page--main">
@@ -35,20 +37,7 @@ const MainScreen: FC<MainScreenProps> = ({ offers, city }) => {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <ul className="locations__list tabs__list">
-              {cities.map((location) => (
-                <li className="locations__item" key={location}>
-                  <NavLink
-                    to={location.toLowerCase()}
-                    className={
-                      'locations__item-link tabs__item tabs__item--active'
-                    }
-                  >
-                    <span>{location}</span>
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
+            <CitiesList />
           </section>
         </div>
         <div className="cities">
@@ -56,7 +45,7 @@ const MainScreen: FC<MainScreenProps> = ({ offers, city }) => {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">
-                {offers.length} places to stay in {city.name}
+                {offers.length} places to stay in {activeCity.name}
               </b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by&nbsp;</span>
