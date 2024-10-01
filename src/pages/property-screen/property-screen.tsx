@@ -5,7 +5,7 @@ import Logo from '../../components/logo/logo';
 import type { CityPlacement, Offer, Comment } from '../../types/types';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import { getRatingWidth } from '../../utils/utils';
-import Map from '../../components/map/Map';
+import {Map} from '../../components/map/Map';
 import Card from '../../components/card/card';
 
 type PropertyScreenProps = {

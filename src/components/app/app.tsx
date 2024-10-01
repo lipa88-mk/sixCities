@@ -20,7 +20,7 @@ const App: FC<AppProps> = ({ offers, city, reviews }) => (
     <Routes>
       <Route
         index
-        element={<MainScreen offers={offers} city={city} />}
+        element={<MainScreen />}
       />
       <Route path={AppRoutes.login} element={<LoginScreen />} />
 
