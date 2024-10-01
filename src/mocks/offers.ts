@@ -1,4 +1,5 @@
-import type {Offer} from '../types/types';
+import type { Offer } from '../types/types';
+import { CityCenter } from '../const';
 
 export const offers: Offer[] = [
   {
@@ -10,12 +11,11 @@ export const offers: Offer[] = [
     isPremium: false,
     isFavorite: true,
     previewImage: 'img/apartment-01.jpg',
-    city: 'Amsterdam',
-    location: {
-      latitude: 52.3909553943508,
-      longitude: 4.85309666406198,
-      zoom: 1
+    city: {
+      name: 'Amsterdam',
+      location: CityCenter['Amsterdam'],
     },
+    location: CityCenter['Amsterdam'],
   },
   {
     id: 1001,
@@ -26,12 +26,11 @@ export const offers: Offer[] = [
     isPremium: true,
     isFavorite: true,
     previewImage: 'img/apartment-03.jpg',
-    city: 'Paris',
-    location: {
-      latitude: 52.369553943508,
-      longitude: 4.85309666406198,
-      zoom: 1
+    city: {
+      name: 'Paris',
+      location: CityCenter['Paris']
     },
+    location: CityCenter['Paris']
   },
   {
     id: 1002,
@@ -42,12 +41,11 @@ export const offers: Offer[] = [
     isPremium: false,
     isFavorite: true,
     previewImage: 'img/apartment-01.jpg',
-    city: 'Paris',
-    location: {
-      latitude: 52.3909553943508,
-      longitude: 4.929309666406198,
-      zoom: 1
+    city: {
+      name: 'Cologne',
+      location: CityCenter['Cologne']
     },
+    location: CityCenter['Cologne']
   },
   {
     id: 1003,
@@ -58,11 +56,10 @@ export const offers: Offer[] = [
     isPremium: true,
     isFavorite: false,
     previewImage: 'img/apartment-02.jpg',
-    city: 'Amsterdam',
-    location: {
-      latitude: 52.3809553943508,
-      longitude: 4.939309666406198,
-      zoom: 1
+    city: {
+      name: 'Hamburg',
+      location: CityCenter['Hamburg']
     },
+    location: CityCenter['Hamburg']
   },
 ];

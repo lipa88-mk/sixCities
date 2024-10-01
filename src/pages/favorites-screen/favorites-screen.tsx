@@ -1,30 +1,26 @@
 import Authorization from '../../components/authorization/authorization';
 import Logo from '../../components/logo/logo';
-import { FC } from 'react';
-import { CityName, Offer } from '../../types/types';
+import { Offer } from '../../types/types';
 import Card from '../../components/card/card';
 
 type FavoritesScreenProps = {
   offers: Offer[];
 };
 
-const FavoritesScreen: FC<FavoritesScreenProps> = ({ offers }) => {
-  const groupedOffersByCity = offers.reduce<{ [key: string]: Offer[] }>(
-    (acc, curr) => {
-      if (curr.isFavorite) {
-        const city: CityName = curr.city;
+const FavoritesScreen = ({ offers }: FavoritesScreenProps): JSX.Element => {
+  const groupedOffersByCity = offers.reduce<{ [key: string ]: Offer[] }>((acc, curr) => {
+    if (curr.isFavorite) {
+      const city = curr.city.name;
 
-        if (!(city in acc)) {
-          acc[city] = [];
-        }
-
-        acc[city].push(curr);
+      if (!(city in acc)) {
+        acc[city] = [];
       }
 
-      return acc;
-    },
-    {}
-  );
+      acc[city].push(curr);
+    }
+
+    return acc;
+  }, {});
 
   return (
     <div className="page">

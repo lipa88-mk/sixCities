@@ -1,20 +1,17 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import Authorization from '../../components/authorization/authorization';
 import Logo from '../../components/logo/logo';
-import { NavLink } from 'react-router-dom';
-import { Offer } from '../../types/types';
 import CardsList from '../../components/cards-list/cards-list';
-import Map from '../../components/map/Map';
-import type {CityPlacement} from '../../types/types';
-import { cities } from '../../const';
+import { CitiesList } from '../../components/cities-list/cities-list';
+import { MainEmptyScreen } from './main-screen-empty';
+import { useAppSelector } from '../../hooks';
 
-export type MainScreenProps = {
-  offers: Offer[];
-  city: CityPlacement;
-};
+const MainScreen: FC = () => {
+  const offers = useAppSelector((state) =>
+    state.offers.filter((offer) => offer.city.name === state.city.name)
+  );
 
-const MainScreen: FC<MainScreenProps> = ({ offers, city }) => {
-  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+  const isEmpty = offers.length === 0;
 
   return (
     <div className="page page--gray page--main">
@@ -31,70 +28,22 @@ const MainScreen: FC<MainScreenProps> = ({ offers, city }) => {
         </div>
       </header>
 
-      <main className="page__main page__main--index">
+      <main className={`page__main page__main--index ${isEmpty ? 'page__main--index-empty' : '' }`}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <ul className="locations__list tabs__list">
-              {cities.map((location) => (
-                <li className="locations__item" key={location}>
-                  <NavLink
-                    to={location.toLowerCase()}
-                    className={
-                      'locations__item-link tabs__item tabs__item--active'
-                    }
-                  >
-                    <span>{location}</span>
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
+            <CitiesList />
           </section>
         </div>
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">
-                {offers.length} places to stay in {city.name}
-              </b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by&nbsp;</span>
-                <span className="places__sorting-type" tabIndex={0} onClick={() => setIsFilterOpen(!isFilterOpen)}>
-                  Popular
-                  <svg className="places__sorting-arrow" width="7" height="4">
-                    <use xlinkHref="#icon-arrow-select"></use>
-                  </svg>
-                </span>
-                <ul className={['places__options places__options--custom ', isFilterOpen ? 'places__options--opened' : ''].join(' ')}>
-                  <li
-                    className="places__option places__option--active"
-                    tabIndex={0}
-                  >
-                    Popular
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Price: low to high
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Price: high to low
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Top rated first
-                  </li>
-                </ul>
-              </form>
-
-              <CardsList offers={offers} />
-            </section>
-            <div className="cities__right-section">
-              <Map locations={offers.map((offer) => offer.location)} city={city}></Map>
-            </div>
+          <div
+            className={`cities__places-container container ${isEmpty ? 'cities__places-container--empty' : '' }`}
+          >
+            {isEmpty ? <MainEmptyScreen /> : <CardsList />}
           </div>
         </div>
       </main>
     </div>
   );
 };
-
 export default MainScreen;

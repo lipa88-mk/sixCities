@@ -1,10 +1,10 @@
-import {useRef, useEffect} from 'react';
+import { useRef, useEffect } from 'react';
 import { Icon, Marker } from 'leaflet';
 
 import type { CityPlacement, Location } from '../../types/types';
 
 import useMap from '../../hooks/useMap';
-import { URL_MARKER_DEFAULT } from '../../const';
+import { CityCenter, URL_MARKER_DEFAULT } from '../../const';
 
 import 'leaflet/dist/leaflet.css';
 
@@ -20,11 +20,13 @@ const defaultCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-const Map = ({ city, locations, place = 'cities' }: MapProps): JSX.Element => {
+export const Map = ({ city, locations, place = 'cities' }: MapProps): JSX.Element => {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
   useEffect(() => {
+    const markers: Marker[] = [];
+
     if (map) {
       locations.forEach(({ latitude: lat, longitude: lng }) => {
         const marker = new Marker({
@@ -35,11 +37,26 @@ const Map = ({ city, locations, place = 'cities' }: MapProps): JSX.Element => {
         marker
           .setIcon(defaultCustomIcon)
           .addTo(map);
+
+        markers.push(marker);
+      });
+
+      const { latitude: lat, longitude: lng,} = CityCenter[city.name];
+      map.setView({ lat, lng });
+
+      map.fitBounds([[city.location.latitude, city.location.longitude]], {
+        maxZoom: city.location.zoom
       });
     }
-  }, [map, locations]);
 
-  return <section className={`${place}__map map`} id='mymap' ref={mapRef} />;
+    return () => {
+      if (map) {
+        markers.forEach((marker) => {
+          map.removeLayer(marker);
+        });
+      }
+    };
+  }, [map, city, locations]);
+
+  return <section className={`${place}__map map`} ref={mapRef} />;
 };
-
-export default Map;
