@@ -1,4 +1,4 @@
-import { CityName, Location } from './types/types';
+import { CityName, Location, Offer, SortName } from './types/types';
 
 export enum AppRoutes {
   login = '/login',
@@ -12,6 +12,22 @@ export enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
+
+export enum Sorting {
+  Popular = 'Popular',
+  PriseLowToHight = 'Price: low to high',
+  PriseHightToLow = 'Price: high to low',
+  Rating = 'Top rated first'
+}
+
+export const SortingFunctions: {
+  [key in SortName]: (a: Offer, b: Offer) => number
+} = {
+  Popular: () => 0,
+  PriseLowToHight: (a, b) => a.price - b.price,
+  PriseHightToLow: (a, b) => b.price - a.price,
+  Rating: (a, b) => b.rating - a.rating,
+};
 
 export const cities = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'] as const;
 
