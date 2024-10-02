@@ -12,10 +12,10 @@ export const offers: Offer[] = [
     isFavorite: true,
     previewImage: 'img/apartment-01.jpg',
     city: {
-      name: 'Amsterdam',
-      location: CityCenter['Amsterdam'],
+      name: 'Paris',
+      location: CityCenter['Paris'],
     },
-    location: CityCenter['Amsterdam'],
+    location: CityCenter['Paris'],
   },
   {
     id: 1001,
@@ -57,9 +57,9 @@ export const offers: Offer[] = [
     isFavorite: false,
     previewImage: 'img/apartment-02.jpg',
     city: {
-      name: 'Hamburg',
-      location: CityCenter['Hamburg']
+      name: 'Paris',
+      location: CityCenter['Paris']
     },
-    location: CityCenter['Hamburg']
+    location: CityCenter['Paris']
   },
 ];

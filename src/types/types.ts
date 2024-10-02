@@ -1,4 +1,4 @@
-import { cities } from '../const';
+import { cities, Sorting } from '../const';
 
 type OfferType = 'apartment' | 'room' | 'house' | 'hotel';
 
@@ -44,3 +44,7 @@ export type User= {
   avatarURL: string;
   isPro: boolean;
 }
+
+// Sorting
+
+export type SortName = keyof typeof Sorting;
