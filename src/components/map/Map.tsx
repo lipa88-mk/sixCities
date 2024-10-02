@@ -4,14 +4,15 @@ import { Icon, Marker } from 'leaflet';
 import type { CityPlacement, Location } from '../../types/types';
 
 import useMap from '../../hooks/useMap';
-import { CityCenter, URL_MARKER_DEFAULT } from '../../const';
+import { CityCenter, URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
   city: CityPlacement;
-  locations: Location[];
+  locations: (Location & { id?: number })[];
   place?: 'cities' | 'property';
+  activeOffer?: null | number;
 };
 
 const defaultCustomIcon = new Icon({
@@ -20,7 +21,13 @@ const defaultCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-export const Map = ({ city, locations, place = 'cities' }: MapProps): JSX.Element => {
+const currentCustomIcon = new Icon({
+  iconUrl: URL_MARKER_CURRENT,
+  iconSize: [40, 40],
+  iconAnchor: [20, 40]
+});
+
+export const Map = ({ city, locations, place = 'cities', activeOffer }: MapProps): JSX.Element => {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
@@ -28,14 +35,14 @@ export const Map = ({ city, locations, place = 'cities' }: MapProps): JSX.Elemen
     const markers: Marker[] = [];
 
     if (map) {
-      locations.forEach(({ latitude: lat, longitude: lng }) => {
+      locations.forEach(({id, latitude: lat, longitude: lng }) => {
         const marker = new Marker({
           lat,
           lng
         });
 
         marker
-          .setIcon(defaultCustomIcon)
+          .setIcon(activeOffer === id ? currentCustomIcon : defaultCustomIcon)
           .addTo(map);
 
         markers.push(marker);
@@ -56,7 +63,7 @@ export const Map = ({ city, locations, place = 'cities' }: MapProps): JSX.Elemen
         });
       }
     };
-  }, [map, city, locations]);
+  }, [map, city, locations, activeOffer]);
 
   return <section className={`${place}__map map`} ref={mapRef} />;
 };

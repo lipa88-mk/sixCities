@@ -7,7 +7,6 @@ const CardsList: FC = () => {
   const activeCity = useAppSelector((state) => state.city);
   const offers = useAppSelector((state) => state.offers.filter((offer) => offer.city.name === state.city.name));
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [activeOffer, setActiveOffer] = useState<number | null>(null);
 
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
@@ -73,7 +72,7 @@ const CardsList: FC = () => {
       </section>
 
       <div className="cities__right-section">
-        <Map locations={offers.map((offer) => offer.location)} city={activeCity} />
+        <Map locations={offers.map(({ id, location }) => ({ id, ...location }))} city={activeCity} activeOffer={activeOffer} />
       </div>
     </>
   );
