@@ -19,7 +19,8 @@ const PropertyScreen: FC = () => {
   const currentOffer: Offer =
     offers.find((offer) => offer.id.toString() === params.id) || offers[0];
 
-  const { title, type, price, rating, isPremium, isFavorite } = currentOffer;
+  const { title, type, price, rating, isPremium, isFavorite, images, bedrooms, maxAdults, goods, host, description } =
+    currentOffer;
 
   return (
     <div className="page">
@@ -40,50 +41,18 @@ const PropertyScreen: FC = () => {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              <div className="property__image-wrapper">
-                <img
-                  className="property__image"
-                  src="img/room.jpg"
-                  alt="studio"
-                />
-              </div>
-              <div className="property__image-wrapper">
-                <img
-                  className="property__image"
-                  src="img/apartment-01.jpg"
-                  alt="Studio"
-                />
-              </div>
-              <div className="property__image-wrapper">
-                <img
-                  className="property__image"
-                  src="img/apartment-02.jpg"
-                  alt="Studio"
-                />
-              </div>
-              <div className="property__image-wrapper">
-                <img
-                  className="property__image"
-                  src="img/apartment-03.jpg"
-                  alt="Studio"
-                />
-              </div>
-              <div className="property__image-wrapper">
-                <img
-                  className="property__image"
-                  src="img/studio-01.jpg"
-                  alt="Studio"
-                />
-              </div>
-              <div className="property__image-wrapper">
-                <img
-                  className="property__image"
-                  src="img/apartment-01.jpg"
-                  alt="Studio"
-                />
-              </div>
+              {images.map((propertyImage) => (
+                <div key={propertyImage} className="property__image-wrapper">
+                  <img
+                    className="property__image"
+                    src={propertyImage}
+                    alt={title}
+                  />
+                </div>
+              ))}
             </div>
           </div>
+
           <div className="property__container container">
             <div className="property__wrapper">
               {isPremium && (
@@ -112,6 +81,7 @@ const PropertyScreen: FC = () => {
                   </span>
                 </button>
               </div>
+
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
                   <span style={{ width: getRatingWidth(rating) }}></span>
@@ -121,68 +91,63 @@ const PropertyScreen: FC = () => {
                   {rating}
                 </span>
               </div>
+
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
                   {type}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-                  3 Bedrooms
+                  {bedrooms} Bedrooms
                 </li>
                 <li className="property__feature property__feature--adults">
-                  Max 4 adults
+                  Max {maxAdults} adults
                 </li>
               </ul>
+
               <div className="property__price">
                 <b className="property__price-value">&euro;{price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
+
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
-                  <li className="property__inside-item">Wi-Fi</li>
-                  <li className="property__inside-item">Washing machine</li>
-                  <li className="property__inside-item">Towels</li>
-                  <li className="property__inside-item">Heating</li>
-                  <li className="property__inside-item">Coffee machine</li>
-                  <li className="property__inside-item">Baby seat</li>
-                  <li className="property__inside-item">Kitchen</li>
-                  <li className="property__inside-item">Dishwasher</li>
-                  <li className="property__inside-item">Cabel TV</li>
-                  <li className="property__inside-item">Fridge</li>
+                  {goods.map(
+                    (item) => <li key={item} className="property__inside-item">{item}</li>
+                  )}
                 </ul>
               </div>
+
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
-                  <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
+                  <div className={['property__avatar-wrapper user__avatar-wrapper', host.isPro && 'property__avatar-wrapper--pro'].join(' ')}>
                     <img
                       className="property__avatar user__avatar"
-                      src="img/avatar-angelina.jpg"
+                      src={host.avatarUrl}
                       width="74"
                       height="74"
-                      alt="Host avatar"
+                      alt={`Host ${host.name} avatar`}
                     />
                   </div>
-                  <span className="property__user-name">Angelina</span>
-                  <span className="property__user-status">Pro</span>
+                  <span className="property__user-name">{host.name}</span>
+                  {host.isPro && <span className="property__user-status">Pro</span>}
                 </div>
+
                 <div className="property__description">
                   <p className="property__text">
-                    A quiet cozy and picturesque that hides behind a a river by
-                    the unique lightness of Amsterdam. The building is green and
-                    from 18th century.
-                  </p>
-                  <p className="property__text">
-                    An independent House, strategically located between Rembrand
-                    Square and National Opera, but where the bustle of the city
-                    comes to rest in this alley flowery and colorful.
+                    {description}
                   </p>
                 </div>
               </div>
               <ReviewsList reviews={reviews} />
             </div>
           </div>
-          <Map locations={offers.map((offer) => offer.location)} city={city} place='property' />
+          <Map
+            locations={offers.map((offer) => offer.location)}
+            city={city}
+            place="property"
+          />
         </section>
 
         <div className="container">
@@ -191,7 +156,9 @@ const PropertyScreen: FC = () => {
               Other places in the neighbourhood
             </h2>
             <div className="near-places__list places__list">
-              {nearbyOffers.map((offer) => <Card key={offer.id} offer={offer} />)}
+              {nearbyOffers.map((offer) => (
+                <Card key={offer.id} offer={offer} />
+              ))}
             </div>
           </section>
         </div>

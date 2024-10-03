@@ -16,6 +16,17 @@ export const offers: Offer[] = [
       location: CityCenter['Paris'],
     },
     location: CityCenter['Paris'],
+    bedrooms: 3,
+    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Paris',
+    goods: ['Wi-Fi', 'Washing machine', 'Towels', 'Heating', 'Coffee machine', 'Baby seat', 'Kitchen', 'Dishwasher', 'Cabel TV', 'Fridge'],
+    host: {
+      avatarUrl: 'img/avatar-angelina.jpg',
+      id: 1,
+      isPro: true,
+      name: 'Angelina',
+    },
+    images: ['img/room.jpg', 'img/apartment-01.jpg', 'img/apartment-02.jpg', 'img/apartment-03.jpg', 'img/studio-01.jpg'],
+    maxAdults: 4,
   },
   {
     id: 1001,
@@ -28,9 +39,20 @@ export const offers: Offer[] = [
     previewImage: 'img/apartment-03.jpg',
     city: {
       name: 'Paris',
-      location: CityCenter['Paris']
+      location: CityCenter['Paris'],
     },
-    location: CityCenter['Paris']
+    location: CityCenter['Paris'],
+    bedrooms: 3,
+    description: '',
+    goods: ['', ''],
+    host: {
+      avatarUrl: '',
+      id: 2,
+      isPro: false,
+      name: '',
+    },
+    images: ['', ''],
+    maxAdults: 4,
   },
   {
     id: 1002,
@@ -43,9 +65,20 @@ export const offers: Offer[] = [
     previewImage: 'img/apartment-01.jpg',
     city: {
       name: 'Cologne',
-      location: CityCenter['Cologne']
+      location: CityCenter['Cologne'],
     },
-    location: CityCenter['Cologne']
+    location: CityCenter['Cologne'],
+    bedrooms: 3,
+    description: '',
+    goods: ['', ''],
+    host: {
+      avatarUrl: '',
+      id: 2,
+      isPro: false,
+      name: '',
+    },
+    images: ['', ''],
+    maxAdults: 4,
   },
   {
     id: 1003,
@@ -58,8 +91,19 @@ export const offers: Offer[] = [
     previewImage: 'img/apartment-02.jpg',
     city: {
       name: 'Paris',
-      location: CityCenter['Paris']
+      location: CityCenter['Paris'],
     },
-    location: CityCenter['Paris']
+    location: CityCenter['Paris'],
+    bedrooms: 3,
+    description: '',
+    goods: ['', ''],
+    host: {
+      avatarUrl: '',
+      id: 2,
+      isPro: false,
+      name: '',
+    },
+    images: ['', ''],
+    maxAdults: 4,
   },
 ];
