@@ -7,15 +7,8 @@ import PageNotFound from '../../pages/page-not-found/page-not-found';
 import { AppRoutes, AuthorizationStatus } from '../../const';
 import PrivateRoute from '../../components/private-route/private-route';
 import { FC } from 'react';
-import type { Offer, CityPlacement, Comment } from '../../types/types';
 
-type AppProps = {
-  offers: Offer[];
-  city: CityPlacement;
-  reviews: Comment[];
-};
-
-const App: FC<AppProps> = ({ offers, city, reviews }) => (
+const App: FC = () => (
   <BrowserRouter>
     <Routes>
       <Route index element={<MainScreen />} />
@@ -31,7 +24,7 @@ const App: FC<AppProps> = ({ offers, city, reviews }) => (
       />
 
       <Route path={AppRoutes.offer}>
-        <Route path={':id'} element={<PropertyScreen offers={offers} nearbyOffers={offers} city={city} reviews={reviews} />} />
+        <Route path={':id'} element={<PropertyScreen />} />
       </Route>
 
       <Route path={'*'} element={<PageNotFound />} />
