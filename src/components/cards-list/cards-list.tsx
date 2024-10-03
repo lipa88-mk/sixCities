@@ -6,6 +6,7 @@ import { SortingList } from '../../components/sorting-list/sorting-list';
 import { SortName } from '../../types/types';
 import { setSorting } from '../../store/action';
 import { SortingFunctions } from '../../const';
+import { Spinner } from '../spinner/spinner';
 
 const CardsList: FC = () => {
   const dispatch = useAppDispatch();
@@ -17,6 +18,11 @@ const CardsList: FC = () => {
       (offer) => offer.city.name === state.city.name
     ).sort(SortingFunctions[state.sorting])
   );
+
+  const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
+
+  // ToDo: add MainEmptyScreen
+  // const isEmpty = !isOffersLoading && offers.length === 0;
 
   const [activeOffer, setActiveOffer] = useState<number | null>(null);
 
@@ -31,6 +37,8 @@ const CardsList: FC = () => {
   const handleSortingChange = (name: SortName) => {
     dispatch(setSorting(name));
   };
+
+  if (isOffersLoading) {return <Spinner />;}
 
   return (
     <>
