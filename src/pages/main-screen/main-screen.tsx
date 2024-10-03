@@ -3,14 +3,12 @@ import Authorization from '../../components/authorization/authorization';
 import Logo from '../../components/logo/logo';
 import CardsList from '../../components/cards-list/cards-list';
 import { CitiesList } from '../../components/cities-list/cities-list';
-import { MainEmptyScreen } from './main-screen-empty';
 import { useAppSelector } from '../../hooks';
 
 const MainScreen: FC = () => {
   const offers = useAppSelector((state) =>
     state.offers.filter((offer) => offer.city.name === state.city.name)
   );
-
   const isEmpty = offers.length === 0;
 
   return (
@@ -39,7 +37,7 @@ const MainScreen: FC = () => {
           <div
             className={`cities__places-container container ${isEmpty ? 'cities__places-container--empty' : '' }`}
           >
-            {isEmpty ? <MainEmptyScreen /> : <CardsList />}
+            <CardsList />
           </div>
         </div>
       </main>

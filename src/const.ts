@@ -7,6 +7,13 @@ export enum AppRoutes {
   root = '/',
 }
 
+export enum ApiRoute {
+  Offers = '/hotels',
+  Favorites = '/favorite',
+  LogIn = '/login',
+  LogOut = '/logout',
+}
+
 export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',

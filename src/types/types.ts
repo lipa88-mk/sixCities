@@ -15,6 +15,17 @@ export type Offer = {
   previewImage: string;
   city: CityPlacement;
   location: Location;
+  bedrooms: number;
+  description: string;
+  goods: string[];
+  host: {
+    avatarUrl: string;
+    id: number;
+    isPro: boolean;
+    name: string;
+  };
+  images: string[];
+  maxAdults: number;
 }
 
 export type Location = {

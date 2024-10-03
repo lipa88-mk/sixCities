@@ -2,28 +2,31 @@ import Authorization from '../../components/authorization/authorization';
 import Logo from '../../components/logo/logo';
 import { Offer } from '../../types/types';
 import Card from '../../components/card/card';
+import { useAppSelector } from '../../hooks';
+import { FavoritesEmptyScreen } from './favorites-empty-screen';
 
-type FavoritesScreenProps = {
-  offers: Offer[];
-};
+const FavoritesScreen = (): JSX.Element => {
+  const offers = useAppSelector((state) => state.offers);
+  const isEmpty = offers.length === 0;
+  const groupedOffersByCity = offers.reduce<{ [key: string]: Offer[] }>(
+    (acc, curr) => {
+      if (curr.isFavorite) {
+        const city = curr.city.name;
 
-const FavoritesScreen = ({ offers }: FavoritesScreenProps): JSX.Element => {
-  const groupedOffersByCity = offers.reduce<{ [key: string ]: Offer[] }>((acc, curr) => {
-    if (curr.isFavorite) {
-      const city = curr.city.name;
+        if (!(city in acc)) {
+          acc[city] = [];
+        }
 
-      if (!(city in acc)) {
-        acc[city] = [];
+        acc[city].push(curr);
       }
 
-      acc[city].push(curr);
-    }
-
-    return acc;
-  }, {});
+      return acc;
+    },
+    {}
+  );
 
   return (
-    <div className="page">
+    <div className={['page', isEmpty && 'page--favorites-empty'].join(' ')}>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
@@ -37,28 +40,47 @@ const FavoritesScreen = ({ offers }: FavoritesScreenProps): JSX.Element => {
         </div>
       </header>
 
-      <main className="page__main page__main--favorites">
+      <main
+        className={[
+          'page__main page__main--favorites',
+          isEmpty && 'page__main--favorites-empty',
+        ].join(' ')}
+      >
         <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <ul className="favorites__list">
-              {Object.entries(groupedOffersByCity).map(
-                ([city, groupedOffers]) => (
-                  <li className="favorites__locations-items" key={city}>
-                    <div className="favorites__locations locations locations--current">
-                      <div className="locations__item">
-                        <a className="locations__item-link" href="#/">
-                          <span>{city}</span>
-                        </a>
-                      </div>
-                    </div>
-                    <div className="favorites__places">
-                      {groupedOffers.map((offer)=> <Card key={offer.id} offer={offer} place="favorites" />)}
-                    </div>
-                  </li>
-                )
-              )}
-            </ul>
+          <section
+            className={['favorites', isEmpty && 'favorites--empty'].join(' ')}
+          >
+            {isEmpty ? (
+              <FavoritesEmptyScreen />
+            ) : (
+              <>
+                <h1 className="favorites__title">Saved listing</h1>
+                <ul className="favorites__list">
+                  {Object.entries(groupedOffersByCity).map(
+                    ([city, groupedOffers]) => (
+                      <li className="favorites__locations-items" key={city}>
+                        <div className="favorites__locations locations locations--current">
+                          <div className="locations__item">
+                            <a className="locations__item-link" href="#/">
+                              <span>{city}</span>
+                            </a>
+                          </div>
+                        </div>
+                        <div className="favorites__places">
+                          {groupedOffers.map((offer) => (
+                            <Card
+                              key={offer.id}
+                              offer={offer}
+                              place="favorites"
+                            />
+                          ))}
+                        </div>
+                      </li>
+                    )
+                  )}
+                </ul>
+              </>
+            )}
           </section>
         </div>
       </main>

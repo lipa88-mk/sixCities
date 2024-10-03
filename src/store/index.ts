@@ -1,13 +1,24 @@
 import { configureStore } from '@reduxjs/toolkit';
-
 import { reducer } from './reducer';
-import { setOffers } from './action';
-import { offers } from '../mocks/offers';
+import { fetchOffers, setReviews } from './action';
+import { createAPI } from '../services/api';
 
-const store = configureStore({
-  reducer
+import { reviews } from '../mocks/reviews';
+
+export const api = createAPI();
+
+export const store = configureStore({
+  reducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      thunk: {
+        extraArgument: api,
+      },
+    }),
 });
 
-store.dispatch(setOffers(offers));
+store.dispatch(fetchOffers());
 
-export default store;
+// ToDo: replace with server data
+store.dispatch(setReviews(reviews));
+
