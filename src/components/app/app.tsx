@@ -18,17 +18,14 @@ type AppProps = {
 const App: FC<AppProps> = ({ offers, city, reviews }) => (
   <BrowserRouter>
     <Routes>
-      <Route
-        index
-        element={<MainScreen />}
-      />
+      <Route index element={<MainScreen />} />
       <Route path={AppRoutes.login} element={<LoginScreen />} />
 
       <Route
         path={AppRoutes.favorites}
         element={
           <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-            <FavoritesScreen offers={offers} />
+            <FavoritesScreen />
           </PrivateRoute>
         }
       />
