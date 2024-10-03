@@ -2,20 +2,19 @@ import { useParams } from 'react-router-dom';
 import { FC } from 'react';
 import Authorization from '../../components/authorization/authorization';
 import Logo from '../../components/logo/logo';
-import type { CityPlacement, Offer, Comment } from '../../types/types';
+import type { Offer } from '../../types/types';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import { getRatingWidth } from '../../utils/utils';
-import {Map} from '../../components/map/Map';
+import { Map } from '../../components/map/Map';
 import Card from '../../components/card/card';
+import { useAppSelector } from '../../hooks';
 
-type PropertyScreenProps = {
-  offers: Offer[];
-  nearbyOffers: Offer[];
-  reviews: Comment[];
-  city: CityPlacement;
-};
+const PropertyScreen: FC = () => {
+  const city = useAppSelector((state) => state.city);
+  const offers = useAppSelector((state) => state.offers);
+  const reviews = useAppSelector((state) => state.reviews);
 
-const PropertyScreen: FC<PropertyScreenProps> = ({ offers, nearbyOffers,reviews, city }) => {
+  const nearbyOffers = offers; //ToDo: replace
   const params = useParams();
   const currentOffer: Offer =
     offers.find((offer) => offer.id.toString() === params.id) || offers[0];
