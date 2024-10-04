@@ -7,5 +7,4 @@ export const loadOffers = createAction<Offer[]>('offers/load');
 export const setSorting = createAction<SortName>('sorting/set');
 export const setReviews = createAction<Comment[]>('reviews/set');
 export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
-
-
+export const setError = createAction<string | null>('game/setError');

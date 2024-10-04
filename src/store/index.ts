@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { reducer } from './reducer';
 import { setReviews } from './action';
 import { createAPI } from '../services/api';
-import { checkAuthAction, fetchOffers } from './api-action';
+import { fetchOffers } from './api-action';
 
 import { reviews } from '../mocks/reviews';
 
@@ -19,8 +19,6 @@ export const store = configureStore({
 });
 
 store.dispatch(fetchOffers());
-store.dispatch(checkAuthAction());
-
 
 // ToDo: replace with server data
 store.dispatch(setReviews(reviews));
