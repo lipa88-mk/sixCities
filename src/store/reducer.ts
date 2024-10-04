@@ -12,6 +12,7 @@ type State = {
     isOffersLoading: boolean;
     authorizationStatus: AuthorizationStatus;
     error: string | null;
+    user: string;
 }
 
 const initialCity = cities[0];
@@ -27,6 +28,7 @@ const initialState: State = {
   isOffersLoading: false,
   authorizationStatus: AuthorizationStatus.Unknown,
   error: null,
+  user: '',
 };
 
 export const reducer = createReducer(initialState, (builder) => {
