@@ -8,3 +8,4 @@ export const setSorting = createAction<SortName>('sorting/set');
 export const setReviews = createAction<Comment[]>('reviews/set');
 export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
 export const setError = createAction<string | null>('game/setError');
+export const setUserEmail = createAction<string | null>('user/setEmail');
