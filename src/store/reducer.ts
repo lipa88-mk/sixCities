@@ -1,8 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
-import type { CityPlacement, Offer, SortName, Comment } from '../types/types';
-import { setCity, loadOffers, setSorting, setReviews, requireAuthorization, setError } from './action';
+import type { CityPlacement, Offer, SortName, Comment, UserData } from '../types/types';
+import { setCity, loadOffers, setSorting, setReviews, requireAuthorization, setError, setUserEmail, setOffersloading } from './action';
 import { cities, CityCenter, Sorting, AuthorizationStatus } from '../const';
-import { fetchOffers } from './api-action';
 
 type State = {
     city: CityPlacement;
@@ -12,7 +11,7 @@ type State = {
     isOffersLoading: boolean;
     authorizationStatus: AuthorizationStatus;
     error: string | null;
-    user: string;
+    user: UserData['email'] | null;
 }
 
 const initialCity = cities[0];
@@ -42,17 +41,17 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
     })
+    .addCase(setOffersloading, (state, action) => {
+      state.isOffersLoading = action.payload;
+    })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
     })
     .addCase(setError, (state, action) => {
       state.error = action.payload;
     })
-    .addCase(fetchOffers.pending, (state) => {
-      state.isOffersLoading = true;
-    })
-    .addCase(fetchOffers.fulfilled, (state) => {
-      state.isOffersLoading = false;
+    .addCase(setUserEmail, (state, action) => {
+      state.user = action.payload;
     })
     .addCase(setSorting, (state, action) => {
       state.sorting = action.payload;

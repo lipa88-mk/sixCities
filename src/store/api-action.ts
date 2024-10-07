@@ -2,13 +2,13 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { AuthData, Offer, UserData } from '../types/types';
 import { ApiRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
-import { loadOffers, requireAuthorization, setError, setUserEmail } from './action';
+import { loadOffers, requireAuthorization, setError, setOffersloading, setUserEmail } from './action';
 import { AppDispatch, State } from '../types/state';
 import { dropToken, saveToken } from '../services/token';
 import { store } from './';
 
 export const clearErrorAction = createAsyncThunk(
-  'game/clearError',
+  'page/clearError',
   () => {
     setTimeout(
       () => store.dispatch(setError(null)),
@@ -27,7 +27,9 @@ export const fetchOffers = createAsyncThunk<
   }
 >('offers/fetch', async (_arg, { dispatch, extra: api }) => {
   const { data } = await api.get<Offer[]>(ApiRoute.Offers);
+  dispatch(setOffersloading(true));
   dispatch(loadOffers(data));
+  dispatch(setOffersloading(false));
 });
 
 export const checkAuthAction = createAsyncThunk<void, undefined, {
@@ -57,6 +59,7 @@ export const loginAction = createAsyncThunk<void, AuthData, {
     saveToken(token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
     dispatch(setUserEmail(email));
+    window.history.back();
   },
 );
 
