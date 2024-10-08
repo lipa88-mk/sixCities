@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
-import type { CityPlacement, Offer, SortName, Comment } from '../types/types';
-import { setCity, fetchOffers, setSorting, setReviews } from './action';
-import { cities, CityCenter, Sorting } from '../const';
+import type { CityPlacement, Offer, SortName, Comment, UserData } from '../types/types';
+import { setCity, loadOffers, setSorting, setReviews, requireAuthorization, setError, setUserEmail, setOffersloading } from './action';
+import { cities, CityCenter, Sorting, AuthorizationStatus } from '../const';
 
 type State = {
     city: CityPlacement;
@@ -9,6 +9,9 @@ type State = {
     sorting: SortName;
     reviews: Comment[];
     isOffersLoading: boolean;
+    authorizationStatus: AuthorizationStatus;
+    error: string | null;
+    user: UserData['email'] | null;
 }
 
 const initialCity = cities[0];
@@ -22,6 +25,9 @@ const initialState: State = {
   sorting: Sorting.Popular,
   reviews: [],
   isOffersLoading: false,
+  authorizationStatus: AuthorizationStatus.Unknown,
+  error: null,
+  user: '',
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -32,12 +38,20 @@ export const reducer = createReducer(initialState, (builder) => {
         location: CityCenter[action.payload]
       };
     })
-    .addCase(fetchOffers.pending, (state) => {
-      state.isOffersLoading = true;
-    })
-    .addCase(fetchOffers.fulfilled, (state, action) => {
+    .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
-      state.isOffersLoading = false;
+    })
+    .addCase(setOffersloading, (state, action) => {
+      state.isOffersLoading = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(setError, (state, action) => {
+      state.error = action.payload;
+    })
+    .addCase(setUserEmail, (state, action) => {
+      state.user = action.payload;
     })
     .addCase(setSorting, (state, action) => {
       state.sorting = action.payload;

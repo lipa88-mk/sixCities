@@ -4,7 +4,7 @@ import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
 import LoginScreen from '../../pages/login-screen/login-screen';
 import PropertyScreen from '../../pages/property-screen/property-screen';
 import PageNotFound from '../../pages/page-not-found/page-not-found';
-import { AppRoutes, AuthorizationStatus } from '../../const';
+import { AppRoutes } from '../../const';
 import PrivateRoute from '../../components/private-route/private-route';
 import { FC } from 'react';
 
@@ -17,7 +17,7 @@ const App: FC = () => (
       <Route
         path={AppRoutes.favorites}
         element={
-          <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+          <PrivateRoute>
             <FavoritesScreen />
           </PrivateRoute>
         }

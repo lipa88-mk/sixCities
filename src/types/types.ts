@@ -34,10 +34,22 @@ export type Location = {
   zoom: number;
 }
 
-export type CityPlacement = { // = City
+export type CityPlacement = {
   name: CityName;
   location: Location;
 }
+
+// api
+export type AuthData = {
+  login: string;
+  password: string;
+};
+
+export type UserData = {
+  id: number;
+  email: string;
+  token: string;
+};
 
 // comments
 

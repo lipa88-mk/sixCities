@@ -1,0 +1,10 @@
+.error-message {
+  position: fixed;
+  top: 50px;
+  right: 50px;
+  width: 300px;
+  padding: 1rem 2rem;
+  background-color: lightcoral;
+  color: white;
+  font-size: 1rem;
+}

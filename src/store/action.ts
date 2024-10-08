@@ -1,22 +1,12 @@
-import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { AxiosInstance } from 'axios';
+import { createAction } from '@reduxjs/toolkit';
 import type { CityName, Offer, SortName, Comment } from '../types/types';
-import { ApiRoute } from '../const';
+import { AuthorizationStatus } from '../const';
 
-export const Action = {
-  SET_CITY: 'city/set',
-  FETCH_OFFERS: 'offers/fetch',
-  SET_SORTING: 'sorting/set',
-  SET_REVIEWS: 'reviews/set',
-};
-
-export const setCity = createAction<CityName>(Action.SET_CITY);
-export const setSorting = createAction<SortName>(Action.SET_SORTING);
-export const setReviews = createAction<Comment[]>(Action.SET_REVIEWS);
-
-export const fetchOffers = createAsyncThunk(Action.FETCH_OFFERS, async (_, thunkAPI) => {
-  const axios = thunkAPI.extra as AxiosInstance;
-  const { data } = await axios.get<Offer[]>(ApiRoute.Offers);
-
-  return data;
-});
+export const setCity = createAction<CityName>('city/set');
+export const loadOffers = createAction<Offer[]>('offers/load');
+export const setOffersloading = createAction<boolean>('offers/setStatus');
+export const setSorting = createAction<SortName>('sorting/set');
+export const setReviews = createAction<Comment[]>('reviews/set');
+export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
+export const setError = createAction<string | null>('page/setError');
+export const setUserEmail = createAction<string | null>('user/setEmail');
