@@ -21,7 +21,7 @@ const PropertyScreen: FC = () => {
 
   const { title, type, price, rating, isPremium, isFavorite, images, bedrooms, maxAdults, goods, host, description } =
     currentOffer;
-
+  const headerImages = images.slice(0, 6);
   return (
     <div className="page">
       <header className="header">
@@ -41,7 +41,7 @@ const PropertyScreen: FC = () => {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {images.map((propertyImage) => (
+              {headerImages.map((propertyImage) => (
                 <div key={propertyImage} className="property__image-wrapper">
                   <img
                     className="property__image"
