@@ -7,7 +7,7 @@ import { getRatingWidth } from '../../utils/utils';
 import { Map } from '../../components/map/Map';
 import Card from '../../components/card/card';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchCommentsAction, fetchNearByOffersAction, fetchOfferAction } from '../../store/api-action';
+import { fetchNearByOffersAction, fetchOfferAction } from '../../store/api-action';
 import PageNotFound from '../page-not-found/page-not-found';
 
 const PropertyScreen: FC = () => {
@@ -21,14 +21,12 @@ const PropertyScreen: FC = () => {
       const parsedId = Number(id);
       dispatch(fetchOfferAction(parsedId));
       dispatch(fetchNearByOffersAction(parsedId));
-      dispatch(fetchCommentsAction(parsedId));
     }
   }, [params, dispatch]);
 
   const city = useAppSelector((state) => state.city);
   const currentOffer = useAppSelector((state) => state.currentOffer);
   const nearbyOffers = useAppSelector((state) => state.nearByOffers);
-  const reviews = useAppSelector((state) => state.reviews);
 
   if (!currentOffer) {
     return <PageNotFound />;
@@ -155,7 +153,8 @@ const PropertyScreen: FC = () => {
                   </p>
                 </div>
               </div>
-              <ReviewsList reviews={reviews} />
+
+              <ReviewsList />
             </div>
           </div>
           <Map
