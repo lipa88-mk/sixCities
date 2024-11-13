@@ -11,7 +11,12 @@ import { FC } from 'react';
 const App: FC = () => (
   <BrowserRouter>
     <Routes>
-      <Route index element={<MainScreen />} />
+      {/* <Route index element={<MainScreen />} /> */}
+      <Route path={AppRoutes.root} element={<MainScreen />} >
+        <Route path={':city'} element={<MainScreen />} />
+      </Route>
+
+
       <Route path={AppRoutes.login} element={<LoginScreen />} />
 
       <Route
