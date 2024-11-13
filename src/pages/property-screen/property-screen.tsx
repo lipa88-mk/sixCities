@@ -8,6 +8,7 @@ import { Map } from '../../components/map/Map';
 import Card from '../../components/card/card';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchCommentsAction, fetchNearByOffersAction, fetchOfferAction } from '../../store/api-action';
+import PageNotFound from '../page-not-found/page-not-found';
 
 const PropertyScreen: FC = () => {
   const params = useParams();
@@ -30,7 +31,7 @@ const PropertyScreen: FC = () => {
   const reviews = useAppSelector((state) => state.reviews);
 
   if (!currentOffer) {
-    return null;
+    return <PageNotFound />;
   }
 
   const { title, type, price, rating, isPremium, isFavorite, images, bedrooms, maxAdults, goods, host, description } =
