@@ -1,9 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { reducer } from './reducer';
-import { setReviews } from './action';
 import { createAPI } from '../services/api';
-
-import { reviews } from '../mocks/reviews';
+import { redirect } from './middlewares/redirect';
 
 export const api = createAPI();
 
@@ -14,9 +12,5 @@ export const store = configureStore({
       thunk: {
         extraArgument: api,
       },
-    }),
+    }).concat(redirect),
 });
-
-// ToDo: replace with server data
-store.dispatch(setReviews(reviews));
-

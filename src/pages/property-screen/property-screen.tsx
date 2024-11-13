@@ -1,23 +1,37 @@
 import { useParams } from 'react-router-dom';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import Authorization from '../../components/authorization/authorization';
 import Logo from '../../components/logo/logo';
-import type { Offer } from '../../types/types';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import { getRatingWidth } from '../../utils/utils';
 import { Map } from '../../components/map/Map';
 import Card from '../../components/card/card';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchCommentsAction, fetchNearByOffersAction, fetchOfferAction } from '../../store/api-action';
 
 const PropertyScreen: FC = () => {
+  const params = useParams();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const { id } = params;
+
+    if (id) {
+      const parsedId = Number(id);
+      dispatch(fetchOfferAction(parsedId));
+      dispatch(fetchNearByOffersAction(parsedId));
+      dispatch(fetchCommentsAction(parsedId));
+    }
+  }, [params, dispatch]);
+
   const city = useAppSelector((state) => state.city);
-  const offers = useAppSelector((state) => state.offers);
+  const currentOffer = useAppSelector((state) => state.currentOffer);
+  const nearbyOffers = useAppSelector((state) => state.nearByOffers);
   const reviews = useAppSelector((state) => state.reviews);
 
-  const nearbyOffers = offers; //ToDo: replace
-  const params = useParams();
-  const currentOffer: Offer =
-    offers.find((offer) => offer.id.toString() === params.id) || offers[0];
+  if (!currentOffer) {
+    return null;
+  }
 
   const { title, type, price, rating, isPremium, isFavorite, images, bedrooms, maxAdults, goods, host, description } =
     currentOffer;
@@ -144,7 +158,7 @@ const PropertyScreen: FC = () => {
             </div>
           </div>
           <Map
-            locations={offers.map((offer) => offer.location)}
+            locations={nearbyOffers.map((offer) => offer.location)}
             city={city}
             place="property"
           />

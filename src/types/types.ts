@@ -64,7 +64,7 @@ export type Comment = {
 export type User= {
   id: number;
   name: string;
-  avatarURL: string;
+  avatarUrl: string;
   isPro: boolean;
 }
 
