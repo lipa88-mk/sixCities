@@ -5,6 +5,7 @@ export enum AppRoutes {
   favorites = '/favorites',
   offer = '/offer',
   root = '/',
+  NotFound = '/404'
 }
 
 export enum ApiRoute {
@@ -12,6 +13,11 @@ export enum ApiRoute {
   Favorites = '/favorite',
   LogIn = '/login',
   LogOut = '/logout',
+  Comments = '/comments'
+}
+
+export enum HttpCode {
+  NotFound = 404
 }
 
 export enum AuthorizationStatus {
@@ -42,10 +48,12 @@ export const months = ['January', 'February', 'March', 'April', 'May', 'June', '
 
 export const Settings = {
   STAR_RATING_MAX: 5,
+  MIN_COMMENT_LENGTH: 50,
+  MAX_COMMENT_LENGTH: 300,
   LOCATIONS_LIST: cities,
 };
 
-export const TIMEOUT_SHOW_ERROR = 10000;
+export const TIMEOUT_SHOW_ERROR = 5000;
 
 export const URL_MARKER_DEFAULT = './img/pin.svg';
 export const URL_MARKER_CURRENT = './img/pin-active.svg';

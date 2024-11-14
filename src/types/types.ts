@@ -45,8 +45,7 @@ export type AuthData = {
   password: string;
 };
 
-export type UserData = {
-  id: number;
+export type UserData = User & {
   email: string;
   token: string;
 };
@@ -61,10 +60,12 @@ export type Comment = {
   user: User;
 }
 
+export type PostReview = Pick<Comment, 'comment' | 'rating'> & Pick<Offer, 'id'>;
+
 export type User= {
   id: number;
   name: string;
-  avatarURL: string;
+  avatarUrl: string;
   isPro: boolean;
 }
 

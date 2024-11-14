@@ -9,7 +9,7 @@ export const reviews: Comment[] = [
     user: {
       id: 1,
       name: 'Max',
-      avatarURL: 'img/avatar-max.jpg',
+      avatarUrl: 'img/avatar-max.jpg',
       isPro: false,
     },
   },
@@ -21,7 +21,7 @@ export const reviews: Comment[] = [
     user: {
       id: 2,
       name: 'Angelina',
-      avatarURL: 'img/avatar-angelina.jpg',
+      avatarUrl: 'img/avatar-angelina.jpg',
       isPro: true,
     },
   },

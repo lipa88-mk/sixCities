@@ -1,33 +1,59 @@
 import { createReducer } from '@reduxjs/toolkit';
-import type { CityPlacement, Offer, SortName, Comment, UserData } from '../types/types';
-import { setCity, loadOffers, setSorting, setReviews, requireAuthorization, setError, setUserEmail, setOffersloading } from './action';
+import type {
+  CityPlacement,
+  Offer,
+  SortName,
+  Comment,
+  UserData,
+  PostReview,
+} from '../types/types';
+import {
+  setCity,
+  loadOffers,
+  setSorting,
+  loadReviews,
+  requireAuthorization,
+  setError,
+  loadCurrentOffer,
+  loadNearByOffers,
+  postReview,
+  loadUserData,
+} from './action';
 import { cities, CityCenter, Sorting, AuthorizationStatus } from '../const';
 
 type State = {
-    city: CityPlacement;
-    offers: Offer[];
-    sorting: SortName;
-    reviews: Comment[];
-    isOffersLoading: boolean;
-    authorizationStatus: AuthorizationStatus;
-    error: string | null;
-    user: UserData['email'] | null;
-}
+  city: CityPlacement;
+  offers: Offer[];
+  isOffersLoading: boolean;
+  sorting: SortName;
+  currentOffer: Offer | null;
+  isCurrentOfferLoading: boolean;
+  reviews: Comment[];
+  review: PostReview | null;
+  nearByOffers: Offer[];
+  authorizationStatus: AuthorizationStatus;
+  error: string | null;
+  userData: UserData | null;
+};
 
 const initialCity = cities[0];
 
 const initialState: State = {
   city: {
     name: initialCity,
-    location: CityCenter[initialCity]
+    location: CityCenter[initialCity],
   },
   offers: [],
+  isOffersLoading: false, //ToDo: fix loaders
+  currentOffer: null,
+  isCurrentOfferLoading: false,
   sorting: Sorting.Popular,
   reviews: [],
-  isOffersLoading: false,
+  nearByOffers: [],
   authorizationStatus: AuthorizationStatus.Unknown,
   error: null,
-  user: '',
+  userData: null,
+  review: null,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -35,28 +61,37 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(setCity, (state, action) => {
       state.city = {
         name: action.payload,
-        location: CityCenter[action.payload]
+        location: CityCenter[action.payload],
       };
     })
     .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
     })
-    .addCase(setOffersloading, (state, action) => {
-      state.isOffersLoading = action.payload;
+    .addCase(setSorting, (state, action) => {
+      state.sorting = action.payload;
     })
+
+    .addCase(loadCurrentOffer, (state, action) => {
+      state.currentOffer = action.payload;
+    })
+
+    .addCase(loadReviews, (state, action) => {
+      state.reviews = action.payload;
+    })
+    .addCase(postReview, (state, action) => {
+      state.review = action.payload;
+    })
+    .addCase(loadNearByOffers, (state, action) => {
+      state.nearByOffers = action.payload;
+    })
+
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
     })
     .addCase(setError, (state, action) => {
       state.error = action.payload;
     })
-    .addCase(setUserEmail, (state, action) => {
-      state.user = action.payload;
-    })
-    .addCase(setSorting, (state, action) => {
-      state.sorting = action.payload;
-    })
-    .addCase(setReviews, (state, action) => {
-      state.reviews = action.payload;
+    .addCase(loadUserData, (state, action) => {
+      state.userData = action.payload;
     });
 });

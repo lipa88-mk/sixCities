@@ -1,8 +1,8 @@
-import type {Comment, User} from '../../types/types';
+import type {Comment} from '../../types/types';
 import { formatDate, getRatingWidth } from '../../utils/utils';
 
 const ReviewsItem = ({date, comment, rating, user}: Comment): JSX.Element => {
-  const {name, avatarURL}: User = user;
+  const {name, avatarUrl} = user;
 
   return (
     <li className="reviews__item">
@@ -10,7 +10,7 @@ const ReviewsItem = ({date, comment, rating, user}: Comment): JSX.Element => {
         <div className="reviews__avatar-wrapper user__avatar-wrapper">
           <img
             className="reviews__avatar user__avatar"
-            src={avatarURL}
+            src={avatarUrl}
             width={54}
             height={54}
             alt="Reviews avatar"

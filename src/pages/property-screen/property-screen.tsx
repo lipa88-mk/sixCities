@@ -1,27 +1,44 @@
 import { useParams } from 'react-router-dom';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import Authorization from '../../components/authorization/authorization';
 import Logo from '../../components/logo/logo';
-import type { Offer } from '../../types/types';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import { getRatingWidth } from '../../utils/utils';
 import { Map } from '../../components/map/Map';
 import Card from '../../components/card/card';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchNearByOffersAction, fetchOfferAction } from '../../store/api-action';
+import { Spinner } from '../../components/spinner/spinner';
 
 const PropertyScreen: FC = () => {
-  const city = useAppSelector((state) => state.city);
-  const offers = useAppSelector((state) => state.offers);
-  const reviews = useAppSelector((state) => state.reviews);
-
-  const nearbyOffers = offers; //ToDo: replace
   const params = useParams();
-  const currentOffer: Offer =
-    offers.find((offer) => offer.id.toString() === params.id) || offers[0];
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const { id } = params;
+
+    if (id) {
+      const parsedId = Number(id);
+      dispatch(fetchOfferAction(parsedId));
+      dispatch(fetchNearByOffersAction(parsedId));
+    }
+  }, [params, dispatch]);
+
+  const city = useAppSelector((state) => state.city);
+  const currentOffer = useAppSelector((state) => state.currentOffer);
+  const nearbyOffers = useAppSelector((state) => state.nearByOffers);
+  const isCurrentOfferLoading = useAppSelector((state) => state.isCurrentOfferLoading);
+
+  if (isCurrentOfferLoading) {
+    return <Spinner/>;
+  }
+  if (!currentOffer) {
+    return null;
+  }
 
   const { title, type, price, rating, isPremium, isFavorite, images, bedrooms, maxAdults, goods, host, description } =
     currentOffer;
-
+  const headerImages = images.slice(0, 6);
   return (
     <div className="page">
       <header className="header">
@@ -41,7 +58,7 @@ const PropertyScreen: FC = () => {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {images.map((propertyImage) => (
+              {headerImages.map((propertyImage) => (
                 <div key={propertyImage} className="property__image-wrapper">
                   <img
                     className="property__image"
@@ -140,11 +157,12 @@ const PropertyScreen: FC = () => {
                   </p>
                 </div>
               </div>
-              <ReviewsList reviews={reviews} />
+
+              <ReviewsList />
             </div>
           </div>
           <Map
-            locations={offers.map((offer) => offer.location)}
+            locations={nearbyOffers.map((offer) => offer.location)}
             city={city}
             place="property"
           />
