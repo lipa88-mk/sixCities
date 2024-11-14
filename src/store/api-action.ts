@@ -1,17 +1,16 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { AuthData, Offer, UserData, Comment, PostReview } from '../types/types';
-import { ApiRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
+import { ApiRoute, AppRoutes, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
 import {
   loadCurrentOffer,
   loadNearByOffers,
   loadOffers,
   loadReviews,
   loadUserData,
+  redirectToRoute,
   requireAuthorization,
-  setCurrentOfferLoading,
   setError,
-  setOffersloading,
 } from './action';
 import { AppDispatch, State } from '../types/state';
 import { dropToken, saveToken } from '../services/token';
@@ -31,9 +30,7 @@ export const fetchOffersAction = createAsyncThunk<
   }
 >('offers/fetch', async (_arg, { dispatch, extra: api }) => {
   const { data } = await api.get<Offer[]>(ApiRoute.Offers);
-  dispatch(setOffersloading(true));
   dispatch(loadOffers(data));
-  dispatch(setOffersloading(false));
 });
 
 export const fetchOfferAction = createAsyncThunk<
@@ -45,10 +42,12 @@ export const fetchOfferAction = createAsyncThunk<
     extra: AxiosInstance;
   }
 >('current-offer/fetch', async (id, { dispatch, extra: api }) => {
-  const { data } = await api.get<Offer>(`${ApiRoute.Offers}/${id}`);
-  dispatch(setCurrentOfferLoading(true));
-  dispatch(loadCurrentOffer(data));
-  dispatch(setCurrentOfferLoading(false));
+  try {
+    const { data } = await api.get<Offer>(`${ApiRoute.Offers}/${id}`);
+    dispatch(loadCurrentOffer(data));
+  } catch (error) {
+    dispatch(redirectToRoute(AppRoutes.NotFound));
+  }
 });
 
 export const fetchCommentsAction = createAsyncThunk<
@@ -103,9 +102,7 @@ export const checkAuthAction = createAsyncThunk<
   }
 >('user/checkAuth', async (_arg, { dispatch, extra: api }) => {
   try {
-    const {
-      data
-    } = await api.get<UserData>(ApiRoute.LogIn);
+    const { data } = await api.get<UserData>(ApiRoute.LogIn);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
     dispatch(loadUserData(data));
   } catch {
@@ -125,9 +122,10 @@ export const loginAction = createAsyncThunk<
 >(
   'user/login',
   async ({ login: email, password }, { dispatch, extra: api }) => {
-    const {
-      data
-    } = await api.post<UserData>(ApiRoute.LogIn, { email, password });
+    const { data } = await api.post<UserData>(ApiRoute.LogIn, {
+      email,
+      password,
+    });
     saveToken(data.token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
     dispatch(loadUserData(data));

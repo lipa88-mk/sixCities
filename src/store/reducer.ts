@@ -44,7 +44,7 @@ const initialState: State = {
     location: CityCenter[initialCity],
   },
   offers: [],
-  isOffersLoading: false,
+  isOffersLoading: false, //ToDo: fix loaders
   currentOffer: null,
   isCurrentOfferLoading: false,
   sorting: Sorting.Popular,
@@ -65,25 +65,16 @@ export const reducer = createReducer(initialState, (builder) => {
       };
     })
     .addCase(loadOffers, (state, action) => {
-      state.isOffersLoading = true;
       state.offers = action.payload;
-      state.isOffersLoading = false;
     })
-    // .addCase(setOffersloading, (state, action) => {
-    //   state.isOffersLoading = action.payload;
-    // })
     .addCase(setSorting, (state, action) => {
       state.sorting = action.payload;
     })
 
     .addCase(loadCurrentOffer, (state, action) => {
-      state.isCurrentOfferLoading = true;
       state.currentOffer = action.payload;
-      state.isCurrentOfferLoading = false;
     })
-    // .addCase(setCurrentOfferLoading, (state, action) => {
-    //   state.isCurrentOfferLoading = action.payload;
-    // })
+
     .addCase(loadReviews, (state, action) => {
       state.reviews = action.payload;
     })

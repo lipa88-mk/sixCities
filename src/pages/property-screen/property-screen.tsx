@@ -8,7 +8,7 @@ import { Map } from '../../components/map/Map';
 import Card from '../../components/card/card';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchNearByOffersAction, fetchOfferAction } from '../../store/api-action';
-import PageNotFound from '../page-not-found/page-not-found';
+import { Spinner } from '../../components/spinner/spinner';
 
 const PropertyScreen: FC = () => {
   const params = useParams();
@@ -27,9 +27,13 @@ const PropertyScreen: FC = () => {
   const city = useAppSelector((state) => state.city);
   const currentOffer = useAppSelector((state) => state.currentOffer);
   const nearbyOffers = useAppSelector((state) => state.nearByOffers);
+  const isCurrentOfferLoading = useAppSelector((state) => state.isCurrentOfferLoading);
 
+  if (isCurrentOfferLoading) {
+    return <Spinner/>;
+  }
   if (!currentOffer) {
-    return <PageNotFound />;
+    return null;
   }
 
   const { title, type, price, rating, isPremium, isFavorite, images, bedrooms, maxAdults, goods, host, description } =
