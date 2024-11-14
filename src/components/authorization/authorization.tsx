@@ -9,7 +9,7 @@ const Authorization: FC = () => {
   const isLogged =
     useAppSelector((state) => state.authorizationStatus) ===
     AuthorizationStatus.Auth;
-  const user = useAppSelector((state) => state.user);
+  const user = useAppSelector((state) => state.userData);
 
   const handleSignOut: React.MouseEventHandler<HTMLAnchorElement> = (evt) => {
     evt.preventDefault();
@@ -23,14 +23,24 @@ const Authorization: FC = () => {
           to={isLogged ? AppRoutes.favorites : AppRoutes.login}
           className="header__nav-link header__nav-link--profile"
         >
-          <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-          {isLogged && (
+          {isLogged && user && (
             <>
-              <span className="header__user-name user__name">{user}</span>
+              <div
+                className="header__avatar-wrapper user__avatar-wrapper"
+                style={{ backgroundImage: `url(${user.avatarUrl})` } as React.CSSProperties}
+              />
+              <span className="header__user-name user__name">
+                {user?.email}
+              </span>
               <span className="header__favorite-count">3</span>
             </>
           )}
-          {!isLogged && <span className="header__login">Sign in</span>}
+          {!isLogged && (
+            <>
+              <div className="header__avatar-wrapper user__avatar-wrapper" />
+              <span className="header__login">Sign in</span>
+            </>
+          )}
         </Link>
       </li>
       {isLogged && (
