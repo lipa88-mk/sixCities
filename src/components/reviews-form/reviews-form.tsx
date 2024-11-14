@@ -1,17 +1,33 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import {Settings} from '../../const';
 import React from 'react';
+import { useAppDispatch } from '../../hooks';
+import { PostReview } from '../../types/types';
+import { postCommentAction } from '../../store/api-action';
+import { useParams } from 'react-router-dom';
 
-const ReviewsForm = ():JSX.Element => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+const ReviewsForm: FC = () => {
+  const dispatch = useAppDispatch();
+  const params = useParams();
   const [rating, setRating] = useState<string | null>(null);
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [comment, setComment] = useState<string>('');
 
+  const onSubmit = (postData: PostReview) => {
+    dispatch(postCommentAction(postData));
+  };
+
+  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (rating !== null && comment.length >= Settings.MIN_COMMENT_LENGTH) {
+
+      onSubmit({id: Number(params.id) , comment, rating: Number(rating) });
+    }
+  };
+
+  const isSubmitButtonAnabled = (comment.length >= Settings.MIN_COMMENT_LENGTH) && (comment.length <= Settings.MAX_COMMENT_LENGTH) && (rating !== null);
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleFormSubmit}>
       <label
         className="reviews__label form__label"
         htmlFor="review"
@@ -47,6 +63,9 @@ const ReviewsForm = ():JSX.Element => {
       </div>
       <textarea
         className="reviews__textarea form__textarea"
+        required
+        minLength={Settings.MIN_COMMENT_LENGTH}
+        maxLength={Settings.MAX_COMMENT_LENGTH}
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
@@ -57,12 +76,12 @@ const ReviewsForm = ():JSX.Element => {
           To submit review please make sure to set{' '}
           <span className="reviews__star">rating</span> and describe
           your stay with at least{' '}
-          <b className="reviews__text-amount">50 characters</b>.
+          <b className="reviews__text-amount">{Settings.MIN_COMMENT_LENGTH} characters</b>.
         </p>
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled
+          disabled={!isSubmitButtonAnabled}
         >
           Submit
         </button>

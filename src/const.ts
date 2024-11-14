@@ -48,6 +48,8 @@ export const months = ['January', 'February', 'March', 'April', 'May', 'June', '
 
 export const Settings = {
   STAR_RATING_MAX: 5,
+  MIN_COMMENT_LENGTH: 50,
+  MAX_COMMENT_LENGTH: 300,
   LOCATIONS_LIST: cities,
 };
 
