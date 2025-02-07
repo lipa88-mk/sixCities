@@ -6,9 +6,10 @@ import { useAppSelector } from '../../hooks';
 import { FavoritesEmptyScreen } from './favorites-empty-screen';
 
 const FavoritesScreen = (): JSX.Element => {
-  const offers = useAppSelector((state) => state.offers);
-  const isEmpty = offers.length === 0;
-  const groupedOffersByCity = offers.reduce<{ [key: string]: Offer[] }>(
+  const favorites = useAppSelector((state) => state.favorites);
+  const isEmpty = favorites.length === 0;
+
+  const groupedOffersByCity = favorites.reduce<{ [key: string]: Offer[] }>(
     (acc, curr) => {
       if (curr.isFavorite) {
         const city = curr.city.name;

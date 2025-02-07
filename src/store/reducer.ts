@@ -9,15 +9,17 @@ import type {
 } from '../types/types';
 import {
   setCity,
-  loadOffers,
   setSorting,
+  fetchOffersAction,
   loadReviews,
   requireAuthorization,
   setError,
-  loadCurrentOffer,
+  fetchOfferAction,
   loadNearByOffers,
   postReview,
   loadUserData,
+  fetchFavoritesAction,
+  postFavoriteAction,
 } from './action';
 import { cities, CityCenter, Sorting, AuthorizationStatus } from '../const';
 
@@ -34,6 +36,7 @@ type State = {
   authorizationStatus: AuthorizationStatus;
   error: string | null;
   userData: UserData | null;
+  favorites: Offer[];
 };
 
 const initialCity = cities[0];
@@ -44,7 +47,7 @@ const initialState: State = {
     location: CityCenter[initialCity],
   },
   offers: [],
-  isOffersLoading: false, //ToDo: fix loaders
+  isOffersLoading: false,
   currentOffer: null,
   isCurrentOfferLoading: false,
   sorting: Sorting.Popular,
@@ -54,6 +57,7 @@ const initialState: State = {
   error: null,
   userData: null,
   review: null,
+  favorites: [],
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -64,17 +68,27 @@ export const reducer = createReducer(initialState, (builder) => {
         location: CityCenter[action.payload],
       };
     })
-    .addCase(loadOffers, (state, action) => {
+
+    // offers:
+    .addCase(fetchOffersAction.pending, (state) => {
+      state.isOffersLoading = true;
+    })
+    .addCase(fetchOffersAction.fulfilled, (state, action) => {
       state.offers = action.payload;
+      state.isOffersLoading = false;
     })
     .addCase(setSorting, (state, action) => {
       state.sorting = action.payload;
     })
 
-    .addCase(loadCurrentOffer, (state, action) => {
-      state.currentOffer = action.payload;
+    // current offer:
+    .addCase(fetchOfferAction.pending, (state) => {
+      state.isCurrentOfferLoading = true;
     })
-
+    .addCase(fetchOfferAction.fulfilled, (state, action) => {
+      state.currentOffer = action.payload;
+      state.isCurrentOfferLoading = false;
+    })
     .addCase(loadReviews, (state, action) => {
       state.reviews = action.payload;
     })
@@ -85,6 +99,26 @@ export const reducer = createReducer(initialState, (builder) => {
       state.nearByOffers = action.payload;
     })
 
+    // favorites:
+    .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
+      state.favorites = action.payload;
+    })
+    .addCase(postFavoriteAction.fulfilled, (state, action) => {
+      const updatedOffer = action.payload;
+      state.offers = state.offers.map((offer) => offer.id === updatedOffer.id ? updatedOffer : offer);
+
+      if (state.currentOffer && state.currentOffer.id === updatedOffer.id) {
+        state.currentOffer = updatedOffer;
+      }
+
+      if (updatedOffer.isFavorite) {
+        state.favorites = state.favorites.concat(updatedOffer);
+      } else {
+        state.favorites = state.favorites.filter((favoriteOffer) => favoriteOffer.id !== updatedOffer.id);
+      }
+    })
+
+    // user auth:
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
     })

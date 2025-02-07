@@ -2,6 +2,7 @@ import { Navigate } from 'react-router-dom';
 import { AppRoutes, AuthorizationStatus } from '../../const';
 import { FC } from 'react';
 import { useAppSelector } from '../../hooks';
+import { Spinner } from '../spinner/spinner';
 
 type PrivateRouteProps = {
   children: JSX.Element;
@@ -12,11 +13,15 @@ const PrivateRoute: FC<PrivateRouteProps> = ({ children }) => {
     (state) => state.authorizationStatus
   );
 
-  if (authorizationStatus === AuthorizationStatus.Auth) {
-    return children;
+  if (authorizationStatus === AuthorizationStatus.Unknown) {
+    return <Spinner />;
   }
 
-  return <Navigate to={AppRoutes.login} />;
+  return (
+    authorizationStatus === AuthorizationStatus.Auth
+      ? children
+      : <Navigate to={AppRoutes.login} />
+  );
 };
 
 export default PrivateRoute;
