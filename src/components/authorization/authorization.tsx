@@ -10,6 +10,7 @@ const Authorization: FC = () => {
     useAppSelector((state) => state.authorizationStatus) ===
     AuthorizationStatus.Auth;
   const user = useAppSelector((state) => state.userData);
+  const favoritesNumber = useAppSelector((state) => state.favorites).length;
 
   const handleSignOut: React.MouseEventHandler<HTMLAnchorElement> = (evt) => {
     evt.preventDefault();
@@ -27,12 +28,16 @@ const Authorization: FC = () => {
             <>
               <div
                 className="header__avatar-wrapper user__avatar-wrapper"
-                style={{ backgroundImage: `url(${user.avatarUrl})` } as React.CSSProperties}
+                style={
+                  {
+                    backgroundImage: `url(${user.avatarUrl})`,
+                  } as React.CSSProperties
+                }
               />
               <span className="header__user-name user__name">
                 {user?.email}
               </span>
-              <span className="header__favorite-count">3</span>
+              <span className="header__favorite-count">{favoritesNumber || '0'}</span>
             </>
           )}
           {!isLogged && (
