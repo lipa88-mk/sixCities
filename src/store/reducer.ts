@@ -19,6 +19,7 @@ import {
   postReview,
   loadUserData,
   fetchFavoritesAction,
+  postFavoriteAction,
 } from './action';
 import { cities, CityCenter, Sorting, AuthorizationStatus } from '../const';
 
@@ -67,6 +68,7 @@ export const reducer = createReducer(initialState, (builder) => {
         location: CityCenter[action.payload],
       };
     })
+
     // offers:
     .addCase(fetchOffersAction.pending, (state) => {
       state.isOffersLoading = true;
@@ -75,6 +77,10 @@ export const reducer = createReducer(initialState, (builder) => {
       state.offers = action.payload;
       state.isOffersLoading = false;
     })
+    .addCase(setSorting, (state, action) => {
+      state.sorting = action.payload;
+    })
+
     // current offer:
     .addCase(fetchOfferAction.pending, (state) => {
       state.isCurrentOfferLoading = true;
@@ -83,15 +89,6 @@ export const reducer = createReducer(initialState, (builder) => {
       state.currentOffer = action.payload;
       state.isCurrentOfferLoading = false;
     })
-    // favorites:
-    .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
-      state.favorites = action.payload;
-    })
-
-    .addCase(setSorting, (state, action) => {
-      state.sorting = action.payload;
-    })
-
     .addCase(loadReviews, (state, action) => {
       state.reviews = action.payload;
     })
@@ -102,6 +99,26 @@ export const reducer = createReducer(initialState, (builder) => {
       state.nearByOffers = action.payload;
     })
 
+    // favorites:
+    .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
+      state.favorites = action.payload;
+    })
+    .addCase(postFavoriteAction.fulfilled, (state, action) => {
+      const updatedOffer = action.payload;
+      state.offers = state.offers.map((offer) => offer.id === updatedOffer.id ? updatedOffer : offer);
+
+      if (state.currentOffer && state.currentOffer.id === updatedOffer.id) {
+        state.currentOffer = updatedOffer;
+      }
+
+      if (updatedOffer.isFavorite) {
+        state.favorites = state.favorites.concat(updatedOffer);
+      } else {
+        state.favorites = state.favorites.filter((favoriteOffer) => favoriteOffer.id !== updatedOffer.id);
+      }
+    })
+
+    // user auth:
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
     })

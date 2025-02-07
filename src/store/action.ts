@@ -7,7 +7,7 @@ import type {
   PostReview,
   UserData,
 } from '../types/types';
-import { ApiRoute, AppRoutes, AuthorizationStatus, HttpCode } from '../const';
+import { ApiRoute, AppRoutes, AuthorizationStatus, FavoriteAuth, HttpCode } from '../const';
 import { AxiosError, AxiosInstance } from 'axios';
 
 export const setCity = createAction<CityName>('city/set');
@@ -30,6 +30,24 @@ export const fetchFavoritesAction = createAsyncThunk<
   return data;
 });
 
+export const postFavoriteAction = createAsyncThunk<Offer, FavoriteAuth, { extra: AxiosInstance }>(
+  'favorites/post',
+  async ({ id, status }, { dispatch, extra }) => {
+    try {
+      const { data } = await extra.post<Offer>(`${ApiRoute.Favorites}/${id}/${status}`);
+
+      return data;
+    } catch (error) {
+      const axiosError = error as AxiosError;
+
+      if (axiosError.response?.status === HttpCode.NoAuth) {
+        dispatch(redirectToRoute(AppRoutes.login));
+      }
+
+      return Promise.reject(error);
+    }
+  });
+
 export const fetchOfferAction = createAsyncThunk<
   Offer,
   Offer['id'],
@@ -42,7 +60,6 @@ export const fetchOfferAction = createAsyncThunk<
     return data;
   } catch (error) {
     const axiosError = error as AxiosError;
-
     if (axiosError.response?.status === HttpCode.NotFound) {
       dispatch(redirectToRoute(AppRoutes.NotFound));
     }

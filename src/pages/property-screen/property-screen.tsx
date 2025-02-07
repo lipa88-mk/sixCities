@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchNearByOffersAction } from '../../store/api-action';
 import { fetchOfferAction } from '../../store/action';
 import { Spinner } from '../../components/spinner/spinner';
+import Bookmark from '../../components/bookmark/bookmark';
 
 const PropertyScreen: FC = () => {
   const params = useParams();
@@ -37,7 +38,7 @@ const PropertyScreen: FC = () => {
     return null;
   }
 
-  const { title, type, price, rating, isPremium, isFavorite, images, bedrooms, maxAdults, goods, host, description } =
+  const { title, type, price, rating, isPremium, isFavorite, images, bedrooms, maxAdults, goods, host, description, id } =
     currentOffer;
   const headerImages = images.slice(0, 6);
   return (
@@ -80,24 +81,11 @@ const PropertyScreen: FC = () => {
               )}
               <div className="property__name-wrapper">
                 <h1 className="property__name">{title}</h1>
-                <button
-                  className={[
-                    'property__bookmark-button button',
-                    isFavorite ? 'property__bookmark-button--active' : '',
-                  ].join(' ')}
-                  type="button"
-                >
-                  <svg
-                    className="property__bookmark-icon"
-                    width="31"
-                    height="33"
-                  >
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">
-                    {isFavorite ? 'In bookmarks' : 'To bookmarks'}
-                  </span>
-                </button>
+                <Bookmark
+                  placement='property'
+                  isFavorite={isFavorite}
+                  id={id}
+                />
               </div>
 
               <div className="property__rating rating">

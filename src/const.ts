@@ -17,8 +17,11 @@ export enum ApiRoute {
 }
 
 export enum HttpCode {
-  NotFound = 404
+  NotFound = 404,
+  NoAuth = 401
 }
+
+export type FavoriteAuth = Pick<Offer, 'id'> & { status: 1 | 0 }
 
 export enum AuthorizationStatus {
   Auth = 'AUTH',

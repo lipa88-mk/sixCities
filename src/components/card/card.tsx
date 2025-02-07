@@ -1,8 +1,9 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import type { Offer } from '../../types/types';
 import { Link } from 'react-router-dom';
 import { AppRoutes } from '../../const';
 import {getRatingWidth} from '../../utils/utils';
+import Bookmark from '../bookmark/bookmark';
 
 export type CardProps = {
   offer: Offer;
@@ -69,20 +70,7 @@ const Card: FC<CardProps> = ({
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button
-            className={[
-              'place-card__bookmark-button button',
-              isFavorite ? 'place-card__bookmark-button--active' : '',
-            ].join(' ')}
-            type="button"
-          >
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">
-              {isFavorite ? 'In bookmarks' : 'To bookmarks'}
-            </span>
-          </button>
+          <Bookmark id={id} placement='place-card' isFavorite={isFavorite} />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
@@ -99,4 +87,4 @@ const Card: FC<CardProps> = ({
   );
 };
 
-export default Card;
+export default memo(Card, (prevProps, nextProps) => prevProps.offer.isFavorite === nextProps.offer.isFavorite);
