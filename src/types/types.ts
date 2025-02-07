@@ -5,17 +5,8 @@ type OfferType = 'apartment' | 'room' | 'house' | 'hotel';
 export type CityName = typeof cities[number];
 
 export type Offer = {
-  id: number;
-  title: string;
-  type: OfferType;
-  price: number;
-  rating: number;
-  isPremium: boolean;
-  isFavorite: boolean;
-  previewImage: string;
-  city: CityPlacement;
-  location: Location;
   bedrooms: number;
+  city: CityPlacement;
   description: string;
   goods: string[];
   host: {
@@ -24,8 +15,17 @@ export type Offer = {
     isPro: boolean;
     name: string;
   };
+  id: number;
   images: string[];
+  isFavorite: boolean;
+  isPremium: boolean;
+  location: Location;
   maxAdults: number;
+  previewImage: string;
+  price: number;
+  rating: number;
+  title: string;
+  type: OfferType;
 }
 
 export type Location = {

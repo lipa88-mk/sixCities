@@ -7,7 +7,8 @@ import { getRatingWidth } from '../../utils/utils';
 import { Map } from '../../components/map/Map';
 import Card from '../../components/card/card';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchNearByOffersAction, fetchOfferAction } from '../../store/api-action';
+import { fetchNearByOffersAction } from '../../store/api-action';
+import { fetchOfferAction } from '../../store/action';
 import { Spinner } from '../../components/spinner/spinner';
 
 const PropertyScreen: FC = () => {

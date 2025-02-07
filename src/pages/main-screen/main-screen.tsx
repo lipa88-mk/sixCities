@@ -10,7 +10,6 @@ import { MainEmptyScreen } from './main-screen-empty';
 
 const MainScreen: FC = () => {
   const activeSorting = useAppSelector((state) => state.sorting);
-
   const activeCity = useAppSelector((state) => state.city);
   const offers = useAppSelector((state) =>
     state.offers

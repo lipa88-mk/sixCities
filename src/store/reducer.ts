@@ -9,15 +9,16 @@ import type {
 } from '../types/types';
 import {
   setCity,
-  loadOffers,
   setSorting,
+  fetchOffersAction,
   loadReviews,
   requireAuthorization,
   setError,
-  loadCurrentOffer,
+  fetchOfferAction,
   loadNearByOffers,
   postReview,
   loadUserData,
+  fetchFavoritesAction,
 } from './action';
 import { cities, CityCenter, Sorting, AuthorizationStatus } from '../const';
 
@@ -34,6 +35,7 @@ type State = {
   authorizationStatus: AuthorizationStatus;
   error: string | null;
   userData: UserData | null;
+  favorites: Offer[];
 };
 
 const initialCity = cities[0];
@@ -44,7 +46,7 @@ const initialState: State = {
     location: CityCenter[initialCity],
   },
   offers: [],
-  isOffersLoading: false, //ToDo: fix loaders
+  isOffersLoading: false,
   currentOffer: null,
   isCurrentOfferLoading: false,
   sorting: Sorting.Popular,
@@ -54,6 +56,7 @@ const initialState: State = {
   error: null,
   userData: null,
   review: null,
+  favorites: [],
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -64,15 +67,29 @@ export const reducer = createReducer(initialState, (builder) => {
         location: CityCenter[action.payload],
       };
     })
-    .addCase(loadOffers, (state, action) => {
-      state.offers = action.payload;
+    // offers:
+    .addCase(fetchOffersAction.pending, (state) => {
+      state.isOffersLoading = true;
     })
-    .addCase(setSorting, (state, action) => {
-      state.sorting = action.payload;
+    .addCase(fetchOffersAction.fulfilled, (state, action) => {
+      state.offers = action.payload;
+      state.isOffersLoading = false;
+    })
+    // current offer:
+    .addCase(fetchOfferAction.pending, (state) => {
+      state.isCurrentOfferLoading = true;
+    })
+    .addCase(fetchOfferAction.fulfilled, (state, action) => {
+      state.currentOffer = action.payload;
+      state.isCurrentOfferLoading = false;
+    })
+    // favorites:
+    .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
+      state.favorites = action.payload;
     })
 
-    .addCase(loadCurrentOffer, (state, action) => {
-      state.currentOffer = action.payload;
+    .addCase(setSorting, (state, action) => {
+      state.sorting = action.payload;
     })
 
     .addCase(loadReviews, (state, action) => {
