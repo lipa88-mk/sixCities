@@ -1,12 +1,11 @@
 import { FC } from 'react';
-import Authorization from '../../components/authorization/authorization';
-import Logo from '../../components/logo/logo';
 import CardsList from '../../components/cards-list/cards-list';
 import { CitiesList } from '../../components/cities-list/cities-list';
 import { useAppSelector } from '../../hooks';
 import { SortingFunctions } from '../../const';
 import { Spinner } from '../../components/spinner/spinner';
 import { MainEmptyScreen } from './main-screen-empty';
+import { Header } from '../../components/header/header';
 
 const MainScreen: FC = () => {
   const activeSorting = useAppSelector((state) => state.sorting);
@@ -21,19 +20,7 @@ const MainScreen: FC = () => {
 
   return (
     <div className="page page--gray page--main">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <Logo />
-            </div>
-            <nav className="header__nav">
-              <Authorization />
-            </nav>
-          </div>
-        </div>
-      </header>
-
+      <Header />
       <main
         className={`page__main page__main--index ${
           isEmpty ? 'page__main--index-empty' : ''

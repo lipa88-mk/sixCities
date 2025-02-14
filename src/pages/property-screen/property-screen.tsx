@@ -1,7 +1,5 @@
 import { useParams } from 'react-router-dom';
 import { FC, useEffect } from 'react';
-import Authorization from '../../components/authorization/authorization';
-import Logo from '../../components/logo/logo';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import { getRatingWidth } from '../../utils/utils';
 import { Map } from '../../components/map/Map';
@@ -11,6 +9,7 @@ import { fetchNearByOffersAction } from '../../store/api-action';
 import { fetchOfferAction } from '../../store/action';
 import { Spinner } from '../../components/spinner/spinner';
 import Bookmark from '../../components/bookmark/bookmark';
+import { Header } from '../../components/header/header';
 
 const PropertyScreen: FC = () => {
   const params = useParams();
@@ -43,18 +42,7 @@ const PropertyScreen: FC = () => {
   const headerImages = images.slice(0, 6);
   return (
     <div className="page">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <Logo />
-            </div>
-            <nav className="header__nav">
-              <Authorization />
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header/>
 
       <main className="page__main page__main--property">
         <section className="property">

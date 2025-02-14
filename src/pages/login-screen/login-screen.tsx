@@ -1,8 +1,8 @@
-import Logo from '../../components/logo/logo';
 import { FC, FormEvent, useRef } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { loginAction } from '../../store/api-action';
 import { AuthData } from '../../types/types';
+import { Header } from '../../components/header/header';
 
 const LoginScreen: FC = () => {
   const dispatch = useAppDispatch();
@@ -25,15 +25,7 @@ const LoginScreen: FC = () => {
 
   return (
     <div className="page page--gray page--login">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <Logo />
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header showAuth={false}/>
 
       <main className="page__main page__main--login">
         <div className="page__login-container container">
