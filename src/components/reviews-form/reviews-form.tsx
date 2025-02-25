@@ -3,7 +3,7 @@ import {Settings} from '../../const';
 import React from 'react';
 import { useAppDispatch } from '../../hooks';
 import { PostReview } from '../../types/types';
-import { postCommentAction } from '../../store/api-action';
+import { postCommentAction } from '../../store/action';
 import { useParams } from 'react-router-dom';
 
 const ReviewsForm: FC = () => {

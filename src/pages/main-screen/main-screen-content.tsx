@@ -1,20 +1,17 @@
 import { FC } from 'react';
 import { useAppSelector } from '../../hooks';
-import { SortingFunctions } from '../../const';
 import { CitiesList } from '../../components/cities-list/cities-list';
 import { Spinner } from '../../components/spinner/spinner';
 import { MainEmptyScreen } from './main-screen-empty';
 import CardsList from '../../components/cards-list/cards-list';
+import { getCity, getSorting } from '../../store/site-process/selectors';
+import { getIsOffersLoading, selectOffers } from '../../store/site-data/selectors';
 
 const MainScreenContent: FC = () => {
-  const activeSorting = useAppSelector((state) => state.sorting);
-  const activeCity = useAppSelector((state) => state.city);
-  const offers = useAppSelector((state) =>
-    state.offers
-      .filter((offer) => offer.city.name === state.city.name)
-      .sort(SortingFunctions[state.sorting])
-  );
-  const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
+  const activeSorting = useAppSelector(getSorting);
+  const activeCity = useAppSelector(getCity);
+  const offers = useAppSelector(selectOffers);
+  const isOffersLoading = useAppSelector(getIsOffersLoading);
   const isEmpty = !isOffersLoading && !offers;
 
   return (

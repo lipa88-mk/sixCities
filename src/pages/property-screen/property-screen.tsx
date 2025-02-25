@@ -5,11 +5,13 @@ import { getRatingWidth } from '../../utils/utils';
 import { Map } from '../../components/map/Map';
 import Card from '../../components/card/card';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchNearByOffersAction } from '../../store/api-action';
+import { fetchNearByOffersAction } from '../../store/action';
 import { fetchOfferAction } from '../../store/action';
 import { Spinner } from '../../components/spinner/spinner';
 import Bookmark from '../../components/bookmark/bookmark';
 import { Header } from '../../components/header/header';
+import { getCity } from '../../store/site-process/selectors';
+import { getIsOfferLoading, getNearbyOffers, getOffer } from '../../store/site-data/selectors';
 
 const PropertyScreen: FC = () => {
   const params = useParams();
@@ -25,10 +27,10 @@ const PropertyScreen: FC = () => {
     }
   }, [params, dispatch]);
 
-  const city = useAppSelector((state) => state.city);
-  const currentOffer = useAppSelector((state) => state.currentOffer);
-  const nearbyOffers = useAppSelector((state) => state.nearByOffers);
-  const isCurrentOfferLoading = useAppSelector((state) => state.isCurrentOfferLoading);
+  const city = useAppSelector(getCity);
+  const currentOffer = useAppSelector(getOffer);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
+  const isCurrentOfferLoading = useAppSelector(getIsOfferLoading);
 
   if (isCurrentOfferLoading) {
     return <Spinner/>;

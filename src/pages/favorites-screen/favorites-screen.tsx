@@ -3,9 +3,10 @@ import Card from '../../components/card/card';
 import { useAppSelector } from '../../hooks';
 import { FavoritesEmptyScreen } from './favorites-empty-screen';
 import { Header } from '../../components/header/header';
+import { getFavoriteOffers } from '../../store/site-data/selectors';
 
 const FavoritesScreen = (): JSX.Element => {
-  const favorites = useAppSelector((state) => state.favorites);
+  const favorites = useAppSelector(getFavoriteOffers);
   const isEmpty = favorites.length === 0;
 
   const groupedOffersByCity = favorites.reduce<{ [key: string]: Offer[] }>(

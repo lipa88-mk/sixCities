@@ -1,5 +1,11 @@
 import { CityName, Location, Offer, SortName } from './types/types';
 
+export enum StoreSlice {
+  SiteData = 'SITE_DATA',
+  SiteProcess = 'SITE_PROCESS',
+  UserProcess = 'USER_PROCESS',
+}
+
 export enum AppRoutes {
   login = '/login',
   favorites = '/favorites',

@@ -1,6 +1,6 @@
 import { FC, FormEvent, useRef } from 'react';
 import { useAppDispatch } from '../../hooks';
-import { loginAction } from '../../store/api-action';
+import { loginAction } from '../../store/action';
 import { AuthData } from '../../types/types';
 import { Header } from '../../components/header/header';
 
