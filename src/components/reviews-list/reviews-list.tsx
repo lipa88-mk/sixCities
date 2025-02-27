@@ -4,7 +4,7 @@ import ReviewsItem from '../reviews-item/reviews-item';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { AuthorizationStatus } from '../../const';
 import { useParams } from 'react-router-dom';
-import { fetchCommentsAction } from '../../store/api-action';
+import { fetchCommentsAction } from '../../store/action';
 
 const ReviewsList: FC = () => {
   const params = useParams();
