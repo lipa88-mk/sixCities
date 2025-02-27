@@ -6,11 +6,30 @@ import type {
   Comment,
   PostReview,
   UserData,
+  // AuthData,
 } from '../types/types';
-import { ApiRoute, AppRoutes, AuthorizationStatus, FavoriteAuth, HttpCode } from '../const';
+import { ApiRoute, AppRoutes, FavoriteAuth, HttpCode } from '../const';
 import { AxiosError, AxiosInstance } from 'axios';
 
+
 export const setCity = createAction<CityName>('city/set');
+export const setSorting = createAction<SortName>('sorting/set');
+export const redirectToRoute = createAction<AppRoutes>('app/redirectToRoute');
+
+export const setError = createAction<string | null>('page/setError');
+
+export const checkAuthAction = createAsyncThunk<
+  UserData,
+  undefined,
+  { extra: AxiosInstance }
+>('user/checkAuth', async (_, { extra }) => {
+  try {
+    const { data } = await extra.get<UserData>(ApiRoute.LogIn);
+    return(data);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+});
 
 export const fetchOffersAction = createAsyncThunk<
   Offer[],
@@ -67,15 +86,36 @@ export const fetchOfferAction = createAsyncThunk<
   }
 });
 
-export const setSorting = createAction<SortName>('sorting/set');
-export const loadReviews = createAction<Comment[]>('reviews/load');
-export const postReview = createAction<PostReview>('review/post');
-export const loadNearByOffers = createAction<Offer[]>('current-offer/nearBy');
+export const fetchCommentsAction = createAsyncThunk<
+  Comment[],
+  Offer['id'],
+  {
+    extra: AxiosInstance;
+  }
+>('current-offer/comments', async (id, { extra }) => {
+  const { data } = await extra.get<Comment[]>(`${ApiRoute.Comments}/${id}`);
+  return data;
+});
 
-export const requireAuthorization = createAction<AuthorizationStatus>(
-  'user/requireAuthorization'
-);
-export const loadUserData = createAction<UserData | null>('user/loadUserData');
+export const postCommentAction = createAsyncThunk<
+  Comment[],
+  PostReview,
+  {
+    extra: AxiosInstance;
+  }
+>('post/review', async ({ id, comment, rating }, { extra }) => {
+  const { data } = await extra.post<Comment[]>(`${ApiRoute.Comments}/${id}`, {
+    comment,
+    rating,
+  });
+  return(data);
+});
 
-export const setError = createAction<string | null>('page/setError');
-export const redirectToRoute = createAction<AppRoutes>('app/redirectToRoute');
+export const fetchNearByOffersAction = createAsyncThunk<
+  Offer[],
+  Offer['id'],
+  { extra: AxiosInstance }
+>('current-offer/near-by', async (id, { extra }) => {
+  const { data } = await extra.get<Offer[]>(`${ApiRoute.Offers}/${id}/nearby`);
+  return(data);
+});

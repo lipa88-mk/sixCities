@@ -11,15 +11,14 @@ import {
   setCity,
   setSorting,
   fetchOffersAction,
-  loadReviews,
-  requireAuthorization,
   setError,
   fetchOfferAction,
-  loadNearByOffers,
-  postReview,
-  loadUserData,
   fetchFavoritesAction,
+  fetchCommentsAction,
   postFavoriteAction,
+  postCommentAction,
+  fetchNearByOffersAction,
+  checkAuthAction,
 } from './action';
 import { cities, CityCenter, Sorting, AuthorizationStatus } from '../const';
 
@@ -89,13 +88,13 @@ export const reducer = createReducer(initialState, (builder) => {
       state.currentOffer = action.payload;
       state.isCurrentOfferLoading = false;
     })
-    .addCase(loadReviews, (state, action) => {
+    .addCase(fetchCommentsAction.fulfilled, (state, action) => {
       state.reviews = action.payload;
     })
-    .addCase(postReview, (state, action) => {
-      state.review = action.payload;
+    .addCase(postCommentAction.fulfilled, (state, action) => {
+      state.reviews = action.payload;
     })
-    .addCase(loadNearByOffers, (state, action) => {
+    .addCase(fetchNearByOffersAction.fulfilled, (state, action) => {
       state.nearByOffers = action.payload;
     })
 
@@ -119,13 +118,15 @@ export const reducer = createReducer(initialState, (builder) => {
     })
 
     // user auth:
-    .addCase(requireAuthorization, (state, action) => {
-      state.authorizationStatus = action.payload;
+    .addCase(checkAuthAction.fulfilled, (state, action) => {
+      state.authorizationStatus = AuthorizationStatus.Auth;
+      state.userData = action.payload;
     })
+    .addCase(checkAuthAction.rejected, (state, action) => {
+      state.authorizationStatus = AuthorizationStatus.NoAuth;
+    })
+
     .addCase(setError, (state, action) => {
       state.error = action.payload;
-    })
-    .addCase(loadUserData, (state, action) => {
-      state.userData = action.payload;
     });
 });
