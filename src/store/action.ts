@@ -6,11 +6,9 @@ import type {
   Comment,
   PostReview,
   UserData,
-  // AuthData,
 } from '../types/types';
 import { ApiRoute, AppRoutes, FavoriteAuth, HttpCode } from '../const';
 import { AxiosError, AxiosInstance } from 'axios';
-
 
 export const setCity = createAction<CityName>('city/set');
 export const setSorting = createAction<SortName>('sorting/set');
@@ -25,7 +23,7 @@ export const checkAuthAction = createAsyncThunk<
 >('user/checkAuth', async (_, { extra }) => {
   try {
     const { data } = await extra.get<UserData>(ApiRoute.LogIn);
-    return(data);
+    return data;
   } catch (error) {
     return Promise.reject(error);
   }
@@ -49,23 +47,27 @@ export const fetchFavoritesAction = createAsyncThunk<
   return data;
 });
 
-export const postFavoriteAction = createAsyncThunk<Offer, FavoriteAuth, { extra: AxiosInstance }>(
-  'favorites/post',
-  async ({ id, status }, { dispatch, extra }) => {
-    try {
-      const { data } = await extra.post<Offer>(`${ApiRoute.Favorites}/${id}/${status}`);
+export const postFavoriteAction = createAsyncThunk<
+  Offer,
+  FavoriteAuth,
+  { extra: AxiosInstance }
+>('favorites/post', async ({ id, status }, { dispatch, extra }) => {
+  try {
+    const { data } = await extra.post<Offer>(
+      `${ApiRoute.Favorites}/${id}/${status}`
+    );
 
-      return data;
-    } catch (error) {
-      const axiosError = error as AxiosError;
+    return data;
+  } catch (error) {
+    const axiosError = error as AxiosError;
 
-      if (axiosError.response?.status === HttpCode.NoAuth) {
-        dispatch(redirectToRoute(AppRoutes.login));
-      }
-
-      return Promise.reject(error);
+    if (axiosError.response?.status === HttpCode.NoAuth) {
+      dispatch(redirectToRoute(AppRoutes.login));
     }
-  });
+
+    return Promise.reject(error);
+  }
+});
 
 export const fetchOfferAction = createAsyncThunk<
   Offer,
@@ -108,7 +110,7 @@ export const postCommentAction = createAsyncThunk<
     comment,
     rating,
   });
-  return(data);
+  return data;
 });
 
 export const fetchNearByOffersAction = createAsyncThunk<
@@ -117,5 +119,5 @@ export const fetchNearByOffersAction = createAsyncThunk<
   { extra: AxiosInstance }
 >('current-offer/near-by', async (id, { extra }) => {
   const { data } = await extra.get<Offer[]>(`${ApiRoute.Offers}/${id}/nearby`);
-  return(data);
+  return data;
 });
