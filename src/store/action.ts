@@ -6,10 +6,15 @@ import type {
   User,
   AuthData,
 } from '../types/types';
-import { ApiRoute, AppRoutes, FavoriteAuth, HttpCode, TIMEOUT_SHOW_ERROR } from '../const';
+import {
+  ApiRoute,
+  AppRoutes,
+  FavoriteAuth,
+  HttpCode,
+  TIMEOUT_SHOW_ERROR,
+} from '../const';
 import { AxiosError, AxiosInstance } from 'axios';
 import { dropToken, saveToken } from '../services/token';
-import { store } from '.';
 import { setError } from './site-process/site-process';
 
 // User process:
@@ -23,20 +28,22 @@ export const checkAuthAction = createAsyncThunk<
 });
 
 export const loginAction = createAsyncThunk<
-  void, AuthData, { extra: AxiosInstance }
->('user/login',
-  async ({ login: email, password }, { extra: api }) => {
-    const { data } = await api.post<User>(ApiRoute.LogIn, {
-      email,
-      password,
-    });
-    saveToken(data.token);
-    window.history.back();
-  }
-);
+  void,
+  AuthData,
+  { extra: AxiosInstance }
+>('user/login', async ({ login: email, password }, { extra: api }) => {
+  const { data } = await api.post<User>(ApiRoute.LogIn, {
+    email,
+    password,
+  });
+  saveToken(data.token);
+  window.history.back();
+});
 
 export const logoutAction = createAsyncThunk<
-  void, undefined, { extra: AxiosInstance }
+  void,
+  undefined,
+  { extra: AxiosInstance }
 >('user/logout', async (_arg, { extra: api }) => {
   await api.delete(ApiRoute.LogOut);
   dropToken();
@@ -44,8 +51,12 @@ export const logoutAction = createAsyncThunk<
 
 // Site process:
 // ToDo: fix error action
-export const clearErrorAction = createAsyncThunk('page/clearError', () => {
-  setTimeout(() => store.dispatch(setError('')), TIMEOUT_SHOW_ERROR);
+export const clearErrorAction = createAsyncThunk<
+  void,
+  undefined,
+  { extra: AxiosInstance }
+>('page/clearError', (_, { dispatch }) => {
+  setTimeout(() => dispatch(setError('')), TIMEOUT_SHOW_ERROR);
 });
 
 // Site Data:
@@ -65,7 +76,7 @@ export const postCommentAction = createAsyncThunk<
     extra: AxiosInstance;
   }
 >('post/review', async ({ id, comment, rating }, { extra }) => {
-  const {data} = await extra.post<Comment[]>(`${ApiRoute.Comments}/${id}`, {
+  const { data } = await extra.post<Comment[]>(`${ApiRoute.Comments}/${id}`, {
     comment,
     rating,
   });
@@ -73,7 +84,7 @@ export const postCommentAction = createAsyncThunk<
 });
 
 export const fetchNearByOffersAction = createAsyncThunk<
-Offer[],
+  Offer[],
   Offer['id'],
   { extra: AxiosInstance }
 >('current-offer/near-by', async (id, { extra }) => {

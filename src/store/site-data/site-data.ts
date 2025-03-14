@@ -63,7 +63,7 @@ export const siteData = createSlice({
       })
 
       // favorites:
-      .addCase(fetchFavoritesAction.fulfilled, (state) => {
+      .addCase(fetchFavoritesAction.pending, (state) => {
         state.isFavoritesLoading = true;
       })
       .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
