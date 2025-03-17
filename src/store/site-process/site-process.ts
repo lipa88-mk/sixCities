@@ -29,13 +29,6 @@ export const siteProcess = createSlice({
       state.error = action.payload;
     },
   },
-  // ToDo: check error
-  // extraReducers(builder) {
-  //   builder.addCase(checkAuthAction.fulfilled, (state, action) => {
-  //     state.authorizationStatus = AuthorizationStatus.Auth;
-  //     state.user = action.payload;
-  //   });
-  // },
 });
 
 export const { setCity, setSorting, setError } = siteProcess.actions;

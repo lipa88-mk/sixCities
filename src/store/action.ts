@@ -50,7 +50,6 @@ export const logoutAction = createAsyncThunk<
 });
 
 // Site process:
-// ToDo: fix error action
 export const clearErrorAction = createAsyncThunk<
   void,
   undefined,
