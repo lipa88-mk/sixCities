@@ -45,11 +45,6 @@ export type AuthData = {
   password: string;
 };
 
-export type UserData = User & {
-  email: string;
-  token: string;
-};
-
 // comments
 
 export type Comment = {
@@ -67,6 +62,8 @@ export type User= {
   name: string;
   avatarUrl: string;
   isPro: boolean;
+  email: string;
+  token: string;
 }
 
 // Sorting

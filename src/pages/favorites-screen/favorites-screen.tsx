@@ -1,12 +1,12 @@
-import Authorization from '../../components/authorization/authorization';
-import Logo from '../../components/logo/logo';
 import { Offer } from '../../types/types';
 import Card from '../../components/card/card';
 import { useAppSelector } from '../../hooks';
 import { FavoritesEmptyScreen } from './favorites-empty-screen';
+import { Header } from '../../components/header/header';
+import { getFavoriteOffers } from '../../store/site-data/selectors';
 
 const FavoritesScreen = (): JSX.Element => {
-  const favorites = useAppSelector((state) => state.favorites);
+  const favorites = useAppSelector(getFavoriteOffers);
   const isEmpty = favorites.length === 0;
 
   const groupedOffersByCity = favorites.reduce<{ [key: string]: Offer[] }>(
@@ -28,18 +28,7 @@ const FavoritesScreen = (): JSX.Element => {
 
   return (
     <div className={['page', isEmpty && 'page--favorites-empty'].join(' ')}>
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <Logo />
-            </div>
-            <nav className="header__nav">
-              <Authorization />
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header/>
 
       <main
         className={[

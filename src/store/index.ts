@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { reducer } from './reducer';
 import { createAPI } from '../services/api';
+import { rootReducer } from './root-reducer';
 import { redirect } from './middlewares/redirect';
-import { fetchOffersAction } from './action';
+import { fetchOffersAction, checkAuthAction, fetchFavoritesAction } from './action';
 
 export const api = createAPI();
 
 export const store = configureStore({
-  reducer,
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: {
@@ -16,4 +16,8 @@ export const store = configureStore({
     }).concat(redirect),
 });
 
+store.dispatch(checkAuthAction());
 store.dispatch(fetchOffersAction());
+store.dispatch(fetchFavoritesAction());
+
+

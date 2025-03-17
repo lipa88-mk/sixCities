@@ -2,15 +2,17 @@ import { Link } from 'react-router-dom';
 import { AppRoutes, AuthorizationStatus } from '../../const';
 import { FC } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { logoutAction } from '../../store/api-action';
+import { getAuthorizationStatus, getUser } from '../../store/user-process/selectors';
+import { getFavoriteOffers } from '../../store/site-data/selectors';
+import { logoutAction } from '../../store/action';
 
 const Authorization: FC = () => {
   const dispatch = useAppDispatch();
   const isLogged =
-    useAppSelector((state) => state.authorizationStatus) ===
+    useAppSelector(getAuthorizationStatus) ===
     AuthorizationStatus.Auth;
-  const user = useAppSelector((state) => state.userData);
-  const favoritesNumber = useAppSelector((state) => state.favorites).length;
+  const user = useAppSelector(getUser);
+  const favoritesNumber = useAppSelector(getFavoriteOffers).length;
 
   const handleSignOut: React.MouseEventHandler<HTMLAnchorElement> = (evt) => {
     evt.preventDefault();

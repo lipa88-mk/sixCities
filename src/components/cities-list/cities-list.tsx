@@ -1,17 +1,18 @@
-// import { NavLink } from 'react-router-dom';
+import { useCallback } from 'react';
 import { cities } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { setCity } from '../../store/action';
 import { CityName } from '../../types/types';
 import { City } from '../city/city';
+import { getCity } from '../../store/site-process/selectors';
+import { setCity } from '../../store/site-process/site-process';
 
 export const CitiesList = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const activeCity = useAppSelector((state) => state.city);
+  const activeCity = useAppSelector(getCity);
 
-  const handleCityClick = (name: CityName) => {
+  const handleCityClick = useCallback((name: CityName) => {
     dispatch(setCity(name));
-  };
+  }, [dispatch]);
 
   return (
     <ul className="locations__list tabs__list">

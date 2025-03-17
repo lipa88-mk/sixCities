@@ -1,7 +1,8 @@
 import { useAppSelector } from '../../hooks';
+import { getCity } from '../../store/site-process/selectors';
 
 export const MainEmptyScreen = () => {
-  const activeCity = useAppSelector((state) => state.city);
+  const activeCity = useAppSelector(getCity);
 
   return (
     <>

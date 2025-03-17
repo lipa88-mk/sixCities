@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { AuthorizationStatus } from '../../const';
 import { useParams } from 'react-router-dom';
 import { fetchCommentsAction } from '../../store/action';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { getComments } from '../../store/site-data/selectors';
 
 const ReviewsList: FC = () => {
   const params = useParams();
@@ -18,9 +20,9 @@ const ReviewsList: FC = () => {
     }
   }, [params, dispatch]);
 
-  const authStatus = useAppSelector((state) => state.authorizationStatus);
+  const authStatus = useAppSelector(getAuthorizationStatus);
   const isAuthorized = authStatus === AuthorizationStatus.Auth;
-  const reviews = useAppSelector((state) => state.reviews);
+  const reviews = useAppSelector(getComments);
 
   return (
     <section className="property__reviews reviews">
