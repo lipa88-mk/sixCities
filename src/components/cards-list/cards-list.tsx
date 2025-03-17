@@ -4,7 +4,8 @@ import { useAppDispatch } from '../../hooks';
 import { Map } from '../../components/map/Map';
 import { SortingList } from '../../components/sorting-list/sorting-list';
 import { Offer, SortName, CityPlacement } from '../../types/types';
-import { setSorting } from '../../store/action';
+import { setSorting } from '../../store/site-process/site-process';
+
 
 type CardsListProps = {
   activeSorting: SortName;
