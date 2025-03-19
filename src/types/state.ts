@@ -6,19 +6,10 @@ import { AuthorizationStatus } from '../const';
 export type SiteData = {
   offers: Offer[];
   isOffersLoading: boolean;
-
-  //     offer: Offer | null;
-  //     isOfferLoading: boolean;
   currentOffer: Offer | null;
   isCurrentOfferLoading: boolean;
-
-  //     comments: Comment[];
   reviews: Comment[];
-
   nearByOffers: Offer[];
-
-  //     favoriteOffers: Offer[];
-  //     isFavoriteOffersLoading: boolean;
   favorites: Offer[];
   isFavoritesLoading: boolean;
 };
@@ -31,7 +22,7 @@ export type SiteProcess = {
 
 export type UserProcess = {
   authorizationStatus: AuthorizationStatus;
-  user: User;
+  user: User | null;
 };
 
 export type State = ReturnType<typeof store.getState>;

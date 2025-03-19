@@ -28,7 +28,7 @@ export const checkAuthAction = createAsyncThunk<
 });
 
 export const loginAction = createAsyncThunk<
-  void,
+  User,
   AuthData,
   { extra: AxiosInstance }
 >('user/login', async ({ login: email, password }, { extra: api }) => {
@@ -38,6 +38,8 @@ export const loginAction = createAsyncThunk<
   });
   saveToken(data.token);
   window.history.back();
+  return data;
+
 });
 
 export const logoutAction = createAsyncThunk<
