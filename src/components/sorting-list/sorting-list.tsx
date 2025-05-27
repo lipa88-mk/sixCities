@@ -19,6 +19,7 @@ export const SortingList: FC<SortingListProps> = ({currentSorting, onChange}) =>
         className="places__sorting-type"
         tabIndex={0}
         onClick={() => setIsOpen(!isOpen)}
+        data-testid="sorting-type"
       >
         {Sorting[currentSorting]}
         <svg className="places__sorting-arrow" width="7" height="4">
@@ -27,6 +28,7 @@ export const SortingList: FC<SortingListProps> = ({currentSorting, onChange}) =>
       </span>
 
       <ul
+        data-testid="sorting-list"
         className={[
           'places__options places__options--custom ',
           isOpen ? 'places__options--opened' : '',
@@ -38,6 +40,7 @@ export const SortingList: FC<SortingListProps> = ({currentSorting, onChange}) =>
               key ={name}
               className={`places__option ${currentSorting === name ? ' places__option--active' : ' '}`}
               tabIndex={0}
+              data-testid={`sorting-option-${name}`}
               onClick={() => {onChange(name); setIsOpen(false);}}
             >
               {title}

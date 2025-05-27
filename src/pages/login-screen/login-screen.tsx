@@ -18,14 +18,14 @@ const LoginScreen: FC = () => {
     if (loginRef.current !== null && passwordRef.current !== null) {
       onSubmit({
         login: loginRef.current.value,
-        password: passwordRef.current.value
+        password: passwordRef.current.value,
       });
     }
   };
 
   return (
     <div className="page page--gray page--login">
-      <Header showAuth={false}/>
+      <Header showAuth={false} />
 
       <main className="page__main page__main--login">
         <div className="page__login-container container">
@@ -38,23 +38,29 @@ const LoginScreen: FC = () => {
               method="post"
             >
               <div className="login__input-wrapper form__input-wrapper">
-                <label className="visually-hidden">E-mail</label>
+                <label className="visually-hidden" htmlFor="login">
+                  E-mail
+                </label>
                 <input
                   ref={loginRef}
                   className="login__input form__input"
                   type="email"
                   name="login"
+                  id="login"
                   placeholder="Email"
                   required
                 />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
-                <label className="visually-hidden">Password</label>
+                <label className="visually-hidden" htmlFor="password">
+                  Password
+                </label>
                 <input
                   ref={passwordRef}
                   className="login__input form__input"
                   type="password"
                   name="password"
+                  id="password"
                   placeholder="Password"
                   required
                 />

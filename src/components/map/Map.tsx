@@ -1,8 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { Icon, Marker } from 'leaflet';
-
 import type { CityPlacement, Location } from '../../types/types';
-
 import useMap from '../../hooks/useMap';
 import { CityCenter, URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 
