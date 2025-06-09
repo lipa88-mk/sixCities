@@ -31,4 +31,14 @@ describe('Async actions', () => {
     const actions = store.getActions().map(({ type }) => type as string);
     expect(actions).toEqual([ checkAuthAction.pending.type, checkAuthAction.fulfilled.type]);
   });
+
+  it('checkAuthAction should be rejected when server returns 401', async () => {
+    const store = mockStore();
+    mockAPI.onGet(ApiRoute.LogIn).reply(401, {});
+    expect(store.getActions()).toEqual([]);
+
+    await store.dispatch(checkAuthAction());
+    const actions = store.getActions().map(({ type }) => type as string);
+    expect(actions).toEqual([ checkAuthAction.pending.type, checkAuthAction.rejected.type ]);
+  });
 });
