@@ -107,19 +107,4 @@ describe('Application Routing', () => {
     render(fakeApp);
     expect(screen.getByText('Saved listing')).toBeInTheDocument();
   });
-
-  // it('should render "PropertyScreen" when user navigate to "/offer/:id"', () => {
-  //   history.push(`${AppRoutes.offer}/1`);
-  //   render(fakeApp);
-  //   expect(screen.getByText(offers[0].title)).toBeInTheDocument();
-  //   expect(screen.getByText(offers[0].description)).toBeInTheDocument();
-  //   expect(screen.getByText(offers[0].type)).toBeInTheDocument();
-  // });
-
-  // it('should render "PageNotFound" when user navigate to unknown route', () => {
-  //   history.push('/qwe');
-  //   render(fakeApp);
-  //   expect(screen.getByText('404 Not Found')).toBeInTheDocument();
-  //   expect(screen.getByText('Go back Home')).toBeInTheDocument();
-  // });
 });

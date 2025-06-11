@@ -1,7 +1,11 @@
+import { FC } from 'react';
 import type {Comment} from '../../types/types';
 import { formatDate, getRatingWidth } from '../../utils/utils';
 
-const ReviewsItem = ({date, comment, rating, user}: Comment): JSX.Element => {
+type ReviewsItemProps = Omit<Comment, 'id'>;
+
+const ReviewsItem: FC<ReviewsItemProps> = (props) => {
+  const {user, rating, comment, date} = props;
   const {name, avatarUrl} = user;
 
   return (
