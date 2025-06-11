@@ -38,6 +38,7 @@ export const siteData = createSlice({
       })
       .addCase(fetchOffersAction.rejected, (state) => {
         state.isOffersLoading = false;
+        state.offers = [];
       })
 
       // current offer:
@@ -49,6 +50,7 @@ export const siteData = createSlice({
         state.isCurrentOfferLoading = false;
       })
       .addCase(fetchOfferAction.rejected, (state) => {
+        state.currentOffer = null;
         state.isCurrentOfferLoading = false;
       })
 
@@ -72,6 +74,7 @@ export const siteData = createSlice({
       })
       .addCase(fetchFavoritesAction.rejected, (state) => {
         state.isFavoritesLoading = false;
+        state.favorites = [];
       })
       .addCase(postFavoriteAction.fulfilled, (state, action) => {
         const updatedOffer = action.payload;

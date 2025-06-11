@@ -7,35 +7,28 @@ import PageNotFound from '../../pages/page-not-found/page-not-found';
 import { AppRoutes } from '../../const';
 import PrivateRoute from '../../components/private-route/private-route';
 import { FC } from 'react';
-import { browserHistory } from '../../browser-history';
-import HistoryRouter from '../history-route/history-route';
 
 const App: FC = () => (
-  <HistoryRouter history={browserHistory}>
-    <Routes>
-      <Route path={AppRoutes.root} element={<MainScreen />} >
-        <Route path={':city'} element={<MainScreen />} />
-      </Route>
+  <Routes>
+    <Route path={AppRoutes.root} element={<MainScreen />}>
+      <Route path={':city'} element={<MainScreen />} />
+    </Route>
 
-      <Route path={AppRoutes.login} element={<LoginScreen />} />
+    <Route path={AppRoutes.login} element={<LoginScreen />} />
 
-      <Route
-        path={AppRoutes.favorites}
-        element={
-          <PrivateRoute>
-            <FavoritesScreen />
-          </PrivateRoute>
-        }
-      />
+    <Route
+      path={AppRoutes.favorites}
+      element={
+        <PrivateRoute>
+          <FavoritesScreen />
+        </PrivateRoute>
+      }
+    />
 
-      <Route path={AppRoutes.offer}>
-        <Route path={':id'} element={<PropertyScreen />} />
-      </Route>
-
-      <Route path={'*'} element={<PageNotFound />} />
-      <Route path={AppRoutes.NotFound} element={<PageNotFound />} />
-    </Routes>
-  </HistoryRouter>
+    <Route path={`${AppRoutes.offer}/:id`} element={<PropertyScreen />} />
+    <Route path={'*'} element={<PageNotFound />} />
+    <Route path={AppRoutes.NotFound} element={<PageNotFound />} />
+  </Routes>
 );
 
 export default App;
