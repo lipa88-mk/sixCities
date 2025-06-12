@@ -1,10 +1,11 @@
 import { render, screen } from '@testing-library/react';
+import { vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import { SortingList } from './sorting-list';
 import { Sorting } from '../../const';
 
 describe('Application Routing', () => {
-  const onChange = jest.fn();
+  const onChange = vi.fn();
   it('should render current sorting', ()=>{
     const fakeComponent = <SortingList currentSorting={Sorting.Popular} onChange={onChange}/>;
     render(fakeComponent);

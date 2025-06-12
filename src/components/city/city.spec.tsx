@@ -4,12 +4,13 @@ import { City } from './city';
 import { cities } from '../../const';
 import { createMemoryHistory } from 'history';
 import HistoryRouter from '../history-route/history-route';
+import { vi } from 'vitest';
 
 describe('Component: City', () => {
   const history = createMemoryHistory();
 
   it('should be rendered correctly', () => {
-    const onClick = jest.fn();
+    const onClick = vi.fn();
 
     render(
       <HistoryRouter history={history}>
@@ -22,7 +23,7 @@ describe('Component: City', () => {
   });
 
   it('onClick should be called when user has chosen a city', async () => {
-    const onClick = jest.fn();
+    const onClick = vi.fn();
 
     render(
       <HistoryRouter history={history}>
