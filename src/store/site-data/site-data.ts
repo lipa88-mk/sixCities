@@ -3,9 +3,9 @@ import { SiteData } from '../../types/state';
 import { StoreSlice } from '../../const';
 import {
   fetchOffersAction,
-  fetchOfferAction,
+  // fetchOfferAction,
   fetchCommentsAction,
-  fetchNearByOffersAction,
+  // fetchNearByOffersAction,
   fetchFavoritesAction,
   postFavoriteAction,
   postCommentAction,
@@ -14,10 +14,10 @@ import {
 const initialState: SiteData = {
   offers: [],
   isOffersLoading: false,
-  currentOffer: null,
-  isCurrentOfferLoading: false,
+  // currentOffer: null,
+  // isCurrentOfferLoading: false,
   reviews: [],
-  nearByOffers: [],
+  // nearByOffers: [],
   favorites: [],
   isFavoritesLoading: false,
 };
@@ -42,17 +42,17 @@ export const siteData = createSlice({
       })
 
       // current offer:
-      .addCase(fetchOfferAction.pending, (state) => {
-        state.isCurrentOfferLoading = true;
-      })
-      .addCase(fetchOfferAction.fulfilled, (state, action) => {
-        state.currentOffer = action.payload;
-        state.isCurrentOfferLoading = false;
-      })
-      .addCase(fetchOfferAction.rejected, (state) => {
-        state.currentOffer = null;
-        state.isCurrentOfferLoading = false;
-      })
+      // .addCase(fetchOfferAction.pending, (state) => {
+      //   state.isCurrentOfferLoading = true;
+      // })
+      // .addCase(fetchOfferAction.fulfilled, (state, action) => {
+      //   state.currentOffer = action.payload;
+      //   state.isCurrentOfferLoading = false;
+      // })
+      // .addCase(fetchOfferAction.rejected, (state) => {
+      //   state.currentOffer = null;
+      //   state.isCurrentOfferLoading = false;
+      // })
 
       .addCase(fetchCommentsAction.fulfilled, (state, action) => {
         state.reviews = action.payload;
@@ -60,9 +60,9 @@ export const siteData = createSlice({
       .addCase(postCommentAction.fulfilled, (state, action) => {
         state.reviews = action.payload;
       })
-      .addCase(fetchNearByOffersAction.fulfilled, (state, action) => {
-        state.nearByOffers = action.payload;
-      })
+      // .addCase(fetchNearByOffersAction.fulfilled, (state, action) => {
+      //   state.nearByOffers = action.payload;
+      // })
 
       // favorites:
       .addCase(fetchFavoritesAction.pending, (state) => {
@@ -82,9 +82,9 @@ export const siteData = createSlice({
           offer.id === updatedOffer.id ? updatedOffer : offer
         );
 
-        if (state.currentOffer && state.currentOffer.id === updatedOffer.id) {
-          state.currentOffer = updatedOffer;
-        }
+        // if (state.currentOffer && state.currentOffer.id === updatedOffer.id) {
+        //   state.currentOffer = updatedOffer;
+        // }
 
         if (updatedOffer.isFavorite) {
           state.favorites = state.favorites.concat(updatedOffer);

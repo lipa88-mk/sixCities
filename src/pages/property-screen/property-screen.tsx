@@ -2,41 +2,47 @@ import { Navigate, useParams } from "react-router-dom";
 import { FC } from "react";
 import ReviewsList from "../../components/reviews-list/reviews-list";
 import { getRatingWidth } from "../../utils/utils";
-import { Map } from "../../components/map/Map";
-import Card from "../../components/card/card";
-import { useAppSelector } from "../../hooks";
+import { AxiosError } from 'axios';
 import { Spinner } from "../../components/spinner/spinner";
 import Bookmark from "../../components/bookmark/bookmark";
 import { Header } from "../../components/header/header";
-import { getCity } from "../../store/site-process/selectors";
-import { getNearbyOffers } from "../../store/site-data/selectors";
 import { useQuery } from "@tanstack/react-query";
-import { ApiRoute, AppRoutes } from "../../const";
+import { ApiRoute, AppRoutes, HttpCode } from "../../const";
 import { Offer } from "../../types/types";
+import { api } from "../../store";
+import { PropertyNearbyOffers } from "./property-nearby-offers";
 
 const PropertyScreen: FC = () => {
   const params = useParams();
+  const offerId = params.id;
 
-  const { error, data, isLoading } = useQuery({
-    queryKey: ["propertyData"],
+  const {
+    error,
+    isError,
+    data: currentOffer,
+    isLoading,
+  } = useQuery({
+    queryKey: ["propertyData",offerId],
     queryFn: async () => {
-      const response = await fetch(
-        `https://10.react.htmlacademy.pro/six-cities${ApiRoute.Offers}/${params.id}`
-      );
-      return await response.json();
+      try {
+        const response = await api.get<Offer>(
+          `${ApiRoute.Offers}/${offerId}`
+        );
+        return response.data;
+      } catch (error) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response?.status === HttpCode.NotFound) {
+          // ToDo: Handle not found error
+          throw new Error('Offer not found.');
+        }
+        throw error;
+      }
     },
+    enabled: !!offerId,
   });
 
-  const city = useAppSelector(getCity);
-  const nearbyOffers = useAppSelector(getNearbyOffers);
-
-  if (isLoading && !data) {
+  if (isLoading && !currentOffer) {
     return <Spinner />;
-  }
-
-  if (error) {
-    // processErrorHandle(error.message);
-    return <Navigate to={AppRoutes.NotFound} />;
   }
 
   const {
@@ -53,9 +59,16 @@ const PropertyScreen: FC = () => {
     host,
     description,
     id,
-  } = data as Offer;
+  } = currentOffer as Offer;
 
   const headerImages = images.slice(0, 6);
+
+  if (isError) {
+    if (error.message === 'Offer not found.') {
+      return <Navigate to={AppRoutes.NotFound} />
+    }
+    return <div>Произошла ошибка: {error.message}</div>;
+  }
 
   return (
     <div className="page">
@@ -162,25 +175,9 @@ const PropertyScreen: FC = () => {
               <ReviewsList />
             </div>
           </div>
-          <Map
-            locations={nearbyOffers.map((offer) => offer.location)}
-            city={city}
-            place="property"
-          />
         </section>
 
-        <div className="container">
-          <section className="near-places places">
-            <h2 className="near-places__title">
-              Other places in the neighbourhood
-            </h2>
-            <div className="near-places__list places__list">
-              {nearbyOffers.map((offer) => (
-                <Card key={offer.id} offer={offer} />
-              ))}
-            </div>
-          </section>
-        </div>
+        <PropertyNearbyOffers id={params.id!} />
       </main>
     </div>
   );

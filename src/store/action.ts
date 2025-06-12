@@ -84,14 +84,14 @@ export const postCommentAction = createAsyncThunk<
   return data;
 });
 
-export const fetchNearByOffersAction = createAsyncThunk<
-  Offer[],
-  Offer['id'],
-  { extra: AxiosInstance }
->('current-offer/near-by', async (id, { extra }) => {
-  const { data } = await extra.get<Offer[]>(`${ApiRoute.Offers}/${id}/nearby`);
-  return data;
-});
+// export const fetchNearByOffersAction = createAsyncThunk<
+//   Offer[],
+//   Offer['id'],
+//   { extra: AxiosInstance }
+// >('current-offer/near-by', async (id, { extra }) => {
+//   const { data } = await extra.get<Offer[]>(`${ApiRoute.Offers}/${id}/nearby`);
+//   return data;
+// });
 
 export const redirectToRoute = createAction<AppRoutes>('app/redirectToRoute');
 
@@ -135,21 +135,21 @@ export const postFavoriteAction = createAsyncThunk<
   }
 });
 
-export const fetchOfferAction = createAsyncThunk<
-  Offer,
-  Offer['id'],
-  {
-    extra: AxiosInstance;
-  }
->('current-offer/fetch', async (id, { dispatch, extra }) => {
-  try {
-    const { data } = await extra.get<Offer>(`${ApiRoute.Offers}/${id}`);
-    return data;
-  } catch (error) {
-    const axiosError = error as AxiosError;
-    if (axiosError.response?.status === HttpCode.NotFound) {
-      dispatch(redirectToRoute(AppRoutes.NotFound));
-    }
-    return Promise.reject(error);
-  }
-});
+// export const fetchOfferAction = createAsyncThunk<
+//   Offer,
+//   Offer['id'],
+//   {
+//     extra: AxiosInstance;
+//   }
+// >('current-offer/fetch', async (id, { dispatch, extra }) => {
+//   try {
+//     const { data } = await extra.get<Offer>(`${ApiRoute.Offers}/${id}`);
+//     return data;
+//   } catch (error) {
+//     const axiosError = error as AxiosError;
+//     if (axiosError.response?.status === HttpCode.NotFound) {
+//       dispatch(redirectToRoute(AppRoutes.NotFound));
+//     }
+//     return Promise.reject(error);
+//   }
+// });

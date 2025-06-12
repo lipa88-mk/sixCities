@@ -6,10 +6,10 @@ import { AuthorizationStatus } from '../const';
 export type SiteData = {
   offers: Offer[];
   isOffersLoading: boolean;
-  currentOffer: Offer | null;
-  isCurrentOfferLoading: boolean;
+  // currentOffer: Offer | null;
+  // isCurrentOfferLoading: boolean;
   reviews: Comment[];
-  nearByOffers: Offer[];
+  // nearByOffers: Offer[];
   favorites: Offer[];
   isFavoritesLoading: boolean;
 };
