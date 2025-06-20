@@ -2,9 +2,7 @@ import { siteData } from './site-data';
 
 import {
   fetchOffersAction,
-  fetchOfferAction,
   fetchCommentsAction,
-  fetchNearByOffersAction,
   fetchFavoritesAction,
   postFavoriteAction,
   postCommentAction,
@@ -16,10 +14,7 @@ import { cities, CityCenter } from '../../const';
 const initialState: SiteData = {
   offers: [],
   isOffersLoading: false,
-  currentOffer: null,
-  isCurrentOfferLoading: false,
   reviews: [],
-  nearByOffers: [],
   favorites: [],
   isFavoritesLoading: false,
 };
@@ -82,10 +77,7 @@ describe('Reducer: siteData', () => {
     ).toEqual({
       offers: [],
       isOffersLoading: true,
-      currentOffer: null,
-      isCurrentOfferLoading: false,
       reviews: [],
-      nearByOffers: [],
       favorites: [],
       isFavoritesLoading: false,
     });
@@ -98,10 +90,7 @@ describe('Reducer: siteData', () => {
     ).toEqual({
       offers: fetchedOffers,
       isOffersLoading: false,
-      currentOffer: null,
-      isCurrentOfferLoading: false,
       reviews: [],
-      nearByOffers: [],
       favorites: [],
       isFavoritesLoading: false,
     });
@@ -111,68 +100,17 @@ describe('Reducer: siteData', () => {
     ).toEqual({
       offers: [],
       isOffersLoading: false,
-      currentOffer: null,
-      isCurrentOfferLoading: false,
       reviews: [],
-      nearByOffers: [],
       favorites: [],
       isFavoritesLoading: false,
     });
-  });
-
-  it('should fetch current offer', () => {
-    const state = initialState;
-    expect(
-      siteData.reducer(state, { type: fetchOfferAction.pending.type })
-    ).toEqual({
-      offers: [],
-      isOffersLoading: false,
-      currentOffer: null,
-      isCurrentOfferLoading: true,
-      reviews: [],
-      nearByOffers: [],
-      favorites: [],
-      isFavoritesLoading: false,
-    });
-    expect(
-      siteData.reducer(state, {
-        type: fetchOfferAction.fulfilled.type,
-        payload: fetchedOffers[0],
-      })
-    ).toEqual({
-      offers: [],
-      isOffersLoading: false,
-      currentOffer: fetchedOffers[0],
-      isCurrentOfferLoading: false,
-      reviews: [],
-      nearByOffers: [],
-      favorites: [],
-      isFavoritesLoading: false,
-    });
-    expect(
-      siteData.reducer(state, { type: fetchOfferAction.rejected.type })
-    ).toEqual({
-      offers: [],
-      isOffersLoading: false,
-      currentOffer: null,
-      isCurrentOfferLoading: false,
-      reviews: [],
-      nearByOffers: [],
-      favorites: [],
-      isFavoritesLoading: false,
-    });
-
-    // comments:
   });
 
   it('should fetch reviews for current offer', () => {
     const state = {
       offers: [],
       isOffersLoading: false,
-      currentOffer: fetchedOffers[0],
-      isCurrentOfferLoading: false,
       reviews: [],
-      nearByOffers: [],
       favorites: [],
       isFavoritesLoading: false,
     };
@@ -184,10 +122,8 @@ describe('Reducer: siteData', () => {
     ).toEqual({
       offers: [],
       isOffersLoading: false,
-      currentOffer: fetchedOffers[0],
-      isCurrentOfferLoading: false,
+
       reviews: fetchedComments,
-      nearByOffers: [],
       favorites: [],
       isFavoritesLoading: false,
     });
@@ -197,10 +133,8 @@ describe('Reducer: siteData', () => {
     const state = {
       offers: [],
       isOffersLoading: false,
-      currentOffer: fetchedOffers[0],
-      isCurrentOfferLoading: false,
+
       reviews: [],
-      nearByOffers: [],
       favorites: [],
       isFavoritesLoading: false,
     };
@@ -212,38 +146,8 @@ describe('Reducer: siteData', () => {
     ).toEqual({
       offers: [],
       isOffersLoading: false,
-      currentOffer: fetchedOffers[0],
-      isCurrentOfferLoading: false,
-      reviews: fetchedComments,
-      nearByOffers: [],
-      favorites: [],
-      isFavoritesLoading: false,
-    });
-  });
 
-  it('should fetch nearby offers', () => {
-    const state = {
-      offers: [],
-      isOffersLoading: false,
-      currentOffer: fetchedOffers[0],
-      isCurrentOfferLoading: false,
-      reviews: [],
-      nearByOffers: [],
-      favorites: [],
-      isFavoritesLoading: false,
-    };
-    expect(
-      siteData.reducer(state, {
-        type: fetchNearByOffersAction.fulfilled.type,
-        payload: fetchedOffers,
-      })
-    ).toEqual({
-      offers: [],
-      isOffersLoading: false,
-      currentOffer: fetchedOffers[0],
-      isCurrentOfferLoading: false,
-      reviews: [],
-      nearByOffers: fetchedOffers,
+      reviews: fetchedComments,
       favorites: [],
       isFavoritesLoading: false,
     });
@@ -257,10 +161,8 @@ describe('Reducer: siteData', () => {
     ).toEqual({
       offers: [],
       isOffersLoading: false,
-      currentOffer: null,
-      isCurrentOfferLoading: false,
+
       reviews: [],
-      nearByOffers: [],
       favorites: [],
       isFavoritesLoading: true,
     });
@@ -272,10 +174,8 @@ describe('Reducer: siteData', () => {
     ).toEqual({
       offers: [],
       isOffersLoading: false,
-      currentOffer: null,
-      isCurrentOfferLoading: false,
+
       reviews: [],
-      nearByOffers: [],
       favorites: fetchedOffers,
       isFavoritesLoading: false,
     });
@@ -288,10 +188,8 @@ describe('Reducer: siteData', () => {
     const state: SiteData = {
       offers: fetchedOffers,
       isOffersLoading: false,
-      currentOffer: null,
-      isCurrentOfferLoading: false,
+
       reviews: [],
-      nearByOffers: [],
       favorites: [],
       isFavoritesLoading: false,
     };
@@ -304,11 +202,9 @@ describe('Reducer: siteData', () => {
     ).toEqual({
       offers: [{ ...fetchedOffers[0], isFavorite: true }],
       isOffersLoading: false,
-      currentOffer: null,
-      isCurrentOfferLoading: false,
+
       favorites: [{ ...fetchedOffers[0], isFavorite: true }],
       reviews: [],
-      nearByOffers: [],
       isFavoritesLoading: false,
     });
 
@@ -323,11 +219,9 @@ describe('Reducer: siteData', () => {
     ).toEqual({
       offers: fetchedOffers,
       isOffersLoading: false,
-      currentOffer: null,
-      isCurrentOfferLoading: false,
+
       favorites: [],
       reviews: [],
-      nearByOffers: [],
       isFavoritesLoading: false,
     });
   });

@@ -67,7 +67,7 @@ const PropertyScreen: FC = () => {
     if (error.message === 'Offer not found.') {
       return <Navigate to={AppRoutes.NotFound} />
     }
-    return <div>Произошла ошибка: {error.message}</div>;
+    return <div>An error occurred: {error.message}</div>;
   }
 
   return (

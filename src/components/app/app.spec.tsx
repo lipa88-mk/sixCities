@@ -52,10 +52,7 @@ const store = mockStore({
   SITE_DATA: {
     offers: offers,
     isOffersLoading: false,
-    currentOffer: offers[0],
-    isCurrentOfferLoading: false,
     reviews: [],
-    nearByOffers: [],
     favorites: offers,
     isFavoritesLoading: false,
   },

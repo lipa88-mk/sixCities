@@ -15,7 +15,7 @@ import { browserHistory } from "./browser-history";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 root.render(
   <React.StrictMode>
