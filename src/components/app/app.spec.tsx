@@ -50,8 +50,7 @@ const offers: Offer[] = [
 
 const store = mockStore({
   SITE_DATA: {
-    offers: offers,
-    isOffersLoading: false,
+    
     reviews: [],
     favorites: offers,
     isFavoritesLoading: false,

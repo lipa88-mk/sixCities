@@ -5,13 +5,30 @@ import { Spinner } from '../../components/spinner/spinner';
 import { MainEmptyScreen } from './main-screen-empty';
 import CardsList from '../../components/cards-list/cards-list';
 import { getCity, getSorting } from '../../store/site-process/selectors';
-import { getIsOffersLoading, selectOffers } from '../../store/site-data/selectors';
+import { useQuery } from '@tanstack/react-query';
+import { api } from '../../store';
+import { Offer } from '../../types/types';
+import { ApiRoute, SortingFunctions } from '../../const';
 
 const MainScreenContent: FC = () => {
   const activeSorting = useAppSelector(getSorting);
   const activeCity = useAppSelector(getCity);
-  const offers = useAppSelector(selectOffers);
-  const isOffersLoading = useAppSelector(getIsOffersLoading);
+
+  const {data, isLoading: isOffersLoading} = useQuery({
+    queryKey: ["offers"],
+    queryFn: async () => {
+      try {
+        const response = await api.get<Offer[]>(ApiRoute.Offers);
+        return response.data;
+      } catch (error) {
+        const axiosError = error as Error;
+        console.error('Error fetching offers:', axiosError.message);
+        throw axiosError;
+      }
+    }
+  });
+
+  const offers = data?.filter((offer) => offer.city.name === activeCity.name).sort(SortingFunctions[activeSorting]);
   const isEmpty = !isOffersLoading && !offers;
 
   return (
@@ -39,7 +56,7 @@ const MainScreenContent: FC = () => {
           {!isOffersLoading && !isEmpty && (
             <CardsList
               activeSorting={activeSorting}
-              offers={offers}
+              offers={offers ?? []}
               activeCity={activeCity}
             />
           )}

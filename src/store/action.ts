@@ -86,15 +86,6 @@ export const postCommentAction = createAsyncThunk<
 
 export const redirectToRoute = createAction<AppRoutes>('app/redirectToRoute');
 
-export const fetchOffersAction = createAsyncThunk<
-  Offer[],
-  undefined,
-  { extra: AxiosInstance }
->('offers/fetch', async (_, { extra }) => {
-  const { data } = await extra.get<Offer[]>(ApiRoute.Offers);
-  return data;
-});
-
 export const fetchFavoritesAction = createAsyncThunk<
   Offer[],
   undefined,
