@@ -21,6 +21,18 @@ export const useFetchOffers = () => {
   })
 }
 
+export const useFetchNearbyOffers = (id: string)=> {
+  return useQuery({
+        queryKey: ["nearbyOffersData"],
+        queryFn: async () => {
+          const response = await api.get<Offer[]>(
+            `${ApiRoute.Offers}/${id}/nearby`
+          );
+          return response.data;
+        },
+      });
+}
+
 export const useFetchProperty = (offerId: string | undefined) => {
   return useQuery({
       queryKey: ["propertyData",offerId],
@@ -52,8 +64,7 @@ return useMutation<Offer, unknown, number>({
       );
       return data;
     },
-    onSuccess: (data) => {
-      console.log("Bookmark updated successfully:", data);
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["propertyData"] });
       queryClient.invalidateQueries({ queryKey: ["offers"] });
       queryClient.invalidateQueries({ queryKey: ["favorites"] });

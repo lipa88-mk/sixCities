@@ -6,25 +6,8 @@ import { useFetchFavorites } from "../../services/queries";
 
 const FavoritesScreen = (): JSX.Element => {
   const { data: favorites } = useFetchFavorites();
-
   const isEmpty = favorites?.length === 0;
-
-  const groupedOffersByCity =favorites ? favorites.reduce<{ [key: string]: Offer[] }>(
-    (acc, curr) => {
-      if (curr.isFavorite) {
-        const city = curr.city.name;
-
-        if (!(city in acc)) {
-          acc[city] = [];
-        }
-
-        acc[city].push(curr);
-      }
-
-      return acc;
-    },
-    {}
-  ) : {};
+  const groupedOffersByCity = favorites ? Object.groupBy(favorites, ({city}) => city.name) : {};
 
   return (
     <div className={["page", isEmpty && "page--favorites-empty"].join(" ")}>

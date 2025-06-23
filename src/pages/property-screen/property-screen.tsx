@@ -39,7 +39,7 @@ const PropertyScreen: FC = () => {
     host,
     description,
     id,
-  } = currentOffer as Offer;
+  } = currentOffer!;
 
   const headerImages = images.slice(0, 6);
 

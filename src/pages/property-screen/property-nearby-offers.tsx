@@ -3,11 +3,8 @@ import Card from "../../components/card/card";
 import { Map } from "../../components/map/Map";
 import { useAppSelector } from "../../hooks";
 import { getCity } from "../../store/site-process/selectors";
-import { ApiRoute } from "../../const";
-import { api } from "../../store";
-import { useQuery } from "@tanstack/react-query";
-import { Offer } from "../../types/types";
 import { Spinner } from "../../components/spinner/spinner";
+import { useFetchNearbyOffers } from "../../services/queries";
 
 type PropertyNearbyOffersProps = {
   id: string
@@ -15,15 +12,7 @@ type PropertyNearbyOffersProps = {
 
 export const PropertyNearbyOffers: FC<PropertyNearbyOffersProps> = ({id}) => {
   const city = useAppSelector(getCity);
-   const { data: nearbyOffers, isLoading: isNearbyOffersLoading } = useQuery({
-      queryKey: ["nearbyOffersData"],
-      queryFn: async () => {
-        const response = await api.get<Offer[]>(
-          `${ApiRoute.Offers}/${id}/nearby`
-        );
-        return response.data;
-      },
-    });
+   const { data: nearbyOffers, isLoading: isNearbyOffersLoading } = useFetchNearbyOffers(id);
 
     if (isNearbyOffersLoading && !nearbyOffers) {
       return <Spinner />;
