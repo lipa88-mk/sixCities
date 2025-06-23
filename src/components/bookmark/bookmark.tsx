@@ -1,9 +1,6 @@
 import { FC, MouseEventHandler } from "react";
 import { Offer } from "../../types/types";
-import { useMutation } from "@tanstack/react-query";
-import { api } from "../../store";
-import { ApiRoute } from "../../const";
-import { queryClient } from "../..";
+import { useUpdateFavorites } from "../../services/queries";
 
 type BookmarkProps = {
   placement: "property" | "place-card";
@@ -16,21 +13,7 @@ const Bookmark: FC<BookmarkProps> = ({
   isFavorite = false,
   id,
 }) => {
-  const mutation = useMutation<Offer, unknown, number>({
-    mutationFn: async (status: number) => {
-      const { data } = await api.post<Offer>(
-        `${ApiRoute.Favorites}/${id}/${status}`,
-        status
-      );
-      return data;
-    },
-    onSuccess: (data) => {
-      console.log("Bookmark updated successfully:", data);
-      queryClient.invalidateQueries({ queryKey: ["propertyData"] });
-      queryClient.invalidateQueries({ queryKey: ["offers"] });
-      queryClient.invalidateQueries({ queryKey: ["favorites"] });
-    },
-  });
+  const mutation = useUpdateFavorites(id);
 
   const iconSizes: Record<
     BookmarkProps["placement"],

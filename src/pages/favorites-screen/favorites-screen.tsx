@@ -1,26 +1,11 @@
 import { Offer } from "../../types/types";
 import Card from "../../components/card/card";
-import { useAppSelector } from "../../hooks";
 import { FavoritesEmptyScreen } from "./favorites-empty-screen";
 import { Header } from "../../components/header/header";
-import { useQuery } from "@tanstack/react-query";
-import { api } from "../../store";
-import { ApiRoute } from "../../const";
+import { useFetchFavorites } from "../../services/queries";
 
 const FavoritesScreen = (): JSX.Element => {
-  const { data: favorites } = useQuery({
-    queryKey: ["favorites"],
-    queryFn: async () => {
-      try {
-        const response = await api.get<Offer[]>(ApiRoute.Favorites);
-        return response.data;
-      } catch (error) {
-        const axiosError = error as Error;
-        console.error("Error fetching favorites:", axiosError.message);
-        throw axiosError;
-      }
-    },
-  });
+  const { data: favorites } = useFetchFavorites();
 
   const isEmpty = favorites?.length === 0;
 

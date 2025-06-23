@@ -1,12 +1,10 @@
 import { Link } from 'react-router-dom';
-import { ApiRoute, AppRoutes, AuthorizationStatus } from '../../const';
+import { AppRoutes, AuthorizationStatus } from '../../const';
 import { FC } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getAuthorizationStatus, getUser } from '../../store/user-process/selectors';
 import { logoutAction } from '../../store/action';
-import { useQuery } from '@tanstack/react-query';
-import { api } from '../../store';
-import { Offer } from '../../types/types';
+import { useFetchFavorites } from '../../services/queries';
 
 const Authorization: FC = () => {
   const dispatch = useAppDispatch();
@@ -15,19 +13,7 @@ const Authorization: FC = () => {
     AuthorizationStatus.Auth;
   const user = useAppSelector(getUser);
 
-  const {data} = useQuery({
-    queryKey: ["favorites"],
-    queryFn: async () => {
-      try {
-        const response = await api.get<Offer[]>(ApiRoute.Favorites);
-        return response.data;
-      } catch (error) {
-        const axiosError = error as Error;
-        console.error('Error fetching favorites:', axiosError.message);
-        throw axiosError;
-      }
-    }
-  });
+  const {data} = useFetchFavorites();
 
   const favoritesNumber = data?.length || 0;
 

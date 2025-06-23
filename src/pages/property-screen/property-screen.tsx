@@ -2,15 +2,13 @@ import { Navigate, useParams } from "react-router-dom";
 import { FC } from "react";
 import ReviewsList from "../../components/reviews-list/reviews-list";
 import { getRatingWidth } from "../../utils/utils";
-import { AxiosError } from 'axios';
 import { Spinner } from "../../components/spinner/spinner";
 import Bookmark from "../../components/bookmark/bookmark";
 import { Header } from "../../components/header/header";
-import { useQuery } from "@tanstack/react-query";
-import { ApiRoute, AppRoutes, HttpCode } from "../../const";
+import { AppRoutes } from "../../const";
 import { Offer } from "../../types/types";
-import { api } from "../../store";
 import { PropertyNearbyOffers } from "./property-nearby-offers";
+import { useFetchProperty } from "../../services/queries";
 
 const PropertyScreen: FC = () => {
   const params = useParams();
@@ -21,25 +19,7 @@ const PropertyScreen: FC = () => {
     isError,
     data: currentOffer,
     isLoading,
-  } = useQuery({
-    queryKey: ["propertyData",offerId],
-    queryFn: async () => {
-      try {
-        const response = await api.get<Offer>(
-          `${ApiRoute.Offers}/${offerId}`
-        );
-        return response.data;
-      } catch (error) {
-        const axiosError = error as AxiosError;
-        if (axiosError.response?.status === HttpCode.NotFound) {
-          // ToDo: Handle not found error
-          throw new Error('Offer not found.');
-        }
-        throw error;
-      }
-    },
-    enabled: !!offerId,
-  });
+  } = useFetchProperty(offerId);
 
   if (isLoading && !currentOffer) {
     return <Spinner />;
