@@ -28,6 +28,7 @@ const Bookmark: FC<BookmarkProps> = ({
       console.log("Bookmark updated successfully:", data);
       queryClient.invalidateQueries({ queryKey: ["propertyData"] });
       queryClient.invalidateQueries({ queryKey: ["offers"] });
+      queryClient.invalidateQueries({ queryKey: ["favorites"] });
     },
   });
 

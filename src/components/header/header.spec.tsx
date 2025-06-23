@@ -63,10 +63,7 @@ describe('Component: Header', () => {
 
     const store = mockStore({
       SITE_DATA: {
-       
         reviews: [],
-        favorites: offers,
-        isFavoritesLoading: false,
       },
       SITE_PROCESS: {
         city: {

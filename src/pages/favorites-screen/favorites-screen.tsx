@@ -1,15 +1,30 @@
-import { Offer } from '../../types/types';
-import Card from '../../components/card/card';
-import { useAppSelector } from '../../hooks';
-import { FavoritesEmptyScreen } from './favorites-empty-screen';
-import { Header } from '../../components/header/header';
-import { getFavoriteOffers } from '../../store/site-data/selectors';
+import { Offer } from "../../types/types";
+import Card from "../../components/card/card";
+import { useAppSelector } from "../../hooks";
+import { FavoritesEmptyScreen } from "./favorites-empty-screen";
+import { Header } from "../../components/header/header";
+import { useQuery } from "@tanstack/react-query";
+import { api } from "../../store";
+import { ApiRoute } from "../../const";
 
 const FavoritesScreen = (): JSX.Element => {
-  const favorites = useAppSelector(getFavoriteOffers);
-  const isEmpty = favorites.length === 0;
+  const { data: favorites } = useQuery({
+    queryKey: ["favorites"],
+    queryFn: async () => {
+      try {
+        const response = await api.get<Offer[]>(ApiRoute.Favorites);
+        return response.data;
+      } catch (error) {
+        const axiosError = error as Error;
+        console.error("Error fetching favorites:", axiosError.message);
+        throw axiosError;
+      }
+    },
+  });
 
-  const groupedOffersByCity = favorites.reduce<{ [key: string]: Offer[] }>(
+  const isEmpty = favorites?.length === 0;
+
+  const groupedOffersByCity =favorites ? favorites.reduce<{ [key: string]: Offer[] }>(
     (acc, curr) => {
       if (curr.isFavorite) {
         const city = curr.city.name;
@@ -24,21 +39,21 @@ const FavoritesScreen = (): JSX.Element => {
       return acc;
     },
     {}
-  );
+  ) : {};
 
   return (
-    <div className={['page', isEmpty && 'page--favorites-empty'].join(' ')}>
-      <Header/>
+    <div className={["page", isEmpty && "page--favorites-empty"].join(" ")}>
+      <Header />
 
       <main
         className={[
-          'page__main page__main--favorites',
-          isEmpty && 'page__main--favorites-empty',
-        ].join(' ')}
+          "page__main page__main--favorites",
+          isEmpty && "page__main--favorites-empty",
+        ].join(" ")}
       >
         <div className="page__favorites-container container">
           <section
-            className={['favorites', isEmpty && 'favorites--empty'].join(' ')}
+            className={["favorites", isEmpty && "favorites--empty"].join(" ")}
           >
             {isEmpty ? (
               <FavoritesEmptyScreen />

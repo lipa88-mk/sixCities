@@ -5,8 +5,6 @@ import { AuthorizationStatus } from '../const';
 
 export type SiteData = {
   reviews: Comment[];
-  favorites: Offer[];
-  isFavoritesLoading: boolean;
 };
 
 export type SiteProcess = {

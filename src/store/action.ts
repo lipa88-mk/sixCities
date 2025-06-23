@@ -85,35 +85,3 @@ export const postCommentAction = createAsyncThunk<
 });
 
 export const redirectToRoute = createAction<AppRoutes>('app/redirectToRoute');
-
-export const fetchFavoritesAction = createAsyncThunk<
-  Offer[],
-  undefined,
-  { extra: AxiosInstance }
->('favorites/load', async (_, { extra }) => {
-  const { data } = await extra.get<Offer[]>(ApiRoute.Favorites);
-  return data;
-});
-
-export const postFavoriteAction = createAsyncThunk<
-  Offer,
-  FavoriteAuth,
-  { extra: AxiosInstance }
->('favorites/post', async ({ id, status }, { dispatch, extra }) => {
-  try {
-    const { data } = await extra.post<Offer>(
-      `${ApiRoute.Favorites}/${id}/${status}`
-    );
-
-    return data;
-  } catch (error) {
-    const axiosError = error as AxiosError;
-
-    if (axiosError.response?.status === HttpCode.NoAuth) {
-      dispatch(redirectToRoute(AppRoutes.login));
-    }
-
-    return Promise.reject(error);
-  }
-});
-

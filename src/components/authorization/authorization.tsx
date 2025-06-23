@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
-import { AppRoutes, AuthorizationStatus } from '../../const';
+import { ApiRoute, AppRoutes, AuthorizationStatus } from '../../const';
 import { FC } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getAuthorizationStatus, getUser } from '../../store/user-process/selectors';
-import { getFavoriteOffers } from '../../store/site-data/selectors';
 import { logoutAction } from '../../store/action';
+import { useQuery } from '@tanstack/react-query';
+import { api } from '../../store';
+import { Offer } from '../../types/types';
 
 const Authorization: FC = () => {
   const dispatch = useAppDispatch();
@@ -12,7 +14,22 @@ const Authorization: FC = () => {
     useAppSelector(getAuthorizationStatus) ===
     AuthorizationStatus.Auth;
   const user = useAppSelector(getUser);
-  const favoritesNumber = useAppSelector(getFavoriteOffers).length;
+
+  const {data} = useQuery({
+    queryKey: ["favorites"],
+    queryFn: async () => {
+      try {
+        const response = await api.get<Offer[]>(ApiRoute.Favorites);
+        return response.data;
+      } catch (error) {
+        const axiosError = error as Error;
+        console.error('Error fetching favorites:', axiosError.message);
+        throw axiosError;
+      }
+    }
+  });
+
+  const favoritesNumber = data?.length || 0;
 
   const handleSignOut: React.MouseEventHandler<HTMLAnchorElement> = (evt) => {
     evt.preventDefault();
@@ -39,7 +56,7 @@ const Authorization: FC = () => {
               <span className="header__user-name user__name">
                 {user?.email}
               </span>
-              <span className="header__favorite-count">{favoritesNumber || '0'}</span>
+              <span className="header__favorite-count">{favoritesNumber}</span>
             </>
           )}
           {!isLogged && (
