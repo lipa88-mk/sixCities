@@ -1,41 +1,37 @@
-import { FC, MouseEventHandler } from 'react';
-import { useAppDispatch } from '../../hooks';
-import { Offer } from '../../types/types';
-import { postFavoriteAction } from '../../store/action';
+import { FC, MouseEventHandler } from "react";
+import { Offer } from "../../types/types";
+import { useUpdateFavorites } from "../../services/queries";
 
 type BookmarkProps = {
-  placement: 'property' | 'place-card';
+  placement: "property" | "place-card";
   isFavorite: boolean;
-  id: Offer['id'];
+  id: Offer["id"];
 };
 
 const Bookmark: FC<BookmarkProps> = ({
-  placement = 'property',
+  placement = "property",
   isFavorite = false,
-  id
+  id,
 }) => {
-
-  const dispatch = useAppDispatch();
+  const mutation = useUpdateFavorites(id);
 
   const iconSizes: Record<
-    BookmarkProps['placement'],
+    BookmarkProps["placement"],
     { width: number; height: number }
   > = {
     property: {
       width: 31,
       height: 33,
     },
-    'place-card': {
+    "place-card": {
       width: 18,
       height: 19,
     },
   };
 
   const handleBookmarkClick: MouseEventHandler<HTMLButtonElement> = () => {
-    dispatch(postFavoriteAction({
-      id,
-      status: isFavorite ? 0 : 1
-    }));
+    const status = isFavorite ? 0 : 1;
+    mutation.mutate(status);
   };
 
   return (
@@ -43,7 +39,7 @@ const Bookmark: FC<BookmarkProps> = ({
       className={[
         `${placement}__bookmark-button button`,
         isFavorite && `${placement}__bookmark-button--active`,
-      ].join(' ')}
+      ].join(" ")}
       type="button"
       onClick={handleBookmarkClick}
     >
@@ -55,7 +51,7 @@ const Bookmark: FC<BookmarkProps> = ({
         <use xlinkHref="#icon-bookmark"></use>
       </svg>
       <span className="visually-hidden">
-        {isFavorite ? 'In bookmarks' : 'To bookmarks'}
+        {isFavorite ? "In bookmarks" : "To bookmarks"}
       </span>
     </button>
   );

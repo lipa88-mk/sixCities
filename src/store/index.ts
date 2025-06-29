@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { createAPI } from '../services/api';
 import { rootReducer } from './root-reducer';
 import { redirect } from './middlewares/redirect';
-import { fetchOffersAction, checkAuthAction, fetchFavoritesAction } from './action';
+import { checkAuthAction } from './action';
 
 export const api = createAPI();
 
@@ -17,7 +17,3 @@ export const store = configureStore({
 });
 
 store.dispatch(checkAuthAction());
-store.dispatch(fetchOffersAction());
-store.dispatch(fetchFavoritesAction());
-
-

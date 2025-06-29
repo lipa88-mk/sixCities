@@ -5,13 +5,16 @@ import { Spinner } from '../../components/spinner/spinner';
 import { MainEmptyScreen } from './main-screen-empty';
 import CardsList from '../../components/cards-list/cards-list';
 import { getCity, getSorting } from '../../store/site-process/selectors';
-import { getIsOffersLoading, selectOffers } from '../../store/site-data/selectors';
+import { SortingFunctions } from '../../const';
+import { useFetchOffers } from '../../services/queries';
 
 const MainScreenContent: FC = () => {
   const activeSorting = useAppSelector(getSorting);
   const activeCity = useAppSelector(getCity);
-  const offers = useAppSelector(selectOffers);
-  const isOffersLoading = useAppSelector(getIsOffersLoading);
+
+  const {data, isLoading: isOffersLoading} = useFetchOffers();
+
+  const offers = data?.filter((offer) => offer.city.name === activeCity.name).sort(SortingFunctions[activeSorting]);
   const isEmpty = !isOffersLoading && !offers;
 
   return (
@@ -39,7 +42,7 @@ const MainScreenContent: FC = () => {
           {!isOffersLoading && !isEmpty && (
             <CardsList
               activeSorting={activeSorting}
-              offers={offers}
+              offers={offers ?? []}
               activeCity={activeCity}
             />
           )}

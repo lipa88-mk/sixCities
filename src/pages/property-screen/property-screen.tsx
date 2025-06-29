@@ -1,50 +1,58 @@
-import { useParams } from 'react-router-dom';
-import { FC, useEffect } from 'react';
-import ReviewsList from '../../components/reviews-list/reviews-list';
-import { getRatingWidth } from '../../utils/utils';
-import { Map } from '../../components/map/Map';
-import Card from '../../components/card/card';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchNearByOffersAction } from '../../store/action';
-import { fetchOfferAction } from '../../store/action';
-import { Spinner } from '../../components/spinner/spinner';
-import Bookmark from '../../components/bookmark/bookmark';
-import { Header } from '../../components/header/header';
-import { getCity } from '../../store/site-process/selectors';
-import { getIsOfferLoading, getNearbyOffers, getOffer } from '../../store/site-data/selectors';
+import { Navigate, useParams } from "react-router-dom";
+import { FC } from "react";
+import ReviewsList from "../../components/reviews-list/reviews-list";
+import { getRatingWidth } from "../../utils/utils";
+import { Spinner } from "../../components/spinner/spinner";
+import Bookmark from "../../components/bookmark/bookmark";
+import { Header } from "../../components/header/header";
+import { AppRoutes } from "../../const";
+import { Offer } from "../../types/types";
+import { PropertyNearbyOffers } from "./property-nearby-offers";
+import { useFetchProperty } from "../../services/queries";
 
 const PropertyScreen: FC = () => {
   const params = useParams();
-  const dispatch = useAppDispatch();
+  const offerId = params.id;
 
-  useEffect(() => {
-    const { id } = params;
+  const {
+    error,
+    isError,
+    data: currentOffer,
+    isLoading,
+  } = useFetchProperty(offerId);
 
-    if (id) {
-      const parsedId = Number(id);
-      dispatch(fetchOfferAction(parsedId));
-      dispatch(fetchNearByOffersAction(parsedId));
-    }
-  }, [params, dispatch]);
-
-  const city = useAppSelector(getCity);
-  const currentOffer = useAppSelector(getOffer);
-  const nearbyOffers = useAppSelector(getNearbyOffers);
-  const isCurrentOfferLoading = useAppSelector(getIsOfferLoading);
-
-  if (isCurrentOfferLoading) {
-    return <Spinner/>;
-  }
-  if (!currentOffer) {
-    return null;
+  if (isLoading && !currentOffer) {
+    return <Spinner />;
   }
 
-  const { title, type, price, rating, isPremium, isFavorite, images, bedrooms, maxAdults, goods, host, description, id } =
-    currentOffer;
+  const {
+    title,
+    type,
+    price,
+    rating,
+    isPremium,
+    isFavorite,
+    images,
+    bedrooms,
+    maxAdults,
+    goods,
+    host,
+    description,
+    id,
+  } = currentOffer!;
+
   const headerImages = images.slice(0, 6);
+
+  if (isError) {
+    if (error.message === 'Offer not found.') {
+      return <Navigate to={AppRoutes.NotFound} />
+    }
+    return <div>An error occurred: {error.message}</div>;
+  }
+
   return (
     <div className="page">
-      <Header/>
+      <Header />
 
       <main className="page__main page__main--property">
         <section className="property">
@@ -72,7 +80,7 @@ const PropertyScreen: FC = () => {
               <div className="property__name-wrapper">
                 <h1 className="property__name">{title}</h1>
                 <Bookmark
-                  placement='property'
+                  placement="property"
                   isFavorite={isFavorite}
                   id={id}
                 />
@@ -108,16 +116,23 @@ const PropertyScreen: FC = () => {
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
-                  {goods.map(
-                    (item) => <li key={item} className="property__inside-item">{item}</li>
-                  )}
+                  {goods.map((item) => (
+                    <li key={item} className="property__inside-item">
+                      {item}
+                    </li>
+                  ))}
                 </ul>
               </div>
 
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
-                  <div className={['property__avatar-wrapper user__avatar-wrapper', host.isPro && 'property__avatar-wrapper--pro'].join(' ')}>
+                  <div
+                    className={[
+                      "property__avatar-wrapper user__avatar-wrapper",
+                      host.isPro && "property__avatar-wrapper--pro",
+                    ].join(" ")}
+                  >
                     <img
                       className="property__avatar user__avatar"
                       src={host.avatarUrl}
@@ -127,38 +142,22 @@ const PropertyScreen: FC = () => {
                     />
                   </div>
                   <span className="property__user-name">{host.name}</span>
-                  {host.isPro && <span className="property__user-status">Pro</span>}
+                  {host.isPro && (
+                    <span className="property__user-status">Pro</span>
+                  )}
                 </div>
 
                 <div className="property__description">
-                  <p className="property__text">
-                    {description}
-                  </p>
+                  <p className="property__text">{description}</p>
                 </div>
               </div>
 
               <ReviewsList />
             </div>
           </div>
-          <Map
-            locations={nearbyOffers.map((offer) => offer.location)}
-            city={city}
-            place="property"
-          />
         </section>
 
-        <div className="container">
-          <section className="near-places places">
-            <h2 className="near-places__title">
-              Other places in the neighbourhood
-            </h2>
-            <div className="near-places__list places__list">
-              {nearbyOffers.map((offer) => (
-                <Card key={offer.id} offer={offer} />
-              ))}
-            </div>
-          </section>
-        </div>
+        <PropertyNearbyOffers id={params.id!} />
       </main>
     </div>
   );

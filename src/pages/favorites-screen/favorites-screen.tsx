@@ -1,44 +1,27 @@
-import { Offer } from '../../types/types';
-import Card from '../../components/card/card';
-import { useAppSelector } from '../../hooks';
-import { FavoritesEmptyScreen } from './favorites-empty-screen';
-import { Header } from '../../components/header/header';
-import { getFavoriteOffers } from '../../store/site-data/selectors';
+import { Offer } from "../../types/types";
+import Card from "../../components/card/card";
+import { FavoritesEmptyScreen } from "./favorites-empty-screen";
+import { Header } from "../../components/header/header";
+import { useFetchFavorites } from "../../services/queries";
 
 const FavoritesScreen = (): JSX.Element => {
-  const favorites = useAppSelector(getFavoriteOffers);
-  const isEmpty = favorites.length === 0;
-
-  const groupedOffersByCity = favorites.reduce<{ [key: string]: Offer[] }>(
-    (acc, curr) => {
-      if (curr.isFavorite) {
-        const city = curr.city.name;
-
-        if (!(city in acc)) {
-          acc[city] = [];
-        }
-
-        acc[city].push(curr);
-      }
-
-      return acc;
-    },
-    {}
-  );
+  const { data: favorites } = useFetchFavorites();
+  const isEmpty = favorites?.length === 0;
+  const groupedOffersByCity = favorites ? Object.groupBy(favorites, ({city}) => city.name) : {};
 
   return (
-    <div className={['page', isEmpty && 'page--favorites-empty'].join(' ')}>
-      <Header/>
+    <div className={["page", isEmpty && "page--favorites-empty"].join(" ")}>
+      <Header />
 
       <main
         className={[
-          'page__main page__main--favorites',
-          isEmpty && 'page__main--favorites-empty',
-        ].join(' ')}
+          "page__main page__main--favorites",
+          isEmpty && "page__main--favorites-empty",
+        ].join(" ")}
       >
         <div className="page__favorites-container container">
           <section
-            className={['favorites', isEmpty && 'favorites--empty'].join(' ')}
+            className={["favorites", isEmpty && "favorites--empty"].join(" ")}
           >
             {isEmpty ? (
               <FavoritesEmptyScreen />
