@@ -8,16 +8,16 @@ import { PropertyNearbyOffers } from "./property-nearby-offers";
 import { useFetchProperty } from "../../services/queries";
 import { Navigate } from "@tanstack/react-router";
 import { Route } from "../../routes/cities_.$name.$id";
+import PageNotFound from "../page-not-found/page-not-found";
 
 const PropertyScreen: FC = () => {
   const { id: offerId } = Route.useParams();
 
-  const {
-    error,
-    isError,
-    data: currentOffer,
-    isLoading,
-  } = useFetchProperty(offerId);
+  const { data: currentOffer, isLoading } = useFetchProperty(offerId);
+
+  if (!currentOffer) {
+    return <PageNotFound />;
+  }
 
   if (isLoading && !currentOffer) {
     return <Spinner />;
@@ -37,16 +37,9 @@ const PropertyScreen: FC = () => {
     host,
     description,
     id,
-  } = currentOffer!;
+  } = currentOffer;
 
   const headerImages = images.slice(0, 6);
-
-  if (isError) {
-    if (error.message === "Offer not found.") {
-      return <Navigate to={"/404"} />;
-    }
-    return <div>An error occurred: {error.message}</div>;
-  }
 
   return (
     <div className="page">
