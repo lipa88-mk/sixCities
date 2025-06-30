@@ -1,20 +1,19 @@
-import { FC, memo } from 'react';
-import type { Offer } from '../../types/types';
-import { Link } from 'react-router-dom';
-import { AppRoutes } from '../../const';
-import {getRatingWidth} from '../../utils/utils';
-import Bookmark from '../bookmark/bookmark';
+import { FC, memo } from "react";
+import type { Offer } from "../../types/types";
+import { getRatingWidth } from "../../utils/utils";
+import Bookmark from "../bookmark/bookmark";
+import { Link } from "@tanstack/react-router";
 
 export type CardProps = {
   offer: Offer;
   onMouseMove?: (id: number) => void;
   onMouseLeave?: () => void;
-  place?: 'cities' | 'favorites' | 'near-places';
+  place?: "cities" | "favorites" | "near-places";
 };
 
 const Card: FC<CardProps> = ({
   offer,
-  place = 'cities',
+  place = "cities",
   onMouseMove = () => void 0,
   onMouseLeave = () => void 0,
 }) => {
@@ -34,17 +33,17 @@ const Card: FC<CardProps> = ({
   };
 
   const cardImgSizes = {
-    cities: { width: '260', height: '200' },
-    'near-places': { width: '260', height: '200' },
-    favorites: { width: '150', height: '110' },
+    cities: { width: "260", height: "200" },
+    "near-places": { width: "260", height: "200" },
+    favorites: { width: "150", height: "110" },
   };
 
   return (
     <article
       className={[
-        'place-card',
-        place === 'cities' ? 'cities__place-card' : `${place}__card`,
-      ].join(' ')}
+        "place-card",
+        place === "cities" ? "cities__place-card" : `${place}__card`,
+      ].join(" ")}
       onMouseMove={handleMouseMove}
       onMouseLeave={onMouseLeave}
     >
@@ -54,7 +53,10 @@ const Card: FC<CardProps> = ({
         </div>
       )}
       <div className={`${place}__image-wrapper place-card__image-wrapper`}>
-        <Link to={`${AppRoutes.offer}/${id}`}>
+        <Link
+          to={`/cities/$name/$id`}
+          params={{ id: `${id}`, name: offer.city.name.toLowerCase() }}
+        >
           <img
             className="place-card__image"
             src={previewImage.toString()}
@@ -70,7 +72,7 @@ const Card: FC<CardProps> = ({
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <Bookmark id={id} placement='place-card' isFavorite={isFavorite} />
+          <Bookmark id={id} placement="place-card" isFavorite={isFavorite} />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
@@ -79,7 +81,9 @@ const Card: FC<CardProps> = ({
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`${AppRoutes.offer}/${id}`}>{title}</Link>
+          <Link to={`/cities/$name`} params={{ name: `${id}` }}>
+            {title}
+          </Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>
@@ -87,4 +91,8 @@ const Card: FC<CardProps> = ({
   );
 };
 
-export default memo(Card, (prevProps, nextProps) => prevProps.offer.isFavorite === nextProps.offer.isFavorite);
+export default memo(
+  Card,
+  (prevProps, nextProps) =>
+    prevProps.offer.isFavorite === nextProps.offer.isFavorite,
+);

@@ -1,12 +1,12 @@
-import { FC } from 'react';
-import type {Comment} from '../../types/types';
-import { formatDate, getRatingWidth } from '../../utils/utils';
+import { FC } from "react";
+import type { Comment } from "../../types/types";
+import { formatDate, getRatingWidth } from "../../utils/utils";
 
-type ReviewsItemProps = Omit<Comment, 'id'>;
+type ReviewsItemProps = Omit<Comment, "id">;
 
 const ReviewsItem: FC<ReviewsItemProps> = (props) => {
-  const {user, rating, comment, date} = props;
-  const {name, avatarUrl} = user;
+  const { user, rating, comment, date } = props;
+  const { name, avatarUrl } = user;
 
   return (
     <li className="reviews__item">
@@ -29,9 +29,7 @@ const ReviewsItem: FC<ReviewsItemProps> = (props) => {
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
-        <p className="reviews__text">
-          {comment}
-        </p>
+        <p className="reviews__text">{comment}</p>
         <time className="reviews__time" dateTime={date}>
           {formatDate(date)}
         </time>

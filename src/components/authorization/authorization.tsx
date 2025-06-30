@@ -1,10 +1,11 @@
-import { Link } from 'react-router-dom';
-import { AppRoutes, AuthorizationStatus } from '../../const';
+import React from 'react';
+import { AuthorizationStatus } from '../../const';
 import { FC } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getAuthorizationStatus, getUser } from '../../store/user-process/selectors';
 import { logoutAction } from '../../store/action';
 import { useFetchFavorites } from '../../services/queries';
+import { Link } from '@tanstack/react-router';
 
 const Authorization: FC = () => {
   const dispatch = useAppDispatch();
@@ -26,7 +27,7 @@ const Authorization: FC = () => {
     <ul className="header__nav-list">
       <li className="header__nav-item user">
         <Link
-          to={isLogged ? AppRoutes.favorites : AppRoutes.login}
+          to={isLogged ? '/favorites' : '/login'}
           className="header__nav-link header__nav-link--profile"
         >
           {isLogged && user && (

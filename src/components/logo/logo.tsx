@@ -1,7 +1,8 @@
+import { Link } from '@tanstack/react-router';
 import { FC } from 'react';
 
 const Logo: FC = () => (
-  <a href={'/'} className="header__logo-link header__logo-link--active">
+  <Link to={'/'} className="header__logo-link header__logo-link--active">
     <img
       className="header__logo"
       src="img/logo.svg"
@@ -9,7 +10,7 @@ const Logo: FC = () => (
       width="81"
       height="41"
     />
-  </a>
+  </Link>
 );
 
 export default Logo;
