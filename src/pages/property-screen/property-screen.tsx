@@ -1,25 +1,23 @@
-import { Navigate, useParams } from "react-router-dom";
 import { FC } from "react";
 import ReviewsList from "../../components/reviews-list/reviews-list";
 import { getRatingWidth } from "../../utils/utils";
 import { Spinner } from "../../components/spinner/spinner";
 import Bookmark from "../../components/bookmark/bookmark";
 import { Header } from "../../components/header/header";
-import { AppRoutes } from "../../const";
-import { Offer } from "../../types/types";
 import { PropertyNearbyOffers } from "./property-nearby-offers";
 import { useFetchProperty } from "../../services/queries";
+import { Navigate } from "@tanstack/react-router";
+import { Route } from "../../routes/cities_.$name.$id";
+import PageNotFound from "../page-not-found/page-not-found";
 
 const PropertyScreen: FC = () => {
-  const params = useParams();
-  const offerId = params.id;
+  const { id: offerId } = Route.useParams();
 
-  const {
-    error,
-    isError,
-    data: currentOffer,
-    isLoading,
-  } = useFetchProperty(offerId);
+  const { data: currentOffer, isLoading } = useFetchProperty(offerId);
+
+  if (!currentOffer) {
+    return <PageNotFound />;
+  }
 
   if (isLoading && !currentOffer) {
     return <Spinner />;
@@ -39,16 +37,9 @@ const PropertyScreen: FC = () => {
     host,
     description,
     id,
-  } = currentOffer!;
+  } = currentOffer;
 
   const headerImages = images.slice(0, 6);
-
-  if (isError) {
-    if (error.message === 'Offer not found.') {
-      return <Navigate to={AppRoutes.NotFound} />
-    }
-    return <div>An error occurred: {error.message}</div>;
-  }
 
   return (
     <div className="page">
@@ -157,7 +148,7 @@ const PropertyScreen: FC = () => {
           </div>
         </section>
 
-        <PropertyNearbyOffers id={params.id!} />
+        <PropertyNearbyOffers />
       </main>
     </div>
   );

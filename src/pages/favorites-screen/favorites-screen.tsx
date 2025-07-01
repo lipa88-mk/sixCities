@@ -1,13 +1,29 @@
-import { Offer } from "../../types/types";
 import Card from "../../components/card/card";
 import { FavoritesEmptyScreen } from "./favorites-empty-screen";
 import { Header } from "../../components/header/header";
 import { useFetchFavorites } from "../../services/queries";
+import { FC } from "react";
+import { useAppSelector } from "../../hooks";
+import { getAuthorizationStatus } from "../../store/user-process/selectors";
+import { AuthorizationStatus } from "../../const";
+import { Spinner } from "../../components/spinner/spinner";
+import { Navigate } from "@tanstack/react-router";
 
-const FavoritesScreen = (): JSX.Element => {
+const FavoritesScreen: FC = () => {
   const { data: favorites } = useFetchFavorites();
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const isEmpty = favorites?.length === 0;
-  const groupedOffersByCity = favorites ? Object.groupBy(favorites, ({city}) => city.name) : {};
+  const groupedOffersByCity = favorites
+    ? Object.groupBy(favorites, ({ city }) => city.name)
+    : {};
+
+  if (authorizationStatus === AuthorizationStatus.Unknown) {
+    return <Spinner />;
+  }
+
+  if (authorizationStatus === AuthorizationStatus.NoAuth) {
+    return <Navigate to="/login"/>
+  }
 
   return (
     <div className={["page", isEmpty && "page--favorites-empty"].join(" ")}>
@@ -49,7 +65,7 @@ const FavoritesScreen = (): JSX.Element => {
                           ))}
                         </div>
                       </li>
-                    )
+                    ),
                   )}
                 </ul>
               </>

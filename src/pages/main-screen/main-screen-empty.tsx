@@ -1,8 +1,7 @@
-import { useAppSelector } from '../../hooks';
-import { getCity } from '../../store/site-process/selectors';
+import { Route } from '../../routes/cities.$name';
 
 export const MainEmptyScreen = () => {
-  const activeCity = useAppSelector(getCity);
+  const activeCity = Route.useParams().name;
 
   return (
     <>
@@ -11,7 +10,7 @@ export const MainEmptyScreen = () => {
           <b className="cities__status">No places to stay available</b>
           <p className="cities__status-description">
             We could not find any property available at the moment in{' '}
-            {activeCity.name}
+            <span style={{textTransform: 'capitalize'}}>{activeCity}</span>
           </p>
         </div>
       </section>

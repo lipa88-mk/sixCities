@@ -1,17 +1,12 @@
 import { FC } from "react";
 import Card from "../../components/card/card";
 import { Map } from "../../components/map/Map";
-import { useAppSelector } from "../../hooks";
-import { getCity } from "../../store/site-process/selectors";
 import { Spinner } from "../../components/spinner/spinner";
 import { useFetchNearbyOffers } from "../../services/queries";
+import { Route } from "../../routes/cities_.$name.$id";
 
-type PropertyNearbyOffersProps = {
-  id: string
-};
-
-export const PropertyNearbyOffers: FC<PropertyNearbyOffersProps> = ({id}) => {
-  const city = useAppSelector(getCity);
+export const PropertyNearbyOffers: FC = () => {
+  const { id } = Route.useParams();
    const { data: nearbyOffers, isLoading: isNearbyOffersLoading } = useFetchNearbyOffers(id);
 
     if (isNearbyOffersLoading && !nearbyOffers) {
@@ -22,7 +17,7 @@ export const PropertyNearbyOffers: FC<PropertyNearbyOffersProps> = ({id}) => {
       <div className="property">
         <Map
           locations={nearbyOffers!.map((offer) => offer.location)}
-          city={city}
+          city={nearbyOffers![0].city}
           place="property"
         />
       </div>

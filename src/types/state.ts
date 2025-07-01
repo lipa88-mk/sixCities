@@ -8,7 +8,6 @@ export type SiteData = {
 };
 
 export type SiteProcess = {
-  city: CityPlacement;
   sorting: SortName;
   error: string | null;
 };

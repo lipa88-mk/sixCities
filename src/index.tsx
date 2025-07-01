@@ -1,32 +1,38 @@
-import React from "react";
+import React, { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import {
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Provider } from "react-redux";
-import App from "./components/app/app";
 import { store } from "./store";
 import ErrorMessage from "./components/error-message/error-message";
-import HistoryRouter from "./components/history-route/history-route";
-import { browserHistory } from "./browser-history";
+import { createRouter, RouterProvider } from "@tanstack/react-router";
+import { routeTree } from "./routeTree.gen";
 
-const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
-);
+const router = createRouter({
+  routeTree,
+});
+
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: typeof router;
+  }
+}
+
+const rootElement = document.getElementById("root")!;
 export const queryClient = new QueryClient();
 
-root.render(
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <HistoryRouter history={browserHistory}>
+if (!rootElement.innerHTML) {
+  const root = ReactDOM.createRoot(rootElement);
+
+  root.render(
+    <StrictMode>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <RouterProvider router={router} />
           <ErrorMessage />
-          <App />
-        </HistoryRouter>
-      </Provider>
-      <ReactQueryDevtools />
-    </QueryClientProvider>
-  </React.StrictMode>
-);
+        </Provider>
+        <ReactQueryDevtools />
+      </QueryClientProvider>
+    </StrictMode>,
+  );
+}
