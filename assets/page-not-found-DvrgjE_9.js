@@ -1,0 +1,1 @@
+import{j as n,L as o}from"./index-DkWwHGoj.js";const a=()=>n.jsxs("main",{className:"container-404",children:[n.jsx("h1",{children:"404 Not Found"}),n.jsx(o,{to:"/",className:"container-404__link",children:"Go back Home"})]});export{a as P};
