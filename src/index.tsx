@@ -5,11 +5,12 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import ErrorMessage from "./components/error-message/error-message";
-import { createRouter, RouterProvider } from "@tanstack/react-router";
+import { createHashHistory, createRouter, RouterProvider } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 
 const router = createRouter({
   routeTree,
+  history: createHashHistory({}),
 });
 
 declare module "@tanstack/react-router" {
